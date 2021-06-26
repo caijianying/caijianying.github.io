@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"caijianying.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"Pisces | Gemini":240},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="事务 什么是事务？  要么都成功，要么都失败。 ACID原则 关系型数据库支持事务的 ACID 原则，即原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）  原子性(Atomicity)要么都成功，要么都失败。 一致性(Consistency)一致性是指在事务开始之前和事务结束以后，数据完整性要保持一致。 比如A给B转账，事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库事务">
+<meta property="og:url" content="https://caijianying.github.io/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:site_name" content="caijy&#39;s blog">
+<meta property="og:description" content="事务 什么是事务？  要么都成功，要么都失败。 ACID原则 关系型数据库支持事务的 ACID 原则，即原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）  原子性(Atomicity)要么都成功，要么都失败。 一致性(Consistency)一致性是指在事务开始之前和事务结束以后，数据完整性要保持一致。 比如A给B转账，事">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81.png">
+<meta property="og:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81.png">
+<meta property="og:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94.png">
+<meta property="og:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%B4%BB%E9%94%81.png">
+<meta property="og:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%AD%BB%E9%94%81.png">
+<meta property="article:published_time" content="2021-03-24T14:52:21.000Z">
+<meta property="article:modified_time" content="2021-05-15T03:03:19.580Z">
+<meta property="article:author" content="caijy">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://caijianying.github.io/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81.png">
+
+
+<link rel="canonical" href="https://caijianying.github.io/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>数据库事务 | caijy's blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">caijy's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ACID%E5%8E%9F%E5%88%99"><span class="nav-number">1.1.</span> <span class="nav-text">ACID原则</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7-Atomicity"><span class="nav-number">1.1.1.</span> <span class="nav-text">原子性(Atomicity)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7-Consistency"><span class="nav-number">1.1.2.</span> <span class="nav-text">一致性(Consistency)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9A%94%E7%A6%BB%E6%80%A7-Isolation"><span class="nav-number">1.1.3.</span> <span class="nav-text">隔离性(Isolation)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E6%80%A7-Durability"><span class="nav-number">1.1.4.</span> <span class="nav-text">持久性(Durability)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">并发一致性问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%84%8F%E8%AF%BB"><span class="nav-number">1.2.1.</span> <span class="nav-text">脏读</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%BB%E8%AF%BB"><span class="nav-number">1.2.2.</span> <span class="nav-text">幻读</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="nav-number">1.2.3.</span> <span class="nav-text">不可重复读</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0"><span class="nav-number">1.2.4.</span> <span class="nav-text">第一类丢失更新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0"><span class="nav-number">1.2.5.</span> <span class="nav-text">第二类丢失更新</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%81%E9%94%81"><span class="nav-number">1.3.</span> <span class="nav-text">封锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%B0%81%E9%94%81%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">基本封锁类型</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%8E%92%E4%BB%96%E9%94%81-X%E9%94%81-%E5%86%99%E9%94%81"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">排他锁(X锁&#x2F;写锁)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81-S%E9%94%81-%E8%AF%BB%E9%94%81"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">共享锁(S锁&#x2F;读锁)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E7%9B%B8%E5%AE%B9%E6%80%A7"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">锁的相容性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%92%8C%E8%A1%A5%E5%85%85"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">扩展和补充</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E9%94%81-%E5%81%8F%E8%AF%BB"><span class="nav-number">1.4.</span> <span class="nav-text">表锁(偏读)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%94%B1%E4%BA%8EMYISAM%E5%8F%AA%E6%94%AF%E6%8C%81%E8%A1%A8%E9%94%81%EF%BC%8CINNODB%E6%94%AF%E6%8C%81%E8%A1%A8%E9%94%81%E5%92%8C%E8%A1%8C%E9%94%81%E3%80%82%E6%89%80%E4%BB%A5MYISAM%E5%92%8CINNODB%E4%B8%AD%E8%A1%A8%E9%94%81%E7%9A%84%E6%83%85%E5%86%B5%E9%83%BD%E4%B8%80%E8%87%B4%E3%80%82"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D1%E7%BB%99A%E8%A1%A8%E5%8A%A0%E5%86%99%E9%94%81%EF%BC%8C%E5%88%99%E5%8F%AA%E8%83%BD%E8%AF%BB%E5%92%8C%E5%86%99A%E8%A1%A8%EF%BC%8C%E4%B8%8D%E8%83%BD%E8%AF%BB%E5%85%B6%E4%BB%96%E6%9C%AA%E5%8A%A0%E8%AF%BB%E9%94%81%E7%9A%84%E8%A1%A8%E3%80%82%E4%BC%9A%E8%AF%9D2%E4%B8%8D%E8%83%BD%E8%AF%BB%E5%88%B0A%E8%A1%A8%EF%BC%8C%E4%BC%9A%E4%B8%80%E7%9B%B4%E9%98%BB%E5%A1%9E%EF%BC%8C%E7%9B%B4%E5%88%B0A%E8%A1%A8%E7%9A%84%E5%86%99%E9%94%81%E9%87%8A%E6%94%BE%E3%80%82"><span class="nav-number">1.4.1.</span> <span class="nav-text">会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D1%E7%BB%99A%E8%A1%A8%E5%8A%A0%E8%AF%BB%E9%94%81%EF%BC%8C%E5%88%99%E5%8F%AA%E8%83%BD%E8%AF%BBA%E8%A1%A8%EF%BC%8C%E4%B8%8D%E8%83%BD%E8%AF%BB%E5%85%B6%E4%BB%96%E6%9C%AA%E5%8A%A0%E8%AF%BB%E9%94%81%E7%9A%84%E8%A1%A8%EF%BC%8C%E4%B8%94%E4%B8%8D%E8%83%BD%E4%BF%AE%E6%94%B9A%E8%A1%A8%E3%80%82%E4%BC%9A%E8%AF%9D2%E5%8F%AF%E4%BB%A5%E8%AF%BB%E5%88%B0A%E8%A1%A8%EF%BC%8C%E4%BD%86%E6%98%AF%E6%9B%B4%E6%96%B0A%E8%A1%A8%E6%97%B6%E4%BC%9A%E4%B8%80%E7%9B%B4%E9%98%BB%E5%A1%9E%EF%BC%8C%E7%9B%B4%E5%88%B0A%E8%A1%A8%E7%9A%84%E8%AF%BB%E9%94%81%E9%87%8A%E6%94%BE%E3%80%82"><span class="nav-number">1.4.2.</span> <span class="nav-text">会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E9%94%81-%E5%81%8F%E5%86%99"><span class="nav-number">2.</span> <span class="nav-text">行锁(偏写)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#INNODB%E4%B8%8EMYISAM%E6%9C%80%E5%A4%A7%E4%B8%8D%E5%90%8C%E6%9C%892%E7%82%B9%EF%BC%9A%E6%94%AF%E6%8C%81%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%87%87%E7%94%A8%E8%A1%8C%E7%BA%A7%E9%94%81"><span class="nav-number">2.0.1.</span> <span class="nav-text">INNODB与MYISAM最大不同有2点：支持事务和采用行级锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%8B%E5%8A%A8%E9%94%81%E5%AE%9A%E4%B8%80%E8%A1%8C"><span class="nav-number">2.0.2.</span> <span class="nav-text">如何手动锁定一行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E8%A1%8C%E9%94%81%E5%8F%98%E8%A1%A8%E9%94%81%EF%BC%9F"><span class="nav-number">2.0.3.</span> <span class="nav-text">什么情况下行锁变表锁？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81"><span class="nav-number">2.1.</span> <span class="nav-text">间隙锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93%E6%88%91%E4%BB%AC%E7%94%A8%E8%8C%83%E5%9B%B4%E6%9D%A1%E4%BB%B6%E6%A3%80%E7%B4%A2%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%B9%B6%E8%AF%B7%E6%B1%82%E5%85%B1%E4%BA%AB%E9%94%81%E6%88%96%E6%8E%92%E4%BB%96%E9%94%81%E6%97%B6%EF%BC%8CInnodb%E4%BC%9A%E7%BB%99%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%B7%B2%E6%9C%89%E6%95%B0%E6%8D%AE%E8%AE%B0%E5%BD%95%E7%9A%84%E7%B4%A2%E5%BC%95%E9%A1%B9%E5%8A%A0%E9%94%81%E3%80%82%E5%9C%A8%E8%8C%83%E5%9B%B4%E6%9D%A1%E4%BB%B6%E5%86%85%E4%BD%86%E5%B9%B6%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E8%AE%B0%E5%BD%95%EF%BC%8C%E5%8F%AB%E5%81%9A%E2%80%9C%E9%97%B4%E9%9A%99%E2%80%9D%E3%80%82Innodb%E4%B9%9F%E4%BC%9A%E5%AF%B9%E9%97%B4%E9%9A%99%E5%8A%A0%E9%94%81%E3%80%82%E5%9C%A8%E6%9F%90%E7%A7%8D%E5%9C%BA%E6%99%AF%E4%B8%8B%E9%97%B4%E9%9A%99%E9%94%81%E9%80%A0%E6%88%90%E7%9A%84%E9%98%BB%E5%A1%9E%EF%BC%8C%E4%BC%9A%E5%AF%B9%E6%80%A7%E8%83%BD%E9%80%A0%E6%88%90%E5%BE%88%E5%A4%A7%E5%BD%B1%E5%93%8D%E3%80%82"><span class="nav-number">2.1.1.</span> <span class="nav-text">当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE%E4%B9%8B%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.2.</span> <span class="nav-text">封锁协议之三级封锁协议</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">一级封锁协议</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">二级封锁协议</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">三级封锁协议</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">三种协议的对比</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE%E4%B9%8B%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text">封锁协议之两段锁协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%81%E9%94%81%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.4.</span> <span class="nav-text">封锁带来的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B4%BB%E9%94%81"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">活锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">死锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">事务隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E6%9C%AA%E6%8F%90%E4%BA%A4"><span class="nav-number">2.2.1.</span> <span class="nav-text">读未提交</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%BB%E5%B7%B2%E6%8F%90%E4%BA%A4"><span class="nav-number">2.2.2.</span> <span class="nav-text">读已提交</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="nav-number">2.2.3.</span> <span class="nav-text">可重复读</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%B2%E8%A1%8C%E5%8C%96"><span class="nav-number">2.2.4.</span> <span class="nav-text">串行化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC"><span class="nav-number">2.3.</span> <span class="nav-text">MVCC</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="caijy"
+      src="/images/lf.gif">
+  <p class="site-author-name" itemprop="name">caijy</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/caijianying" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库事务
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-24 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-24T22:52:21+08:00">2021-03-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8B%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">事务</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><blockquote>
+<p>什么是事务？</p>
+</blockquote>
+<p>要么都成功，要么都失败。</p>
+<h4 id="ACID原则"><a href="#ACID原则" class="headerlink" title="ACID原则"></a>ACID原则</h4><blockquote>
+<p>关系型数据库支持事务的 ACID 原则，即原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+</blockquote>
+<h5 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性(Atomicity)"></a>原子性(Atomicity)</h5><p>要么都成功，要么都失败。</p>
+<h5 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h5><p>一致性是指在事务开始之前和事务结束以后，数据完整性要保持一致。</p>
+<p>比如A给B转账，事务前后A和B的总金额是一样的，这就是最终一致性。</p>
+<h5 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h5><p>事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不会被其他事务的操作数据所干扰。</p>
+<h5 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h5><p>事务一旦提交则不可逆，被持久化到数据库中</p>
+<h4 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h4><blockquote>
+<p>在并发环境下，多个事务在执行操作，事务的隔离性很难保证，因此会出现很多并发一致性问题。</p>
+</blockquote>
+<span id="more"></span>
+<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5><blockquote>
+<p>脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line">张三的工资为<span class="number">5000</span>,事务A中把他的工资改为<span class="number">8000</span>,但事务A尚未提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B正在读取张三的工资，读取到张三的工资为<span class="number">8000</span>。</span><br><span class="line">随后，</span><br><span class="line">事务A发生异常，而回滚了事务。张三的工资又回滚为<span class="number">5000</span>。</span><br><span class="line">最后，</span><br><span class="line">事务B读取到的张三工资为<span class="number">8000</span>的数据即为脏数据，事务B做了一次脏读。</span><br></pre></td></tr></table></figure>
+
+<h5 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h5><blockquote>
+<p>事务读取数据后，另一个事务新增或删除了一条记录，导致查询出来的结果跟前一次不一样。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line">目前工资为<span class="number">5000</span>的员工有<span class="number">10</span>人，事务A读取所有工资为<span class="number">5000</span>的人数为<span class="number">10</span>人。</span><br><span class="line">此时，</span><br><span class="line">事务B插入一条工资也为<span class="number">5000</span>的记录。</span><br><span class="line">这是，事务A再次读取工资为<span class="number">5000</span>的员工，记录为<span class="number">11</span>人。此时产生了幻读。</span><br></pre></td></tr></table></figure>
+
+<h5 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h5><blockquote>
+<p>一个事务多次读同一个数据，中间另一个事务提交并修改了数据，会造成多次读到的数据不一样。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例如：</span><br><span class="line">在事务A中，读取到张三的工资为<span class="number">5000</span>，操作没有完成，事务还没提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B把张三的工资改为<span class="number">8000</span>，并提交了事务。</span><br><span class="line">随后，</span><br><span class="line">在事务A中，再次读取张三的工资，此时工资变为<span class="number">8000</span>。在一个事务中前后两次读取的结果并不致，导致了不可重复读。</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>**虽然都是读取了未提交的数据，但脏读的重点是修改，幻读的重点在于新增或者删除；而不可重复读是读取了另一个事务未提交的数据 **</p>
+<h5 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h5><blockquote>
+<p>A和B访问修改同一个数据，A事务撤消时，把已提交的B事务的数据覆盖掉</p>
+</blockquote>
+<h5 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h5><blockquote>
+<p>A和B访问修改同一个数据，A事务提交时，把已提交的B事务的数据覆盖掉</p>
+</blockquote>
+<h4 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h4><blockquote>
+<p>封锁就是事务T在对某个数据对象（例如表记录等）操作前先向系统发起请求，对其加锁。</p>
+<p>在事务T释放锁之前，其他事务不能更新此数据对象。</p>
+<p>封锁是实现并发控制的一个非常重要的技术。</p>
+</blockquote>
+<h5 id="基本封锁类型"><a href="#基本封锁类型" class="headerlink" title="基本封锁类型"></a>基本封锁类型</h5><h6 id="排他锁-X锁-写锁"><a href="#排他锁-X锁-写锁" class="headerlink" title="排他锁(X锁/写锁)"></a>排他锁(X锁/写锁)</h6><blockquote>
+<p>INNODB中锁的概念。释放锁之前，其他事务不能读取和修改加锁的数据</p>
+</blockquote>
+<h6 id="共享锁-S锁-读锁"><a href="#共享锁-S锁-读锁" class="headerlink" title="共享锁(S锁/读锁)"></a>共享锁(S锁/读锁)</h6><blockquote>
+<p>INNODB中锁的概念。释放锁之前，其他事务可以读取但不能修改加锁的数据</p>
+</blockquote>
+<h6 id="锁的相容性"><a href="#锁的相容性" class="headerlink" title="锁的相容性"></a>锁的相容性</h6><table>
+<thead>
+<tr>
+<th>-</th>
+<th>X</th>
+<th>S</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>X</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>S</td>
+<td>N</td>
+<td>Y</td>
+</tr>
+</tbody></table>
+<h6 id="扩展和补充"><a href="#扩展和补充" class="headerlink" title="扩展和补充"></a>扩展和补充</h6><blockquote>
+<h4 id="表锁-偏读"><a href="#表锁-偏读" class="headerlink" title="表锁(偏读)"></a>表锁(偏读)</h4><h6 id="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"><a href="#由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。" class="headerlink" title="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"></a>由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。</h6><p>查看加锁的表：<code>show open tables</code></p>
+<p>加锁命令：<code>lock table [表名][read/write]</code></p>
+<p>释放锁命令：<code>unlock tables</code></p>
+<p>如何分析表锁</p>
+<ul>
+<li><blockquote>
+<p>执行<code>show status like &#39;table%&#39;</code></p>
+<p>查看``Table_locks_waited`  ，表示产生锁争用而发生等待的次数，没等待一次锁值加1。值越高说明表锁争用情况严重。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"><a href="#会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。" class="headerlink" title="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"></a>会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。</h5><h5 id="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"><a href="#会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。" class="headerlink" title="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"></a>会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。</h5><h3 id="行锁-偏写"><a href="#行锁-偏写" class="headerlink" title="行锁(偏写)"></a>行锁(偏写)</h3><p>行锁的特点是：</p>
+<ul>
+<li>开销大、加锁慢；会出现死锁；锁粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
+</ul>
+<h5 id="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"><a href="#INNODB与MYISAM最大不同有2点：支持事务和采用行级锁" class="headerlink" title="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"></a>INNODB与MYISAM最大不同有2点：<code>支持事务</code>和<code>采用行级锁</code></h5><p>可以看出，行锁是支持事务的。</p>
+<h5 id="如何手动锁定一行"><a href="#如何手动锁定一行" class="headerlink" title="如何手动锁定一行"></a>如何手动锁定一行</h5><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">begin;</span><br><span class="line">...... for update;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<p>此时其他会话要修改这行的数据，会发生阻塞，直到<code>commit</code></p>
+</blockquote>
+<h5 id="什么情况下行锁变表锁？"><a href="#什么情况下行锁变表锁？" class="headerlink" title="什么情况下行锁变表锁？"></a>什么情况下行锁变表锁？</h5><p>比如（演示前要先<code>set autocommit=0;</code>）： </p>
+<p>会话1<code>update A set NAME=100 where ID=1; </code> NAME <code>VARCHAR</code> 类型没有使用单引号.</p>
+<p>会话2 <code>select * from A where ID=1 </code>。此时由于会话1内部产生了自动类型转换造成<strong>索引失效</strong>，导致表锁。如果会话1不<code>commit</code>会一直阻塞。</p>
+<h4 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h4><blockquote>
+<p>演示前要先<code>set autocommit=0;</code>。</p>
+<p>会话1：<code>select * from A where id &gt;1 and id &lt;8。</code> 假设A表没有id=6的记录。</p>
+<p>会话2： <code>insert into A values (6，.....)</code>。此时插入id=6的记录，会发生阻塞。即发生了间隙锁。</p>
+<h5 id="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"><a href="#当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。" class="headerlink" title="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"></a>当我们用范围条件检索数据，并请求共享锁或排他锁时，<code>Innodb</code>会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。<code>Innodb</code>也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。</h5></blockquote>
+</blockquote>
+<h5 id="封锁协议之三级封锁协议"><a href="#封锁协议之三级封锁协议" class="headerlink" title="封锁协议之三级封锁协议"></a>封锁协议之三级封锁协议</h5><blockquote>
+<p>解决了并发一致性问题。</p>
+</blockquote>
+<h6 id="一级封锁协议"><a href="#一级封锁协议" class="headerlink" title="一级封锁协议"></a>一级封锁协议</h6><blockquote>
+<p>事务在修改数据之前必须对数据加<strong>X锁</strong>，直到释放锁</p>
+</blockquote>
+<ol>
+<li> 一级封锁协议可防止丢失修改，并保证事务T是可恢复的</li>
+<li> 读数据不需要加读锁，不能解决不可重复读和脏读问题</li>
+</ol>
+<h6 id="二级封锁协议"><a href="#二级封锁协议" class="headerlink" title="二级封锁协议"></a>二级封锁协议</h6><blockquote>
+<p>在一级封锁协议基础上，在读取数据前要加读锁，读完后即释放锁</p>
+</blockquote>
+<ol>
+<li>可以防止丢失修改和脏读</li>
+</ol>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
+<h6 id="三级封锁协议"><a href="#三级封锁协议" class="headerlink" title="三级封锁协议"></a>三级封锁协议</h6><blockquote>
+<p>在一级封锁协议基础上，读取数据要加读锁，直到事务结束才释放</p>
+</blockquote>
+<ol>
+<li>三级封锁协议可防止丢失修改、脏读和不可重复读</li>
+</ol>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
+<h6 id="三种协议的对比"><a href="#三种协议的对比" class="headerlink" title="三种协议的对比"></a>三种协议的对比</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94.png"></p>
+<h5 id="封锁协议之两段锁协议"><a href="#封锁协议之两段锁协议" class="headerlink" title="封锁协议之两段锁协议"></a>封锁协议之两段锁协议</h5><blockquote>
+<p>加锁和解锁阶分为两个阶段进行。</p>
+<p>内容：</p>
+<ol>
+<li>在对任何数据进行读写操作之前，事务首先要获得对该数据的封锁</li>
+<li>在释放一个封锁之后，事务不再获得其他封锁</li>
+</ol>
+<p>可串行化调度是指，通过并发控制，使得并发执行的事务结果与某个串行执行的事务结果相同。事务遵循两段锁协议是保证可串行化调度的充分条件。例如以下操作满足两段锁协议，它是可串行化调度。</p>
+<p>lock-x(A)…lock-s(B)…lock-s(C)…unlock(A)…unlock(C)…unlock(B)</p>
+<p>但不是必要条件，例如以下操作不满足两段锁协议，但是它还是可串行化调度。</p>
+<p>lock-x(A)…unlock(A)…lock-s(B)…unlock(B)…lock-s(C)…unlock(C)</p>
+</blockquote>
+<h5 id="封锁带来的问题"><a href="#封锁带来的问题" class="headerlink" title="封锁带来的问题"></a>封锁带来的问题</h5><h6 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h6><blockquote>
+<p>系统可能是某个事务永远处于等待状态，得不到封锁的机会</p>
+</blockquote>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%B4%BB%E9%94%81.png"></p>
+<p>如何避免？先来先服务策略</p>
+<h6 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%AD%BB%E9%94%81.png"></p>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><blockquote>
+<p>为了解决上述问题，数据库通过<strong>锁机制</strong>解决并发访问的问题。根据锁定对象不同：分为行级锁和表级锁；根据并发事务锁定的关系上看：分为共享锁和排它锁，共享锁会防止排它锁但允许其他的共享锁。而排它锁既防止共享锁也防止其他排它锁。为了更改数据，数据库必须在进行更改的行上施加行排它锁，insert、update、delete和select for update语句都会隐式采用必要的行锁定。</p>
+<p>但是直接使用锁机制管理是很复杂的，基于锁机制，数据库给用户提供了不同的<strong>事务隔离级别</strong>，只要设置了事务隔离级别，数据库就会分析事务中的sql语句然后自动选择合适的锁。 </p>
+</blockquote>
+<h5 id="读未提交"><a href="#读未提交" class="headerlink" title="读未提交"></a><strong>读未提交</strong></h5><blockquote>
+<p>读未提交(READ_UNCOMMITTED)，即能够读取到没有被提交的数据，所以很明显这个级别的隔离机制无法解决脏读、不可重复读、幻读中的任何一种，因此很少使用</p>
+</blockquote>
+<h5 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a><strong>读已提交</strong></h5><blockquote>
+<p>读已提交(READ_COMMITED)，即能够读到那些已经提交的数据，能够防止脏读，但是无法限制不可重复读和幻读</p>
+</blockquote>
+<h5 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a><strong>可重复读</strong></h5><blockquote>
+<p>可重复读(REPEATABLE_READ)，即在数据读出来之后加锁，类似”select * from XXX for update”，明确数据读取出来就是为了更新用的，所以要加一把锁，防止别人修改它。REPEATABLE_READ的意思也类似，读取了一条数据，这个事务不结束，别的事务就不可以改这条记录，这样就解决了脏读、不可重复读的问题，但是幻读的问题还是无法解决</p>
+</blockquote>
+<h5 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a><strong>串行化</strong></h5><blockquote>
+<p>串行化(SERLALIZABLE)，最高的事务隔离级别，不管多少事务，挨个运行完一个事务的所有子事务之后才可以执行另外一个事务里面的所有子事务。比如幻读，事务A的插入或删除操作必须等待事务B的事务结束后才会进行，否则会一直阻塞。这样就解决了脏读、不可重复读和幻读的问题了。但缺点是性能十分低下。</p>
+</blockquote>
+<p>不同数据库默认的隔离级别是不同的。mysql支持四种隔离级别,默认隔离级别是<code>REPEATABLE_READ</code>,oracle支持<code>READ_COMMITED</code>和<code>SERLALIZABLE</code>,默认隔离级别是<code>READ_COMMITED</code>。</p>
+<h4 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h4><blockquote>
+<p>多版本并发控制(Multi-Version Concurrentcy control)的简称，针对读已提交和可重复读</p>
+<p>通过记录多个修改的历史版本替代锁，实现事务间的隔离效果，保证非阻塞读！</p>
+<p>实现核心为三点</p>
+<ul>
+<li>表的隐藏列：记录事务ID及上个版本数据地址，即事务ID <strong>trix_id</strong>和回滚指针<strong>roll_pointer</strong></li>
+<li>undo log: 记录数据各版本修改历史即事务链，生成undo日志的时候会带上隐藏列</li>
+<li>read view: 读视图，用于判断哪些版本可见</li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/24/%E7%B4%A2%E5%BC%95/" rel="prev" title="索引">
+                  <i class="fa fa-chevron-left"></i> 索引
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/24/ThreadLocal/" rel="next" title="ThreadLocal不简单">
+                  ThreadLocal不简单 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">created by caijy</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+</html>
