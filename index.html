@@ -197,20 +197,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -241,6 +241,295 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/07/01/chrome%20%E8%84%9A%E6%9C%AC%E5%88%86%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/07/01/chrome%20%E8%84%9A%E6%9C%AC%E5%88%86%E4%BA%AB/" class="post-title-link" itemprop="url">高效工具分享</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-07-01 22:52:21 / 修改时间：21:39:35" itemprop="dateCreated datePublished" datetime="2021-07-01T22:52:21+08:00">2021-07-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><blockquote>
+<p>分享一些 <code>chrome</code> 脚本, 及创建教程,<br>利用操作系统的搜索引擎, 可以快速打开你经常去的网站<br>同理, 你也可以用此方法, 去简化更多事情</p>
+</blockquote>
+<h1 id="2-演示"><a href="#2-演示" class="headerlink" title="2. 演示"></a>2. 演示</h1><p><img src="https://www.caijy.top//2021-07-01%2015.40.29.gif" alt="2021-07-01 15.40.29.gif"></p>
+<h1 id="3-命令"><a href="#3-命令" class="headerlink" title="3. 命令"></a>3. 命令</h1><h2 id="3-1-使用-shell-带的-open-a-命令"><a href="#3-1-使用-shell-带的-open-a-命令" class="headerlink" title="3.1 使用 shell 带的 open -a 命令"></a>3.1 使用 <code>shell</code> 带的 <code>open -a</code> 命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -a /Applications/Google\ Chrome.app https://www.bilibili.com/</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>解释:<br>​</p>
+</blockquote>
+<blockquote>
+<p><code>open -a</code> 打开指定的 app<br><code>Google\ Chrome.app</code><br>chrome 名字有空格, \ 避免空格, 同时也可以加引号使用 <code>open -a &quot;Google Chrome.app&quot;</code><br>app 后面跟 网站地址, 即可</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625126346699-c328ac0e-7aa6-4915-a34c-7e0f330528f5.png" alt="image.png"></p>
+<h2 id="3-2-使用-chrome-自带命令"><a href="#3-2-使用-chrome-自带命令" class="headerlink" title="3.2 使用 chrome 自带命令"></a>3.2 使用 chrome 自带命令</h2><blockquote>
+<p><code>/Applications/Google Chrome.app/Contents/MacOS</code> 文件夹下有一个 <code>Google Chrome</code><br>这是一个可执行文件, 它也可以直接打开指定网站, 也有一些参数可以使用<br>具体看下面</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625126430581-59336a9d-8302-4c6c-b9f2-9684da06967e.png" alt="image.png"></p>
+<p><img src="https://www.caijy.top//1625129556334-6931c702-9a47-42a8-925c-31698f3a953f.png" alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接打开网站, 如果此时已有 chrome 窗口, 则以 tag 形式加入</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新窗口打开网站</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 无痕模式打开网站, 如果此时已有 chrome 无痕窗口, 则以 tag 形式加入</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新窗口, 无痕模式打开网站</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito www.baidu.com</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="4-脚本文件创建"><a href="#4-脚本文件创建" class="headerlink" title="4. 脚本文件创建"></a>4. 脚本文件创建</h1><ul>
+<li>创建一个文件, 以 <code>.sh</code> 结尾</li>
+<li>右键文件 –&gt; 显示简介 –&gt; 打开方式 –&gt; 选择 **终端 **(相当于默认打开软件的设置)</li>
+<li>然后命令行给予该文件可执行权限, 也可以给该文件夹下所有的文件可执行权限</li>
+<li>command + space 聚焦搜索 该文件, 打开即可</li>
+</ul>
+<blockquote>
+<p>文件创建, 打开方式</p>
+</blockquote>
+<img src="https://www.caijy.top//1625127098149-54de0788-9ab9-4ac1-a01b-ed915f4c215c.png" alt="image.png" style="zoom:67%;">
+
+
+<blockquote>
+<p>可执行权限</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625128093085-c8ade73a-f4bb-4557-8d93-3c7b6e13d4f6.png" alt="image.png"></p>
+<h1 id="5-脚本分享"><a href="#5-脚本分享" class="headerlink" title="5. 脚本分享"></a>5. 脚本分享</h1><ul>
+<li>谷歌翻译<ul>
+<li>```java<br>open -a /Applications/Google\ Chrome.app <a target="_blank" rel="noopener" href="https://translate.google.cn/">https://translate.google.cn/</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 有道词典</span><br><span class="line">   - &#96;&#96;&#96;java</span><br><span class="line">     open -a &#x2F;Applications&#x2F;Google\ Chrome.app https:&#x2F;&#x2F;www.youdao.com&#x2F;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>百度地图<ul>
+<li><pre><code>open -a /Applications/Google\ Chrome.app https://www.youdao.com/
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">json 解析工具网站</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+open -a /Applications/Google\ Chrome.app https://www.bejson.com/
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="7-alfred"><a href="#7-alfred" class="headerlink" title="7. alfred"></a>7. alfred</h1><blockquote>
+<p>使用alfred可以达到同样的效果，并且不需要脚本配置</p>
+</blockquote>
+<h4 id="参考alfred配置，看-Web-Search部分即可。"><a href="#参考alfred配置，看-Web-Search部分即可。" class="headerlink" title="参考alfred配置，看 Web Search部分即可。"></a><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e9f3352c785f">参考alfred配置</a>，看 Web Search部分即可。</h4>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/06/30/bigdata/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/06/30/bigdata/" class="post-title-link" itemprop="url">大数据简图</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-30 22:52:21" itemprop="dateCreated datePublished" datetime="2021-06-30T22:52:21+08:00">2021-06-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-01 21:42:01" itemprop="dateModified" datetime="2021-07-01T21:42:01+08:00">2021-07-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>学习路线</p>
+<p><img src="https://www.caijy.top//image-20210626155255769.png" alt="image-20210626155255769"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/06/28/mac%E5%B7%A5%E5%85%B7%E7%AE%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/06/28/mac%E5%B7%A5%E5%85%B7%E7%AE%B1/" class="post-title-link" itemprop="url">mac工具箱</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-28 22:52:21" itemprop="dateCreated datePublished" datetime="2021-06-28T22:52:21+08:00">2021-06-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-01 21:51:03" itemprop="dateModified" datetime="2021-07-01T21:51:03+08:00">2021-07-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mac/" itemprop="url" rel="index"><span itemprop="name">mac</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><a target="_blank" rel="noopener" href="https://www.yuque.com/jianying-8bux1/mt5ny0/ic6tqk">传送门</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -447,6 +736,103 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/ThreadLocal/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/24/ThreadLocal/" class="post-title-link" itemprop="url">ThreadLocal不简单</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-24 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-24T22:52:21+08:00">2021-03-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ThreadLocal/" itemprop="url" rel="index"><span itemprop="name">ThreadLocal</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h5 id="弱引用介绍"><a href="#弱引用介绍" class="headerlink" title="弱引用介绍"></a>弱引用介绍</h5><blockquote>
+<p>弱引用也是用来描述那些非必须对象，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生为止。当垃圾收集器开始工作，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在JDK 1.2版之后提供了WeakReference类来实现弱引用。</p>
+</blockquote>
+<p>周志明书中提到了弱引用的概念，其中最典型的是ThreadLocal的例子。下面我们来探究。</p>
+<h5 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h5><ul>
+<li>这是官方JDK对ThreadLocal类的解释。</li>
+</ul>
+<blockquote>
+<p>This class provides thread-local variables.  These variables differ from<br>their normal counterparts in that each thread that accesses one (via its<br>{@code get} or {@code set} method) has its own, independently initialized<br>copy of the variable.  {@code ThreadLocal} instances are typically private<br>static fields in classes that wish to associate state with a thread (e.g.,<br>a user ID or Transaction ID).</p>
+</blockquote>
+<p>​    大致意思就是说，这个类会为每个线程提供一个本地变量，通过set和get方法设置和获取。每个线程只能修改本线程的那个值。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/24/ThreadLocal/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/jclasslib%E5%88%86%E6%9E%90%E5%AD%97%E8%8A%82%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -548,7 +934,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/ThreadLocal/">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/lf.gif">
@@ -561,7 +947,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/24/ThreadLocal/" class="post-title-link" itemprop="url">ThreadLocal不简单</a>
+          <a href="/2021/03/24/%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">索引</a>
         </h2>
 
         <div class="post-meta-container">
@@ -579,7 +965,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
+        <time title="修改时间：2021-06-26 12:41:26" itemprop="dateModified" datetime="2021-06-26T12:41:26+08:00">2021-06-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -587,7 +973,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/ThreadLocal/" itemprop="url" rel="index"><span itemprop="name">ThreadLocal</span></a>
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95/" itemprop="url" rel="index"><span itemprop="name">索引</span></a>
         </span>
     </span>
 
@@ -601,20 +991,23 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h5 id="弱引用介绍"><a href="#弱引用介绍" class="headerlink" title="弱引用介绍"></a>弱引用介绍</h5><blockquote>
-<p>弱引用也是用来描述那些非必须对象，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生为止。当垃圾收集器开始工作，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在JDK 1.2版之后提供了WeakReference类来实现弱引用。</p>
+          <h4 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h4><blockquote>
+<p>MYSQL官方的定义为：索引是帮助MYSQL高效获取数据的数据结构。索引是数据结构。</p>
+<p>可以理解为，排好序的快速查找数据结构。</p>
 </blockquote>
-<p>周志明书中提到了弱引用的概念，其中最典型的是ThreadLocal的例子。下面我们来探究。</p>
-<h5 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h5><ul>
-<li>这是官方JDK对ThreadLocal类的解释。</li>
-</ul>
-<blockquote>
-<p>This class provides thread-local variables.  These variables differ from<br>their normal counterparts in that each thread that accesses one (via its<br>{@code get} or {@code set} method) has its own, independently initialized<br>copy of the variable.  {@code ThreadLocal} instances are typically private<br>static fields in classes that wish to associate state with a thread (e.g.,<br>a user ID or Transaction ID).</p>
+<h4 id="优势和劣势"><a href="#优势和劣势" class="headerlink" title="优势和劣势"></a>优势和劣势</h4><h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><blockquote>
+<p>提高数据检索效率 降低数据库IO成本(检索)</p>
+<p>通过索引对数据排序，降低数据排序的成本，降低了CPU的消耗(排序)</p>
 </blockquote>
-<p>​    大致意思就是说，这个类会为每个线程提供一个本地变量，通过set和get方法设置和获取。每个线程只能修改本线程的那个值。</p>
+<h5 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h5><blockquote>
+<p>索引列会占磁盘空间</p>
+<p>会降低更新表的速度。因为更新表时，MYSQL不仅要保存数据，还要保存索引文件每次更新添加了索引列的字段，更新索引信息。</p>
+<p>如果有大数据量的表，需要花时间研究建立最合适的索引</p>
+</blockquote>
+<h4 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h4>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/03/24/ThreadLocal/#more" rel="contents">
+              <a class="btn" href="/2021/03/24/%E7%B4%A2%E5%BC%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -750,110 +1143,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/24/%E7%B4%A2%E5%BC%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lf.gif">
-      <meta itemprop="name" content="caijy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="caijy's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/24/%E7%B4%A2%E5%BC%95/" class="post-title-link" itemprop="url">索引</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-24 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-24T22:52:21+08:00">2021-03-24</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-26 12:41:26" itemprop="dateModified" datetime="2021-06-26T12:41:26+08:00">2021-06-26</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/%E7%B4%A2%E5%BC%95/" itemprop="url" rel="index"><span itemprop="name">索引</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="什么是索引？"><a href="#什么是索引？" class="headerlink" title="什么是索引？"></a>什么是索引？</h4><blockquote>
-<p>MYSQL官方的定义为：索引是帮助MYSQL高效获取数据的数据结构。索引是数据结构。</p>
-<p>可以理解为，排好序的快速查找数据结构。</p>
-</blockquote>
-<h4 id="优势和劣势"><a href="#优势和劣势" class="headerlink" title="优势和劣势"></a>优势和劣势</h4><h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><blockquote>
-<p>提高数据检索效率 降低数据库IO成本(检索)</p>
-<p>通过索引对数据排序，降低数据排序的成本，降低了CPU的消耗(排序)</p>
-</blockquote>
-<h5 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h5><blockquote>
-<p>索引列会占磁盘空间</p>
-<p>会降低更新表的速度。因为更新表时，MYSQL不仅要保存数据，还要保存索引文件每次更新添加了索引列的字段，更新索引信息。</p>
-<p>如果有大数据量的表，需要花时间研究建立最合适的索引</p>
-</blockquote>
-<h4 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/24/%E7%B4%A2%E5%BC%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/23/JVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -885,7 +1174,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-26 12:42:23" itemprop="dateModified" datetime="2021-06-26T12:42:23+08:00">2021-06-26</time>
+        <time title="修改时间：2021-06-26 13:13:05" itemprop="dateModified" datetime="2021-06-26T13:13:05+08:00">2021-06-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -927,290 +1216,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/03/23/JVM/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/23/OCR%E8%AF%86%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lf.gif">
-      <meta itemprop="name" content="caijy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="caijy's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/23/OCR%E8%AF%86%E5%88%AB/" class="post-title-link" itemprop="url">PDF发票OCR识别</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-23 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-23T22:52:21+08:00">2021-03-23</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/OCR%E8%AF%86%E5%88%AB/" itemprop="url" rel="index"><span itemprop="name">OCR识别</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="PDF发票OCR识别"><a href="#PDF发票OCR识别" class="headerlink" title="PDF发票OCR识别"></a>PDF发票OCR识别</h4><blockquote>
-<p>基本解析过程是解析发票中的二维码，解析出发票的5要素：发票号码、发票代码、发票金额、开票日期、校验码</p>
-</blockquote>
-<h5 id="引入maven"><a href="#引入maven" class="headerlink" title="引入maven"></a>引入maven</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--pdf发票解析--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.pdfbox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pdfbox<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javase<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--现在项目一般都放这个包 视情况而定 --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="解析pdf的完整代码"><a href="#解析pdf的完整代码" class="headerlink" title="解析pdf的完整代码"></a>解析pdf的完整代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取电子发票pdf文件中的发票信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 发票信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InvoiceInfo <span class="title">getInvoiceInfo</span><span class="params">(File pdfFile)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        List&lt;BufferedImage&gt; imageList = extractImage(pdfFile);</span><br><span class="line">        <span class="keyword">if</span> (imageList.isEmpty()) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中未解析出图片，返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</span><br><span class="line">        Result result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//正常解析出来有3张图片，第一张是二维码，其他两张图片是发票上盖的章</span></span><br><span class="line">        BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(imageList.get(<span class="number">0</span>))));</span><br><span class="line">        Map hints = <span class="keyword">new</span> HashMap();</span><br><span class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        result = formatReader.decode(binaryBitmap);</span><br><span class="line">        <span class="keyword">if</span> (result == <span class="keyword">null</span> || StringUtils.isEmpty(result.getText())) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片没有解析了字符串信息，直接返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;从电子发票中识别出的信息为：&#123;&#125;&quot;</span>, result == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : result.getText());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取到的信息为 ： 01，发票类型，发票代码，发票号码，发票金额，开票日期，校验码，随机产生的摘要信息</span></span><br><span class="line">        String[] infos = result.getText().split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (infos.length != <span class="number">8</span>) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片解析出的字符串数组长度不为8，返回空。&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InvoiceInfo invoice = <span class="keyword">new</span> InvoiceInfo();</span><br><span class="line">        invoice.setInvoiceType(Integer.parseInt(infos[<span class="number">1</span>])); <span class="comment">//发票类型</span></span><br><span class="line">        invoice.setInvoiceCode(infos[<span class="number">2</span>]); <span class="comment">//发票代码</span></span><br><span class="line">        invoice.setInvoiceNo(infos[<span class="number">3</span>]); <span class="comment">// 发票号码</span></span><br><span class="line">        invoice.setTotalAmount(<span class="keyword">new</span> BigDecimal(infos[<span class="number">4</span>])); <span class="comment">// 发票金额</span></span><br><span class="line">        invoice.setInvoiceDate(infos[<span class="number">5</span>]); <span class="comment">//开票日期</span></span><br><span class="line">        invoice.setInvoiceCheckcode(infos[<span class="number">6</span>]); <span class="comment">// 校验码</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> invoice;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.info(<span class="string">&quot;解析pdf中的二维码出现异常&quot;</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 提取电子发票里面的图片</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票文件对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> pdf中解析出的图片列表</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;BufferedImage&gt; <span class="title">extractImage</span><span class="params">(File pdfFile)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    List&lt;BufferedImage&gt; imageList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    PDDocument document = PDDocument.load(pdfFile);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        PDPage page = document.getPage(<span class="number">0</span>); <span class="comment">//电子发票只有一页</span></span><br><span class="line">        PDResources resources = page.getResources();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (COSName name : resources.getXObjectNames()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (resources.isImageXObject(name)) &#123;</span><br><span class="line">                PDImageXObject obj = (PDImageXObject) resources.getXObject(name);</span><br><span class="line">                imageList.add(obj.getImage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        document.close();<span class="comment">//流未关闭会导致文件删除不掉</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="File对象"><a href="#File对象" class="headerlink" title="File对象"></a>File对象</h5><blockquote>
-<p>考虑到本地文件、文件链接和字节流的情况。生成file对象的方法由3种。</p>
-</blockquote>
-<h6 id="本地文件"><a href="#本地文件" class="headerlink" title="本地文件"></a>本地文件</h6><blockquote>
-<p>这种情况是最简单的。<code>File file = new File(filePath);</code></p>
-</blockquote>
-<h6 id="http连接"><a href="#http连接" class="headerlink" title="http连接"></a>http连接</h6><blockquote>
-<p>需要把链接转化成inputStream</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">String remotePdf = <span class="string">&quot;http://XXXXX/rB4r9WBZqmaAeuXVAADICoWEwVQ508.PDF&quot;</span>;</span><br><span class="line">InputStream is = <span class="keyword">null</span>;</span><br><span class="line">FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">File file = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    file = TempFile.createTempFile(<span class="string">&quot;tmp&quot;</span>, <span class="string">&quot;.pdf&quot;</span>);</span><br><span class="line">    fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">    URL url = <span class="keyword">new</span> URL(remotePdf);</span><br><span class="line">    is = url.openStream();</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">while</span> ((len = is.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        fos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">    &#125;</span><br><span class="line">    InvoiceInfo invoiceInfo = getInvoiceInfo(file);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (fos != <span class="keyword">null</span>) &#123;</span><br><span class="line">            fos.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (is != <span class="keyword">null</span>) &#123;</span><br><span class="line">            is.close();</span><br><span class="line">        &#125;</span><br><span class="line">        file.delete();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h6 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h6><blockquote>
-<p>需要把链接转化成inputStream，其他部分跟http连接的处理方式一样，创建临时文件和关闭流。</p>
-<p><code>InputStream is = new ByteArrayInputStream(download)</code></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/02/%E7%BB%99%E5%8D%9A%E5%AE%A2%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lf.gif">
-      <meta itemprop="name" content="caijy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="caijy's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/02/%E7%BB%99%E5%8D%9A%E5%AE%A2%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98/" class="post-title-link" itemprop="url">给博客选择主题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-02 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-02T22:52:21+08:00">2021-03-02</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE/" itemprop="url" rel="index"><span itemprop="name">博客设置</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="给博客选择主题，拿流行的NEXT主题为例。"><a href="#给博客选择主题，拿流行的NEXT主题为例。" class="headerlink" title="给博客选择主题，拿流行的NEXT主题为例。"></a>给博客选择主题，拿流行的NEXT主题为例。</h4><p>1.初始化一个博客，文件夹命名为<em>hexo-site</em><code>hexo init hexo-site</code><br>2.下载源代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="comment">//github.com/next-theme/theme-next-docs</span></span><br><span class="line">cd theme-next-docs</span><br><span class="line">npm install</span><br><span class="line">cd hexo-site\themes</span><br><span class="line">npm install hexo-theme-next</span><br><span class="line">npm install hexo-theme-next@latest #如果要更新主题用这个命令</span><br><span class="line">hexo generate</span><br><span class="line">hexo clean </span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h4 id="给我们的博客添加看板娘"><a href="#给我们的博客添加看板娘" class="headerlink" title="给我们的博客添加看板娘"></a>给我们的博客添加看板娘</h4><p>1.下载看板娘，先进入到Hexo博客根目录<br><code>npm install --save hexo-helper-live2d</code><br>或 <code>cnpm install --save hexo-helper-live2d</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/02/%E7%BB%99%E5%8D%9A%E5%AE%A2%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/01/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lf.gif">
-      <meta itemprop="name" content="caijy">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="caijy's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/01/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">博客的设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-03-01 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-01T22:52:21+08:00">2021-03-01</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-05-15 11:03:19" itemprop="dateModified" datetime="2021-05-15T11:03:19+08:00">2021-05-15</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%8D%9A%E5%AE%A2/%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE/" itemprop="url" rel="index"><span itemprop="name">博客设置</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="主题选好了，接下来要把这个demo变成我们自己的博客"><a href="#主题选好了，接下来要把这个demo变成我们自己的博客" class="headerlink" title="主题选好了，接下来要把这个demo变成我们自己的博客"></a>主题选好了，接下来要把这个demo变成我们自己的博客</h4><p>1.将根目录的<code>_config.yml</code>文件修改一下<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/1.png"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/01/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

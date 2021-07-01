@@ -14,31 +14,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo 搭建博客框架</title>
-    <url>/2021/02/28/Hexo%20%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6/</url>
-    <content><![CDATA[<p><a href="https://hexo.io/zh-cn/docs/">官网</a><br>1.安装nodeJs，查看版本<code>node --version</code>，Node.js 版本需不低于 10.13，建议使用 Node.js 12.0 及以上版本<br>2.安装git<br>3.安装Hexo</p>
-<p>安装Hexo1.安装命令</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo -g</span><br><span class="line">hexo init blog</span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>这时博客就在本地生成了。访问<code>http://localhost:4000</code> 可以看效果。<br>可以说Hexo是很强大的，默认主题网站结构合理，适配手机，搜索栏（google）也有了。只需要优化（改一下失效的链接，添加评论，RSS等模块）就行了。<br>2.基本操作</p>
-<ul>
-<li><code>hexo g</code> 生成/public 文件夹，里面是网站</li>
-<li><code>hexo d</code> 把这个网站文件夹推送到服务器</li>
-<li><code>hexo clean</code> 删除网站文件夹</li>
-<li><code>hexo s</code> 本地查看效果</li>
-</ul>
-<p>3.<a href="https://hexo.io/docs/one-command-deployment">Hexo官网一键部署</a><br>找到<code>_config.yml</code>文件编辑：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt; # https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io</span><br><span class="line">  branch: [branch]</span><br><span class="line">  message: [message]</span><br></pre></td></tr></table></figure>
-<p>使用<code>hexo deploy</code>部署</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM</title>
     <url>/2021/03/23/JVM/</url>
     <content><![CDATA[<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><img src="http://www.caijy.top/image-20210318221702882.png" alt="image-20210318221702882" style="zoom: 80%;">
@@ -118,12 +93,10 @@
 <blockquote>
 <p>对于运行时常量池，除了保存Class文件中描述的符号引用外，还会把由符号引用翻译出来的直接引用也存储在运行时常量池中。典型的例子就是 String类的intern()方法，下面是示例。</p>
 <ol>
-<li><p>直接用双引号声明出来的 String对象 会直接分配在存储在字符串常量池里面。，<code>&quot;&quot; </code>就相当于<code> &quot;&quot;.intern();</code></p>
-</li>
-<li><p>如果不是用双引号声明的 String对象，可以调用String对象的intern方法。intern方法会检查字符串常量池里面是否存在当前字符串，如果不存在就会把该字符串存储在常量池里，存在则直接返回该字符串的引用。</p>
-</li>
+<li>直接用双引号声明出来的 String对象 会直接分配在存储在字符串常量池里面。，<code>&quot;&quot; </code>就相当于<code> &quot;&quot;.intern();</code></li>
+<li>如果不是用双引号声明的 String对象，可以调用String对象的intern方法。intern方法会检查字符串常量池里面是否存在当前字符串，如果不存在就会把该字符串存储在常量池里，存在则直接返回该字符串的引用。</li>
 </ol>
-  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 常量池中的串池StringTable[],是一个哈希表</span></span><br><span class="line"><span class="comment"> * String intern的插入逻辑：先判断是否这个值 没有的话就插入</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String a = <span class="string">&quot;ab&quot;</span>;<span class="comment">//StringTable  [&quot;ab&quot;]</span></span><br><span class="line">        String ab = <span class="string">&quot;a&quot;</span>+<span class="string">&quot;b&quot;</span>;<span class="comment">//本质是使用StringBuilder拼接，此时串池中已有ab 直接引用</span></span><br><span class="line">        System.out.println(a == ab);<span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">        String s = <span class="keyword">new</span> String(<span class="string">&quot;1&quot;</span>);<span class="comment">//执行后 s会被放入堆中</span></span><br><span class="line">        String intern = s.intern();<span class="comment">//串池中为 [&quot;ab&quot;],没有&quot;1&quot;所以需要加入串池。执行完 [&quot;ab&quot;,&quot;1&quot;]</span></span><br><span class="line">        String s2 = <span class="string">&quot;1&quot;</span>;</span><br><span class="line">        System.out.println(s == s2);<span class="comment">// false s在堆中 s2引用的是串池中的值 不相等</span></span><br><span class="line">        System.out.println(intern == s2);<span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">        String s3 = <span class="keyword">new</span> String(<span class="string">&quot;X&quot;</span>) + <span class="keyword">new</span> String(<span class="string">&quot;Y&quot;</span>);<span class="comment">//执行完 s3会放入堆中</span></span><br><span class="line">        s3.intern();<span class="comment">//StringTable中没有&quot;XY&quot;，插入后为  [&quot;ab&quot;,&quot;1&quot;,&quot;XY&quot;]</span></span><br><span class="line">        String s4 = <span class="string">&quot;XY&quot;</span>;</span><br><span class="line">        System.out.println(s3 == s4);<span class="comment">// true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>
+ <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 常量池中的串池StringTable[],是一个哈希表</span></span><br><span class="line"><span class="comment"> * String intern的插入逻辑：先判断是否这个值 没有的话就插入</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String a = <span class="string">&quot;ab&quot;</span>;<span class="comment">//StringTable  [&quot;ab&quot;]</span></span><br><span class="line">        String ab = <span class="string">&quot;a&quot;</span>+<span class="string">&quot;b&quot;</span>;<span class="comment">//本质是使用StringBuilder拼接，此时串池中已有ab 直接引用</span></span><br><span class="line">        System.out.println(a == ab);<span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">          String s = <span class="keyword">new</span> String(<span class="string">&quot;1&quot;</span>);<span class="comment">//执行后 s会被放入堆中</span></span><br><span class="line">        String intern = s.intern();<span class="comment">//串池中为 [&quot;ab&quot;],没有&quot;1&quot;所以需要加入串池。执行完 [&quot;ab&quot;,&quot;1&quot;]</span></span><br><span class="line">        String s2 = <span class="string">&quot;1&quot;</span>;</span><br><span class="line">        System.out.println(s == s2);<span class="comment">// false s在堆中 s2引用的是串池中的值 不相等</span></span><br><span class="line">        System.out.println(intern == s2);<span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">          String s3 = <span class="keyword">new</span> String(<span class="string">&quot;X&quot;</span>) + <span class="keyword">new</span> String(<span class="string">&quot;Y&quot;</span>);<span class="comment">//执行完 s3会放入堆中</span></span><br><span class="line">        s3.intern();<span class="comment">//StringTable中没有&quot;XY&quot;，插入后为  [&quot;ab&quot;,&quot;1&quot;,&quot;XY&quot;]</span></span><br><span class="line">        String s4 = <span class="string">&quot;XY&quot;</span>;</span><br><span class="line">        System.out.println(s3 == s4);<span class="comment">// true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>
 </li>
 </ul>
 </blockquote>
@@ -133,176 +106,6 @@
       </categories>
       <tags>
         <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PDF发票OCR识别</title>
-    <url>/2021/03/23/OCR%E8%AF%86%E5%88%AB/</url>
-    <content><![CDATA[<h4 id="PDF发票OCR识别"><a href="#PDF发票OCR识别" class="headerlink" title="PDF发票OCR识别"></a>PDF发票OCR识别</h4><blockquote>
-<p>基本解析过程是解析发票中的二维码，解析出发票的5要素：发票号码、发票代码、发票金额、开票日期、校验码</p>
-</blockquote>
-<h5 id="引入maven"><a href="#引入maven" class="headerlink" title="引入maven"></a>引入maven</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--pdf发票解析--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.pdfbox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pdfbox<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javase<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--现在项目一般都放这个包 视情况而定 --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="解析pdf的完整代码"><a href="#解析pdf的完整代码" class="headerlink" title="解析pdf的完整代码"></a>解析pdf的完整代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取电子发票pdf文件中的发票信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 发票信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InvoiceInfo <span class="title">getInvoiceInfo</span><span class="params">(File pdfFile)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        List&lt;BufferedImage&gt; imageList = extractImage(pdfFile);</span><br><span class="line">        <span class="keyword">if</span> (imageList.isEmpty()) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中未解析出图片，返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</span><br><span class="line">        Result result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//正常解析出来有3张图片，第一张是二维码，其他两张图片是发票上盖的章</span></span><br><span class="line">        BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(imageList.get(<span class="number">0</span>))));</span><br><span class="line">        Map hints = <span class="keyword">new</span> HashMap();</span><br><span class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        result = formatReader.decode(binaryBitmap);</span><br><span class="line">        <span class="keyword">if</span> (result == <span class="keyword">null</span> || StringUtils.isEmpty(result.getText())) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片没有解析了字符串信息，直接返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;从电子发票中识别出的信息为：&#123;&#125;&quot;</span>, result == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : result.getText());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取到的信息为 ： 01，发票类型，发票代码，发票号码，发票金额，开票日期，校验码，随机产生的摘要信息</span></span><br><span class="line">        String[] infos = result.getText().split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (infos.length != <span class="number">8</span>) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片解析出的字符串数组长度不为8，返回空。&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InvoiceInfo invoice = <span class="keyword">new</span> InvoiceInfo();</span><br><span class="line">        invoice.setInvoiceType(Integer.parseInt(infos[<span class="number">1</span>])); <span class="comment">//发票类型</span></span><br><span class="line">        invoice.setInvoiceCode(infos[<span class="number">2</span>]); <span class="comment">//发票代码</span></span><br><span class="line">        invoice.setInvoiceNo(infos[<span class="number">3</span>]); <span class="comment">// 发票号码</span></span><br><span class="line">        invoice.setTotalAmount(<span class="keyword">new</span> BigDecimal(infos[<span class="number">4</span>])); <span class="comment">// 发票金额</span></span><br><span class="line">        invoice.setInvoiceDate(infos[<span class="number">5</span>]); <span class="comment">//开票日期</span></span><br><span class="line">        invoice.setInvoiceCheckcode(infos[<span class="number">6</span>]); <span class="comment">// 校验码</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> invoice;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.info(<span class="string">&quot;解析pdf中的二维码出现异常&quot;</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 提取电子发票里面的图片</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票文件对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> pdf中解析出的图片列表</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;BufferedImage&gt; <span class="title">extractImage</span><span class="params">(File pdfFile)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    List&lt;BufferedImage&gt; imageList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    PDDocument document = PDDocument.load(pdfFile);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        PDPage page = document.getPage(<span class="number">0</span>); <span class="comment">//电子发票只有一页</span></span><br><span class="line">        PDResources resources = page.getResources();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (COSName name : resources.getXObjectNames()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (resources.isImageXObject(name)) &#123;</span><br><span class="line">                PDImageXObject obj = (PDImageXObject) resources.getXObject(name);</span><br><span class="line">                imageList.add(obj.getImage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        document.close();<span class="comment">//流未关闭会导致文件删除不掉</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="File对象"><a href="#File对象" class="headerlink" title="File对象"></a>File对象</h5><blockquote>
-<p>考虑到本地文件、文件链接和字节流的情况。生成file对象的方法由3种。</p>
-</blockquote>
-<h6 id="本地文件"><a href="#本地文件" class="headerlink" title="本地文件"></a>本地文件</h6><blockquote>
-<p>这种情况是最简单的。<code>File file = new File(filePath);</code></p>
-</blockquote>
-<h6 id="http连接"><a href="#http连接" class="headerlink" title="http连接"></a>http连接</h6><blockquote>
-<p>需要把链接转化成inputStream</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String remotePdf = <span class="string">&quot;http://XXXXX/rB4r9WBZqmaAeuXVAADICoWEwVQ508.PDF&quot;</span>;</span><br><span class="line">InputStream is = <span class="keyword">null</span>;</span><br><span class="line">FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">File file = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    file = TempFile.createTempFile(<span class="string">&quot;tmp&quot;</span>, <span class="string">&quot;.pdf&quot;</span>);</span><br><span class="line">    fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">    URL url = <span class="keyword">new</span> URL(remotePdf);</span><br><span class="line">    is = url.openStream();</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">while</span> ((len = is.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        fos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">    &#125;</span><br><span class="line">    InvoiceInfo invoiceInfo = getInvoiceInfo(file);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (fos != <span class="keyword">null</span>) &#123;</span><br><span class="line">            fos.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (is != <span class="keyword">null</span>) &#123;</span><br><span class="line">            is.close();</span><br><span class="line">        &#125;</span><br><span class="line">        file.delete();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h6 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h6><blockquote>
-<p>需要把链接转化成inputStream，其他部分跟http连接的处理方式一样，创建临时文件和关闭流。</p>
-<p><code>InputStream is = new ByteArrayInputStream(download)</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>OCR识别</category>
-      </categories>
-      <tags>
-        <tag>OCR识别</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>StampedLock</title>
-    <url>/2021/03/25/StampedLock/</url>
-    <content><![CDATA[<h5 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h5><blockquote>
-<p>ReentrantReadWriteLock 和 StampedLock完成的功能相似，但是StampedLock相比ReentrantReadWriteLock 提升了程序的性能和吞吐量。改进的点在于</p>
-<ul>
-<li><p>ReentrantReadWriteLock 在沒有任何读写锁时，才可以取得写入锁，这可用于实现了悲观读取(Pessimistic Reading)，即如果执行中进行读取时，经常可能有另一执行要写入的需求，为了保持同步，ReentrantReadWriteLock 的读取锁定就可派上用场。</p>
-<p>然而，如果读取执行情况很多，写入很少的情况下，使用 ReentrantReadWriteLock 可能会使写入线程遭遇饥饿(Starvation)问题，也就是写入线程迟迟无法竞争到锁定而一直处于等待状态。</p>
-<p>而 StampedLock的乐观读锁则解决了这一问题，<strong>乐观读锁认为读的时候是不会有写锁产生的</strong></p>
-</li>
-</ul>
-</blockquote>
-<span id="more"></span>
-
-<h5 id="官网定义"><a href="#官网定义" class="headerlink" title="官网定义"></a>官网定义</h5><blockquote>
-<p>整体来说，StampedLock用三种模式来控制读写的访问(<strong>写、读、乐观读</strong>),锁的状态由版本和模式确定。锁获取方法会返回一个stamp,返回为0表示执行失败。<br>锁的释放和转换会把stamp作为参数，如果它的值与状态不匹配则返回0表示失败！</p>
-</blockquote>
-<h5 id="Javadoc例"><a href="#Javadoc例" class="headerlink" title="Javadoc例"></a>Javadoc例</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> StampedLock sl = <span class="keyword">new</span> StampedLock();</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">double</span> x, y;</span><br><span class="line">		</span><br><span class="line">    	<span class="comment">//写锁</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">double</span> deltaX, <span class="keyword">double</span> deltaY)</span> </span>&#123; <span class="comment">// an exclusively locked method</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.writeLock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                x += deltaX;</span><br><span class="line">                y += deltaY;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                sl.unlockWrite(stamp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//下面看看乐观读锁案例 乐观读锁认为读的时候是不会有写锁产生的</span></span><br><span class="line">        <span class="function"><span class="keyword">double</span> <span class="title">distanceFromOrigin</span><span class="params">()</span> </span>&#123; <span class="comment">// A read-only method</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.tryOptimisticRead(); <span class="comment">//获得一个乐观读锁</span></span><br><span class="line">            <span class="keyword">double</span> currentX = x, currentY = y; <span class="comment">//将两个字段读入本地局部变量</span></span><br><span class="line">            <span class="keyword">if</span> (!sl.validate(stamp)) &#123; <span class="comment">//检查发出乐观读锁后同时是否有其他写锁发生?</span></span><br><span class="line">                stamp = sl.readLock(); <span class="comment">//如果没有，我们再次获得一个读悲观锁</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    currentX = x; <span class="comment">// 将两个字段读入本地局部变量</span></span><br><span class="line">                    currentY = y; <span class="comment">// 将两个字段读入本地局部变量</span></span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    sl.unlockRead(stamp);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> Math.sqrt(currentX * currentX + currentY * currentY);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//下面是悲观读锁案例</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">moveIfAtOrigin</span><span class="params">(<span class="keyword">double</span> newX, <span class="keyword">double</span> newY)</span> </span>&#123; <span class="comment">// upgrade</span></span><br><span class="line">            <span class="comment">// Could instead start with optimistic, not read mode</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.readLock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (x == <span class="number">0.0</span> &amp;&amp; y == <span class="number">0.0</span>) &#123; <span class="comment">//循环，检查当前状态是否符合</span></span><br><span class="line">                    <span class="keyword">long</span> ws = sl.tryConvertToWriteLock(stamp); <span class="comment">//将读锁转为写锁 这里锁升级了！</span></span><br><span class="line">                    <span class="keyword">if</span> (ws != <span class="number">0L</span>) &#123; <span class="comment">//这是确认转为写锁是否成功</span></span><br><span class="line">                        stamp = ws; <span class="comment">//如果成功 替换票据</span></span><br><span class="line">                        x = newX; <span class="comment">//进行状态改变</span></span><br><span class="line">                        y = newY; <span class="comment">//进行状态改变</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123; <span class="comment">//如果不能成功转换为写锁</span></span><br><span class="line">                        sl.unlockRead(stamp); <span class="comment">//我们显式释放读锁</span></span><br><span class="line">                        stamp = sl.writeLock(); <span class="comment">//显式直接进行写锁 然后再通过循环再试</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                sl.unlock(stamp); <span class="comment">//释放读锁或写锁</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h6 id="写锁例子"><a href="#写锁例子" class="headerlink" title="写锁例子"></a>写锁例子</h6><p><code>writeLock()</code>：获取写锁，如果加锁失败会一直获取直到能获取到为止，返回一个<code>stamp</code>，有可能会阻塞。使用<code>unlockWrite(long)</code>来释放锁。<code>tryWriteLock()</code>也是获取写锁，但获取失败会返回stamp=0.对应释放锁方法<code>tryUnlockWrite()</code>.此方法用于异常的恢复。</p>
-<h6 id="乐观读例子"><a href="#乐观读例子" class="headerlink" title="乐观读例子"></a>乐观读例子</h6><p>根据<code>tryOptimisticRead()</code>方法的注释</p>
-<p><code>Returns a stamp that can later be validated, or zero if exclusively locked.</code></p>
-<p>可以知道，</p>
-<blockquote>
-<p>如果排他锁即写锁存在，返回的stamp为0  <strong>乐观读锁认为读的时候是不会有写锁产生的</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTryOptimisticRead</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">     <span class="keyword">long</span> stamp = sl.writeLock();</span><br><span class="line">     <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;写锁被占用后： &quot;</span>+sl.tryOptimisticRead());</span><br><span class="line">     &#125;).start();</span><br><span class="line">     TimeUnit.SECONDS.sleep(<span class="number">2</span>);<span class="comment">//为了保证锁释放前被另一个线程调用</span></span><br><span class="line">     sl.unlockWrite(stamp);</span><br><span class="line"></span><br><span class="line">     stamp = sl.readLock();</span><br><span class="line">     <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;读锁被占用后： &quot;</span>+sl.tryOptimisticRead());</span><br><span class="line">     &#125;).start();</span><br><span class="line">     TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">     sl.unlockRead(stamp);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>调用结果</p>
-<blockquote>
-<p>写锁被占用后： 0<br>读锁被占用后： 512</p>
-</blockquote>
-<p>获取乐观读锁的方法一般与<code>validate</code>方法一起使用，有以下三种情况</p>
-<ul>
-<li><p><code>Returns true if the lock has not been exclusively acquired since issuance of the given stamp.</code> 锁没被占用，即没有线程去加锁，则返回true</p>
-</li>
-<li><p><code>Always returns false if the  stamp is zero.</code></p>
-<p>stamp为0（一般表示尝试加锁失败）返回false</p>
-</li>
-<li><p><code>Always returns true if the stamp represents a currently held lock.</code></p>
-<p>当前线程持有锁，返回true</p>
-</li>
-<li><p><code>Invoking this method with a value not obtained from &#123;@link #tryOptimisticRead&#125; or a locking method for this lock has no defined effect or result.</code></p>
-<p>stamp 不是从<code>tryOptimisticRead()</code>或者加锁方法中得到的，则没有意义，返回false。</p>
-</li>
-</ul>
-</blockquote>
-<p>进入获取乐观读锁的方法实现</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">tryOptimisticRead</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> s;</span><br><span class="line">        <span class="keyword">return</span> (((s = state) &amp; WBIT) == <span class="number">0L</span>) ? (s &amp; SBITS) : <span class="number">0L</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validate</span><span class="params">(<span class="keyword">long</span> stamp)</span> </span>&#123;</span><br><span class="line">    U.loadFence();</span><br><span class="line">    <span class="keyword">return</span> (stamp &amp; SBITS) == (state &amp; SBITS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里使用了内存读屏障<code>U.loadFence()</code>，严格保证了该方法之前的所有load操作在内存屏障之前完成。</p>
-<h6 id="读锁例子"><a href="#读锁例子" class="headerlink" title="读锁例子"></a>读锁例子</h6><p><code>readLock()</code>：获取读锁，同样可能会造成阻塞，返回一个stamp.对应释放锁方法为<code>unlockRead(long)</code>。也有<code>tryReadLock</code>和<code>tryUnlockRead</code>方法，通常也是用于异常后的恢复。基本思想是，先加一个读锁，判断数据有没有被修改，没被修改则将读锁转为写锁，转为写锁成功则修改数据，否则释放读锁资源，再次获取写锁，直到获取成功为止。</p>
-<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><ol>
-<li> <a href="https://www.pdai.tech/md/java/java8/java8-stampedlock.html">stampedlock解析</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>JUC</category>
-        <category>StampedLock</category>
-      </categories>
-      <tags>
-        <tag>StampedLock</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jclasslib分析字节码</title>
-    <url>/2021/03/24/jclasslib%E5%88%86%E6%9E%90%E5%AD%97%E8%8A%82%E7%A0%81/</url>
-    <content><![CDATA[<h4 id="下载及使用"><a href="#下载及使用" class="headerlink" title="下载及使用"></a>下载及使用</h4><pre><code>1. 搜索  &quot;jclasslib Bytecode viewer &quot;下载插件，并重启IDEA
-2. IDEA   view -&gt; show Bytecode With Jclasslib
-</code></pre>
-<h4 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@org</span>.junit.Test</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line">      <span class="keyword">int</span> c = sum(a,b);</span><br><span class="line">      System.out.println(c);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> args1, <span class="keyword">int</span> args2)</span> </span>&#123;</span><br><span class="line">      Lists.newArrayList().forEach((t)-&gt; System.out.println(t));<span class="comment">//为了能看到动态连接的指令</span></span><br><span class="line">      <span class="keyword">return</span> args1 + args2;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="首先会将当前这个实例放入局部变量表"><a href="#首先会将当前这个实例放入局部变量表" class="headerlink" title="首先会将当前这个实例放入局部变量表"></a>首先会将当前这个实例放入局部变量表</h5><h5 id><a href="#" class="headerlink" title></a><img src="http://www.caijy.top/image-20210323224206973.png" style="zoom: 50%;"></h5><h5 id="解析字节码"><a href="#解析字节码" class="headerlink" title="解析字节码"></a>解析字节码</h5><p>注意：这里说的栈是指<strong>操作数栈</strong>。</p>
-<h6 id="test02的字节码"><a href="#test02的字节码" class="headerlink" title="test02的字节码"></a><code>test02</code>的字节码</h6><ul>
-<li><blockquote>
-<p>0 bipush 10    //将常量10推送至栈顶<br>2 istore_1       // 将int类型数值(10)存入局部变量表<br>3 bipush 20   //将常量20推送至栈顶<br>5 istore_2      // 将int类型数值(20)存入局部变量表<br>6 aload_0      // 将第一个引用类型变量（this）推送至栈顶<br>7 iload_1      // 将第二个int 型本地变量(a)推送至栈顶<br>8 iload_2      // 将第二个int 型本地变量(b)推送至栈顶<br>9 invokespecial #2 &lt;Test2.sum&gt;  //调用超类构造方法，实例初始化方法，私有方法<br>12 istore_3   // 将int类型数值(30)存入局部变量表<br>13 getstatic #3 &lt;java/lang/System.out&gt;<br>16 iload_3<br>17 invokevirtual #4 &lt;java/io/PrintStream.println&gt;<br>20 return  //当前方法返回void</p>
-</blockquote>
-</li>
-</ul>
-<h6 id="sum的字节码"><a href="#sum的字节码" class="headerlink" title="sum的字节码 `"></a><code>sum</code>的字节码 `</h6><ul>
-<li><blockquote>
-<p>0 invokestatic #5 &lt;org/assertj/core/util/Lists.newArrayList&gt;<br>3 invokedynamic #6 &lt;accept, BootstrapMethods #0&gt;   //<strong>java8的lambda表达式 成为了 动态连接指令invokedynamic 的生成方式</strong><br>8 invokevirtual #7 &lt;java/util/ArrayList.forEach&gt;<br>11 iload_1<br>12 iload_2<br>13 iadd     //将栈顶2个int类型的值相加并将结果压入栈顶<br>14 ireturn    //当前方法返回int</p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>JVM</category>
-        <category>分析字节码</category>
-      </categories>
-      <tags>
-        <tag>JVM字节码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Phaser</title>
-    <url>/2021/03/26/phaser/</url>
-    <content><![CDATA[<h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><blockquote>
-<p>JDK5中引入了CyclicBarrier和CountDownLatch这两个并发控制类，而JDK7中引入的Phaser按照官方的说法是提供了一个功能类似但是更加灵活的实现。</p>
-<p>CyclicBarrier可以被看成一个发令枪，内部有个计数器，初始值为0。每个线程准备就绪后，计数器加一，直到等于设定的目标值。当线程全部就绪后，一起并发执行，类似于百米赛跑。</p>
-<p>CountDownLatch类似于下班后最后一个关门的人，等到最后一个人走了才把门关上。即线程全部执行完毕后在main线程中执行接下来的逻辑。</p>
-<p>CountDownLatch是一次性的，CyclicBarrier是可复用的。试想一下，如果<strong>一个任务需要分多阶段进行，且每个阶段可以多个线程并发执行</strong>，用CyclicBarrier和CountDownLatch实现就比较复杂了。为了解决这个问题，Phaser就登场了。</p>
-<p>Phaser 可以保证每个阶段执行的顺序，即阶段1必须执行完才会执行阶段2。</p>
-</blockquote>
-<h6 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h6><p>现在我们来讲一个寝室室友一起出去吃饭的例子。这个例子分为起床，穿衣洗漱，吃饭，散步，返回5个阶段。</p>
-<span id="more"></span>
-
-<ul>
-<li><p>晒代码(假设有3个室友)</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] name = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;pA&quot;</span>,<span class="string">&quot;pB&quot;</span>,<span class="string">&quot;pC&quot;</span>&#125;;</span><br><span class="line">   <span class="keyword">public</span>  Phaser phaser = <span class="keyword">new</span> Phaser(name.length)&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;*********阶段&quot;</span>+(phase+<span class="number">1</span>)+<span class="string">&quot;结束！********&quot;</span>);</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">  </span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;起床了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">wash</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;穿衣洗漱了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;吃饭了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">  </span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">walk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;散步了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goHome</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;回家了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           getUp();</span><br><span class="line">           wash();</span><br><span class="line">           eat();</span><br><span class="line">           walk();</span><br><span class="line">           goHome();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">  </span><br><span class="line">   <span class="meta">@org</span>.junit.Test</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length; i++) &#123;</span><br><span class="line">           <span class="keyword">new</span> Thread(<span class="keyword">new</span> Person(),name[i]).start();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>执行效果</p>
-<h6 id><a href="#" class="headerlink" title></a><img src="http://www.caijy.top//20210331162424.png" alt="image-20210331162417798"></h6></li>
-<li><p>类的说明</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> parent   the parent phaser   父phaser</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> parties  the number of parties required to advance to the next phase  	       * 需要到达下一阶段的人数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Phaser</span><span class="params">(Phaser parent, <span class="keyword">int</span> parties)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//.....略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>status是一个64位的long变量，设计十分巧妙，详见  <a href="http://www.voidcn.com/article/p-hvlsqvuf-bbe.html">Phaser</a>。</p>
-<p>这里的源码就省略了，看了这段代码会发现，这个方法的实现用了大量的<strong>位运算</strong>去计算<strong>status</strong>的值，也使用了大量的<strong>CAS</strong>操作。考虑到并发条件下，status这个变量的资源会被大量竞争，CAS系统层面的操作很可能会被重复调用造成大量CPU开销。所以建议使用父Phaser，把对status一部分的计算分担到子Phaser中，父Phaser 只需负责推动每个阶段的进行，提高Phaser的吞吐量。</p>
-<h6 id="常用的方法"><a href="#常用的方法" class="headerlink" title="常用的方法"></a>常用的方法</h6><blockquote>
-<p><code>bulkRegister(int parties)</code>    批量注册需要协作的线程。</p>
-<p><code>arriveAndAwaitAdvance()</code>         线程执行结束。必须等待其他线程</p>
-<p><code>onAdvance(int phase, int registeredParties)</code>     每个阶段线程都执行完毕会调用此方法</p>
-</blockquote>
-</li>
-</ul>
-<h6 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] name = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;pA&quot;</span>, <span class="string">&quot;pB&quot;</span>, <span class="string">&quot;pC&quot;</span>, <span class="string">&quot;pD&quot;</span>, <span class="string">&quot;pE&quot;</span>&#125;;</span><br><span class="line"><span class="keyword">public</span> String[] nameX = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;XA&quot;</span>, <span class="string">&quot;XB&quot;</span>, <span class="string">&quot;XC&quot;</span>, <span class="string">&quot;XD&quot;</span>, <span class="string">&quot;XE&quot;</span>&#125;;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Phaser parent = <span class="keyword">new</span> Phaser() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******parent***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="keyword">final</span> Phaser phaser1 = <span class="keyword">new</span> Phaser(parent) &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******phaser1***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="keyword">final</span> Phaser phaser2 = <span class="keyword">new</span> Phaser(parent) &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******phaser2***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       phaser1.bulkRegister(<span class="number">5</span>);</span><br><span class="line">       phaser2.bulkRegister(<span class="number">4</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length; i++) &#123;</span><br><span class="line">           <span class="keyword">int</span> finalI = i;</span><br><span class="line">           Thread t = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">               System.out.println(name[finalI] + <span class="string">&quot;:&quot;</span> + finalI);</span><br><span class="line">               phaser1.arriveAndAwaitAdvance();</span><br><span class="line">           &#125;);</span><br><span class="line">           t.start();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">           <span class="keyword">int</span> finalI = i;</span><br><span class="line">           Thread t = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">               System.out.println(nameX[finalI] + <span class="string">&quot;:&quot;</span> + finalI);</span><br><span class="line">               phaser2.arriveAndAwaitAdvance();</span><br><span class="line">           &#125;);</span><br><span class="line">           t.start();</span><br><span class="line">       &#125;</span><br><span class="line">       parent.awaitAdvance(parent.getPhase());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="-1"><a href="#-1" class="headerlink" title></a><img src="http://www.caijy.top//20210331165607.png" alt="image-20210331165607204"></h5><p>参考</p>
-<ol>
-<li> <a href="http://www.voidcn.com/article/p-hvlsqvuf-bbe.html">Phaser使用和解析</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>JUC</category>
-        <category>Phaser</category>
-      </categories>
-      <tags>
-        <tag>JUC</tag>
       </tags>
   </entry>
   <entry>
@@ -377,185 +180,317 @@
       </tags>
   </entry>
   <entry>
-    <title>数据库事务</title>
-    <url>/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><blockquote>
-<p>什么是事务？</p>
+    <title>PDF发票OCR识别</title>
+    <url>/2021/03/23/OCR%E8%AF%86%E5%88%AB/</url>
+    <content><![CDATA[<h4 id="PDF发票OCR识别"><a href="#PDF发票OCR识别" class="headerlink" title="PDF发票OCR识别"></a>PDF发票OCR识别</h4><blockquote>
+<p>基本解析过程是解析发票中的二维码，解析出发票的5要素：发票号码、发票代码、发票金额、开票日期、校验码</p>
 </blockquote>
-<p>要么都成功，要么都失败。</p>
-<h4 id="ACID原则"><a href="#ACID原则" class="headerlink" title="ACID原则"></a>ACID原则</h4><blockquote>
-<p>关系型数据库支持事务的 ACID 原则，即原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
-</blockquote>
-<h5 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性(Atomicity)"></a>原子性(Atomicity)</h5><p>要么都成功，要么都失败。</p>
-<h5 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h5><p>一致性是指在事务开始之前和事务结束以后，数据完整性要保持一致。</p>
-<p>比如A给B转账，事务前后A和B的总金额是一样的，这就是最终一致性。</p>
-<h5 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h5><p>事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不会被其他事务的操作数据所干扰。</p>
-<h5 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h5><p>事务一旦提交则不可逆，被持久化到数据库中</p>
-<h4 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h4><blockquote>
-<p>在并发环境下，多个事务在执行操作，事务的隔离性很难保证，因此会出现很多并发一致性问题。</p>
-</blockquote>
-<span id="more"></span>
-<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5><blockquote>
-<p>脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">张三的工资为<span class="number">5000</span>,事务A中把他的工资改为<span class="number">8000</span>,但事务A尚未提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B正在读取张三的工资，读取到张三的工资为<span class="number">8000</span>。</span><br><span class="line">随后，</span><br><span class="line">事务A发生异常，而回滚了事务。张三的工资又回滚为<span class="number">5000</span>。</span><br><span class="line">最后，</span><br><span class="line">事务B读取到的张三工资为<span class="number">8000</span>的数据即为脏数据，事务B做了一次脏读。</span><br></pre></td></tr></table></figure>
+<h5 id="引入maven"><a href="#引入maven" class="headerlink" title="引入maven"></a>引入maven</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--pdf发票解析--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.pdfbox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pdfbox<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.20<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javase<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--现在项目一般都放这个包 视情况而定 --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-lang3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h5 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h5><blockquote>
-<p>事务读取数据后，另一个事务新增或删除了一条记录，导致查询出来的结果跟前一次不一样。</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">目前工资为<span class="number">5000</span>的员工有<span class="number">10</span>人，事务A读取所有工资为<span class="number">5000</span>的人数为<span class="number">10</span>人。</span><br><span class="line">此时，</span><br><span class="line">事务B插入一条工资也为<span class="number">5000</span>的记录。</span><br><span class="line">这是，事务A再次读取工资为<span class="number">5000</span>的员工，记录为<span class="number">11</span>人。此时产生了幻读。</span><br></pre></td></tr></table></figure>
+<h5 id="解析pdf的完整代码"><a href="#解析pdf的完整代码" class="headerlink" title="解析pdf的完整代码"></a>解析pdf的完整代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取电子发票pdf文件中的发票信息</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 发票信息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> InvoiceInfo <span class="title">getInvoiceInfo</span><span class="params">(File pdfFile)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        List&lt;BufferedImage&gt; imageList = extractImage(pdfFile);</span><br><span class="line">        <span class="keyword">if</span> (imageList.isEmpty()) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中未解析出图片，返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        MultiFormatReader formatReader = <span class="keyword">new</span> MultiFormatReader();</span><br><span class="line">        Result result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//正常解析出来有3张图片，第一张是二维码，其他两张图片是发票上盖的章</span></span><br><span class="line">        BinaryBitmap binaryBitmap = <span class="keyword">new</span> BinaryBitmap(<span class="keyword">new</span> HybridBinarizer(<span class="keyword">new</span> BufferedImageLuminanceSource(imageList.get(<span class="number">0</span>))));</span><br><span class="line">        Map hints = <span class="keyword">new</span> HashMap();</span><br><span class="line">        hints.put(EncodeHintType.CHARACTER_SET, <span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        result = formatReader.decode(binaryBitmap);</span><br><span class="line">        <span class="keyword">if</span> (result == <span class="keyword">null</span> || StringUtils.isEmpty(result.getText())) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片没有解析了字符串信息，直接返回空&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;从电子发票中识别出的信息为：&#123;&#125;&quot;</span>, result == <span class="keyword">null</span> ? <span class="string">&quot;&quot;</span> : result.getText());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取到的信息为 ： 01，发票类型，发票代码，发票号码，发票金额，开票日期，校验码，随机产生的摘要信息</span></span><br><span class="line">        String[] infos = result.getText().split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (infos.length != <span class="number">8</span>) &#123;</span><br><span class="line">            log.info(<span class="string">&quot;pdf中的第一张图片解析出的字符串数组长度不为8，返回空。&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InvoiceInfo invoice = <span class="keyword">new</span> InvoiceInfo();</span><br><span class="line">        invoice.setInvoiceType(Integer.parseInt(infos[<span class="number">1</span>])); <span class="comment">//发票类型</span></span><br><span class="line">        invoice.setInvoiceCode(infos[<span class="number">2</span>]); <span class="comment">//发票代码</span></span><br><span class="line">        invoice.setInvoiceNo(infos[<span class="number">3</span>]); <span class="comment">// 发票号码</span></span><br><span class="line">        invoice.setTotalAmount(<span class="keyword">new</span> BigDecimal(infos[<span class="number">4</span>])); <span class="comment">// 发票金额</span></span><br><span class="line">        invoice.setInvoiceDate(infos[<span class="number">5</span>]); <span class="comment">//开票日期</span></span><br><span class="line">        invoice.setInvoiceCheckcode(infos[<span class="number">6</span>]); <span class="comment">// 校验码</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> invoice;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.info(<span class="string">&quot;解析pdf中的二维码出现异常&quot;</span>, e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 提取电子发票里面的图片</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> pdfFile 电子发票文件对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> pdf中解析出的图片列表</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;BufferedImage&gt; <span class="title">extractImage</span><span class="params">(File pdfFile)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    List&lt;BufferedImage&gt; imageList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    PDDocument document = PDDocument.load(pdfFile);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        PDPage page = document.getPage(<span class="number">0</span>); <span class="comment">//电子发票只有一页</span></span><br><span class="line">        PDResources resources = page.getResources();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (COSName name : resources.getXObjectNames()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (resources.isImageXObject(name)) &#123;</span><br><span class="line">                PDImageXObject obj = (PDImageXObject) resources.getXObject(name);</span><br><span class="line">                imageList.add(obj.getImage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        document.close();<span class="comment">//流未关闭会导致文件删除不掉</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imageList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h5 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h5><blockquote>
-<p>一个事务多次读同一个数据，中间另一个事务提交并修改了数据，会造成多次读到的数据不一样。</p>
+<h5 id="File对象"><a href="#File对象" class="headerlink" title="File对象"></a>File对象</h5><blockquote>
+<p>考虑到本地文件、文件链接和字节流的情况。生成file对象的方法由3种。</p>
 </blockquote>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">在事务A中，读取到张三的工资为<span class="number">5000</span>，操作没有完成，事务还没提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B把张三的工资改为<span class="number">8000</span>，并提交了事务。</span><br><span class="line">随后，</span><br><span class="line">在事务A中，再次读取张三的工资，此时工资变为<span class="number">8000</span>。在一个事务中前后两次读取的结果并不致，导致了不可重复读。</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong></p>
-<p>**虽然都是读取了未提交的数据，但脏读的重点是修改，幻读的重点在于新增或者删除；而不可重复读是读取了另一个事务未提交的数据 **</p>
-<h5 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h5><blockquote>
-<p>A和B访问修改同一个数据，A事务撤消时，把已提交的B事务的数据覆盖掉</p>
+<h6 id="本地文件"><a href="#本地文件" class="headerlink" title="本地文件"></a>本地文件</h6><blockquote>
+<p>这种情况是最简单的。<code>File file = new File(filePath);</code></p>
 </blockquote>
-<h5 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h5><blockquote>
-<p>A和B访问修改同一个数据，A事务提交时，把已提交的B事务的数据覆盖掉</p>
+<h6 id="http连接"><a href="#http连接" class="headerlink" title="http连接"></a>http连接</h6><blockquote>
+<p>需要把链接转化成inputStream</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String remotePdf = <span class="string">&quot;http://XXXXX/rB4r9WBZqmaAeuXVAADICoWEwVQ508.PDF&quot;</span>;</span><br><span class="line">InputStream is = <span class="keyword">null</span>;</span><br><span class="line">FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">File file = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    file = TempFile.createTempFile(<span class="string">&quot;tmp&quot;</span>, <span class="string">&quot;.pdf&quot;</span>);</span><br><span class="line">    fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">    URL url = <span class="keyword">new</span> URL(remotePdf);</span><br><span class="line">    is = url.openStream();</span><br><span class="line">    <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">while</span> ((len = is.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">        fos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">    &#125;</span><br><span class="line">    InvoiceInfo invoiceInfo = getInvoiceInfo(file);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (fos != <span class="keyword">null</span>) &#123;</span><br><span class="line">            fos.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (is != <span class="keyword">null</span>) &#123;</span><br><span class="line">            is.close();</span><br><span class="line">        &#125;</span><br><span class="line">        file.delete();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h4 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h4><blockquote>
-<p>封锁就是事务T在对某个数据对象（例如表记录等）操作前先向系统发起请求，对其加锁。</p>
-<p>在事务T释放锁之前，其他事务不能更新此数据对象。</p>
-<p>封锁是实现并发控制的一个非常重要的技术。</p>
-</blockquote>
-<h5 id="基本封锁类型"><a href="#基本封锁类型" class="headerlink" title="基本封锁类型"></a>基本封锁类型</h5><h6 id="排他锁-X锁-写锁"><a href="#排他锁-X锁-写锁" class="headerlink" title="排他锁(X锁/写锁)"></a>排他锁(X锁/写锁)</h6><blockquote>
-<p>INNODB中锁的概念。释放锁之前，其他事务不能读取和修改加锁的数据</p>
-</blockquote>
-<h6 id="共享锁-S锁-读锁"><a href="#共享锁-S锁-读锁" class="headerlink" title="共享锁(S锁/读锁)"></a>共享锁(S锁/读锁)</h6><blockquote>
-<p>INNODB中锁的概念。释放锁之前，其他事务可以读取但不能修改加锁的数据</p>
-</blockquote>
-<h6 id="锁的相容性"><a href="#锁的相容性" class="headerlink" title="锁的相容性"></a>锁的相容性</h6><table>
-<thead>
-<tr>
-<th>-</th>
-<th>X</th>
-<th>S</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>X</td>
-<td>N</td>
-<td>N</td>
-</tr>
-<tr>
-<td>S</td>
-<td>N</td>
-<td>Y</td>
-</tr>
-</tbody></table>
-<h6 id="扩展和补充"><a href="#扩展和补充" class="headerlink" title="扩展和补充"></a>扩展和补充</h6><blockquote>
-<h4 id="表锁-偏读"><a href="#表锁-偏读" class="headerlink" title="表锁(偏读)"></a>表锁(偏读)</h4><h6 id="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"><a href="#由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。" class="headerlink" title="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"></a>由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。</h6><p>查看加锁的表：<code>show open tables</code></p>
-<p>加锁命令：<code>lock table [表名][read/write]</code></p>
-<p>释放锁命令：<code>unlock tables</code></p>
-<p>如何分析表锁</p>
-<ul>
-<li><blockquote>
-<p>执行<code>show status like &#39;table%&#39;</code></p>
-<p>查看``Table_locks_waited`  ，表示产生锁争用而发生等待的次数，没等待一次锁值加1。值越高说明表锁争用情况严重。</p>
-</blockquote>
-</li>
-</ul>
-<h5 id="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"><a href="#会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。" class="headerlink" title="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"></a>会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。</h5><h5 id="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"><a href="#会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。" class="headerlink" title="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"></a>会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。</h5><h3 id="行锁-偏写"><a href="#行锁-偏写" class="headerlink" title="行锁(偏写)"></a>行锁(偏写)</h3><p>行锁的特点是：</p>
-<ul>
-<li>开销大、加锁慢；会出现死锁；锁粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
-</ul>
-<h5 id="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"><a href="#INNODB与MYISAM最大不同有2点：支持事务和采用行级锁" class="headerlink" title="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"></a>INNODB与MYISAM最大不同有2点：<code>支持事务</code>和<code>采用行级锁</code></h5><p>可以看出，行锁是支持事务的。</p>
-<h5 id="如何手动锁定一行"><a href="#如何手动锁定一行" class="headerlink" title="如何手动锁定一行"></a>如何手动锁定一行</h5><blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">begin;</span><br><span class="line">...... for update;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-
-<p>此时其他会话要修改这行的数据，会发生阻塞，直到<code>commit</code></p>
-</blockquote>
-<h5 id="什么情况下行锁变表锁？"><a href="#什么情况下行锁变表锁？" class="headerlink" title="什么情况下行锁变表锁？"></a>什么情况下行锁变表锁？</h5><p>比如（演示前要先<code>set autocommit=0;</code>）： </p>
-<p>会话1<code>update A set NAME=100 where ID=1; </code> NAME <code>VARCHAR</code> 类型没有使用单引号.</p>
-<p>会话2 <code>select * from A where ID=1 </code>。此时由于会话1内部产生了自动类型转换造成<strong>索引失效</strong>，导致表锁。如果会话1不<code>commit</code>会一直阻塞。</p>
-<h4 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h4><blockquote>
-<p>演示前要先<code>set autocommit=0;</code>。</p>
-<p>会话1：<code>select * from A where id &gt;1 and id &lt;8。</code> 假设A表没有id=6的记录。</p>
-<p>会话2： <code>insert into A values (6，.....)</code>。此时插入id=6的记录，会发生阻塞。即发生了间隙锁。</p>
-<h5 id="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"><a href="#当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。" class="headerlink" title="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"></a>当我们用范围条件检索数据，并请求共享锁或排他锁时，<code>Innodb</code>会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。<code>Innodb</code>也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。</h5></blockquote>
-</blockquote>
-<h5 id="封锁协议之三级封锁协议"><a href="#封锁协议之三级封锁协议" class="headerlink" title="封锁协议之三级封锁协议"></a>封锁协议之三级封锁协议</h5><blockquote>
-<p>解决了并发一致性问题。</p>
-</blockquote>
-<h6 id="一级封锁协议"><a href="#一级封锁协议" class="headerlink" title="一级封锁协议"></a>一级封锁协议</h6><blockquote>
-<p>事务在修改数据之前必须对数据加<strong>X锁</strong>，直到释放锁</p>
-</blockquote>
-<ol>
-<li> 一级封锁协议可防止丢失修改，并保证事务T是可恢复的</li>
-<li> 读数据不需要加读锁，不能解决不可重复读和脏读问题</li>
-</ol>
-<h6 id="二级封锁协议"><a href="#二级封锁协议" class="headerlink" title="二级封锁协议"></a>二级封锁协议</h6><blockquote>
-<p>在一级封锁协议基础上，在读取数据前要加读锁，读完后即释放锁</p>
-</blockquote>
-<ol>
-<li>可以防止丢失修改和脏读</li>
-</ol>
-<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
-<h6 id="三级封锁协议"><a href="#三级封锁协议" class="headerlink" title="三级封锁协议"></a>三级封锁协议</h6><blockquote>
-<p>在一级封锁协议基础上，读取数据要加读锁，直到事务结束才释放</p>
-</blockquote>
-<ol>
-<li>三级封锁协议可防止丢失修改、脏读和不可重复读</li>
-</ol>
-<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
-<h6 id="三种协议的对比"><a href="#三种协议的对比" class="headerlink" title="三种协议的对比"></a>三种协议的对比</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94.png"></p>
-<h5 id="封锁协议之两段锁协议"><a href="#封锁协议之两段锁协议" class="headerlink" title="封锁协议之两段锁协议"></a>封锁协议之两段锁协议</h5><blockquote>
-<p>加锁和解锁阶分为两个阶段进行。</p>
-<p>内容：</p>
-<ol>
-<li>在对任何数据进行读写操作之前，事务首先要获得对该数据的封锁</li>
-<li>在释放一个封锁之后，事务不再获得其他封锁</li>
-</ol>
-<p>可串行化调度是指，通过并发控制，使得并发执行的事务结果与某个串行执行的事务结果相同。事务遵循两段锁协议是保证可串行化调度的充分条件。例如以下操作满足两段锁协议，它是可串行化调度。</p>
-<p>lock-x(A)…lock-s(B)…lock-s(C)…unlock(A)…unlock(C)…unlock(B)</p>
-<p>但不是必要条件，例如以下操作不满足两段锁协议，但是它还是可串行化调度。</p>
-<p>lock-x(A)…unlock(A)…lock-s(B)…unlock(B)…lock-s(C)…unlock(C)</p>
-</blockquote>
-<h5 id="封锁带来的问题"><a href="#封锁带来的问题" class="headerlink" title="封锁带来的问题"></a>封锁带来的问题</h5><h6 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h6><blockquote>
-<p>系统可能是某个事务永远处于等待状态，得不到封锁的机会</p>
-</blockquote>
-<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%B4%BB%E9%94%81.png"></p>
-<p>如何避免？先来先服务策略</p>
-<h6 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%AD%BB%E9%94%81.png"></p>
-<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><blockquote>
-<p>为了解决上述问题，数据库通过<strong>锁机制</strong>解决并发访问的问题。根据锁定对象不同：分为行级锁和表级锁；根据并发事务锁定的关系上看：分为共享锁和排它锁，共享锁会防止排它锁但允许其他的共享锁。而排它锁既防止共享锁也防止其他排它锁。为了更改数据，数据库必须在进行更改的行上施加行排它锁，insert、update、delete和select for update语句都会隐式采用必要的行锁定。</p>
-<p>但是直接使用锁机制管理是很复杂的，基于锁机制，数据库给用户提供了不同的<strong>事务隔离级别</strong>，只要设置了事务隔离级别，数据库就会分析事务中的sql语句然后自动选择合适的锁。 </p>
-</blockquote>
-<h5 id="读未提交"><a href="#读未提交" class="headerlink" title="读未提交"></a><strong>读未提交</strong></h5><blockquote>
-<p>读未提交(READ_UNCOMMITTED)，即能够读取到没有被提交的数据，所以很明显这个级别的隔离机制无法解决脏读、不可重复读、幻读中的任何一种，因此很少使用</p>
-</blockquote>
-<h5 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a><strong>读已提交</strong></h5><blockquote>
-<p>读已提交(READ_COMMITED)，即能够读到那些已经提交的数据，能够防止脏读，但是无法限制不可重复读和幻读</p>
-</blockquote>
-<h5 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a><strong>可重复读</strong></h5><blockquote>
-<p>可重复读(REPEATABLE_READ)，即在数据读出来之后加锁，类似”select * from XXX for update”，明确数据读取出来就是为了更新用的，所以要加一把锁，防止别人修改它。REPEATABLE_READ的意思也类似，读取了一条数据，这个事务不结束，别的事务就不可以改这条记录，这样就解决了脏读、不可重复读的问题，但是幻读的问题还是无法解决</p>
-</blockquote>
-<h5 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a><strong>串行化</strong></h5><blockquote>
-<p>串行化(SERLALIZABLE)，最高的事务隔离级别，不管多少事务，挨个运行完一个事务的所有子事务之后才可以执行另外一个事务里面的所有子事务。比如幻读，事务A的插入或删除操作必须等待事务B的事务结束后才会进行，否则会一直阻塞。这样就解决了脏读、不可重复读和幻读的问题了。但缺点是性能十分低下。</p>
-</blockquote>
-<p>不同数据库默认的隔离级别是不同的。mysql支持四种隔离级别,默认隔离级别是<code>REPEATABLE_READ</code>,oracle支持<code>READ_COMMITED</code>和<code>SERLALIZABLE</code>,默认隔离级别是<code>READ_COMMITED</code>。</p>
-<h4 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h4><blockquote>
-<p>多版本并发控制(Multi-Version Concurrentcy control)的简称，针对读已提交和可重复读</p>
-<p>通过记录多个修改的历史版本替代锁，实现事务间的隔离效果，保证非阻塞读！</p>
-<p>实现核心为三点</p>
-<ul>
-<li>表的隐藏列：记录事务ID及上个版本数据地址，即事务ID <strong>trix_id</strong>和回滚指针<strong>roll_pointer</strong></li>
-<li>undo log: 记录数据各版本修改历史即事务链，生成undo日志的时候会带上隐藏列</li>
-<li>read view: 读视图，用于判断哪些版本可见</li>
-</ul>
+<h6 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h6><blockquote>
+<p>需要把链接转化成inputStream，其他部分跟http连接的处理方式一样，创建临时文件和关闭流。</p>
+<p><code>InputStream is = new ByteArrayInputStream(download)</code></p>
 </blockquote>
 ]]></content>
       <categories>
-        <category>数据库</category>
-        <category>事务</category>
+        <category>OCR识别</category>
       </categories>
       <tags>
-        <tag>数据库</tag>
+        <tag>OCR识别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo 搭建博客框架</title>
+    <url>/2021/02/28/Hexo%20%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6/</url>
+    <content><![CDATA[<p><a href="https://hexo.io/zh-cn/docs/">官网</a><br>1.安装nodeJs，查看版本<code>node --version</code>，Node.js 版本需不低于 10.13，建议使用 Node.js 12.0 及以上版本<br>2.安装git<br>3.安装Hexo</p>
+<p>安装Hexo1.安装命令</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">npm install hexo -g</span><br><span class="line">hexo init blog</span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>这时博客就在本地生成了。访问<code>http://localhost:4000</code> 可以看效果。<br>可以说Hexo是很强大的，默认主题网站结构合理，适配手机，搜索栏（google）也有了。只需要优化（改一下失效的链接，添加评论，RSS等模块）就行了。<br>2.基本操作</p>
+<ul>
+<li><code>hexo g</code> 生成/public 文件夹，里面是网站</li>
+<li><code>hexo d</code> 把这个网站文件夹推送到服务器</li>
+<li><code>hexo clean</code> 删除网站文件夹</li>
+<li><code>hexo s</code> 本地查看效果</li>
+</ul>
+<p>3.<a href="https://hexo.io/docs/one-command-deployment">Hexo官网一键部署</a><br>找到<code>_config.yml</code>文件编辑：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: &lt;repository url&gt; # https://bitbucket.org/JohnSmith/johnsmith.bitbucket.io</span><br><span class="line">  branch: [branch]</span><br><span class="line">  message: [message]</span><br></pre></td></tr></table></figure>
+<p>使用<code>hexo deploy</code>部署</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大数据简图</title>
+    <url>/2021/06/30/bigdata/</url>
+    <content><![CDATA[<p>学习路线</p>
+<p><img src="https://www.caijy.top//image-20210626155255769.png" alt="image-20210626155255769"></p>
+]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>StampedLock</title>
+    <url>/2021/03/25/StampedLock/</url>
+    <content><![CDATA[<h5 id="由来"><a href="#由来" class="headerlink" title="由来"></a>由来</h5><blockquote>
+<p>ReentrantReadWriteLock 和 StampedLock完成的功能相似，但是StampedLock相比ReentrantReadWriteLock 提升了程序的性能和吞吐量。改进的点在于</p>
+<ul>
+<li><p>ReentrantReadWriteLock 在沒有任何读写锁时，才可以取得写入锁，这可用于实现了悲观读取(Pessimistic Reading)，即如果执行中进行读取时，经常可能有另一执行要写入的需求，为了保持同步，ReentrantReadWriteLock 的读取锁定就可派上用场。</p>
+<p>然而，如果读取执行情况很多，写入很少的情况下，使用 ReentrantReadWriteLock 可能会使写入线程遭遇饥饿(Starvation)问题，也就是写入线程迟迟无法竞争到锁定而一直处于等待状态。</p>
+<p>而 StampedLock的乐观读锁则解决了这一问题，<strong>乐观读锁认为读的时候是不会有写锁产生的</strong></p>
+</li>
+</ul>
+</blockquote>
+<span id="more"></span>
+
+<h5 id="官网定义"><a href="#官网定义" class="headerlink" title="官网定义"></a>官网定义</h5><blockquote>
+<p>整体来说，StampedLock用三种模式来控制读写的访问(<strong>写、读、乐观读</strong>),锁的状态由版本和模式确定。锁获取方法会返回一个stamp,返回为0表示执行失败。<br>锁的释放和转换会把stamp作为参数，如果它的值与状态不匹配则返回0表示失败！</p>
+</blockquote>
+<h5 id="Javadoc例"><a href="#Javadoc例" class="headerlink" title="Javadoc例"></a>Javadoc例</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> StampedLock sl = <span class="keyword">new</span> StampedLock();</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">double</span> x, y;</span><br><span class="line">		</span><br><span class="line">    	<span class="comment">//写锁</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">double</span> deltaX, <span class="keyword">double</span> deltaY)</span> </span>&#123; <span class="comment">// an exclusively locked method</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.writeLock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                x += deltaX;</span><br><span class="line">                y += deltaY;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                sl.unlockWrite(stamp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//下面看看乐观读锁案例 乐观读锁认为读的时候是不会有写锁产生的</span></span><br><span class="line">        <span class="function"><span class="keyword">double</span> <span class="title">distanceFromOrigin</span><span class="params">()</span> </span>&#123; <span class="comment">// A read-only method</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.tryOptimisticRead(); <span class="comment">//获得一个乐观读锁</span></span><br><span class="line">            <span class="keyword">double</span> currentX = x, currentY = y; <span class="comment">//将两个字段读入本地局部变量</span></span><br><span class="line">            <span class="keyword">if</span> (!sl.validate(stamp)) &#123; <span class="comment">//检查发出乐观读锁后同时是否有其他写锁发生?</span></span><br><span class="line">                stamp = sl.readLock(); <span class="comment">//如果没有，我们再次获得一个读悲观锁</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    currentX = x; <span class="comment">// 将两个字段读入本地局部变量</span></span><br><span class="line">                    currentY = y; <span class="comment">// 将两个字段读入本地局部变量</span></span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    sl.unlockRead(stamp);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> Math.sqrt(currentX * currentX + currentY * currentY);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//下面是悲观读锁案例</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">moveIfAtOrigin</span><span class="params">(<span class="keyword">double</span> newX, <span class="keyword">double</span> newY)</span> </span>&#123; <span class="comment">// upgrade</span></span><br><span class="line">            <span class="comment">// Could instead start with optimistic, not read mode</span></span><br><span class="line">            <span class="keyword">long</span> stamp = sl.readLock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (x == <span class="number">0.0</span> &amp;&amp; y == <span class="number">0.0</span>) &#123; <span class="comment">//循环，检查当前状态是否符合</span></span><br><span class="line">                    <span class="keyword">long</span> ws = sl.tryConvertToWriteLock(stamp); <span class="comment">//将读锁转为写锁 这里锁升级了！</span></span><br><span class="line">                    <span class="keyword">if</span> (ws != <span class="number">0L</span>) &#123; <span class="comment">//这是确认转为写锁是否成功</span></span><br><span class="line">                        stamp = ws; <span class="comment">//如果成功 替换票据</span></span><br><span class="line">                        x = newX; <span class="comment">//进行状态改变</span></span><br><span class="line">                        y = newY; <span class="comment">//进行状态改变</span></span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123; <span class="comment">//如果不能成功转换为写锁</span></span><br><span class="line">                        sl.unlockRead(stamp); <span class="comment">//我们显式释放读锁</span></span><br><span class="line">                        stamp = sl.writeLock(); <span class="comment">//显式直接进行写锁 然后再通过循环再试</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                sl.unlock(stamp); <span class="comment">//释放读锁或写锁</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="写锁例子"><a href="#写锁例子" class="headerlink" title="写锁例子"></a>写锁例子</h6><p><code>writeLock()</code>：获取写锁，如果加锁失败会一直获取直到能获取到为止，返回一个<code>stamp</code>，有可能会阻塞。使用<code>unlockWrite(long)</code>来释放锁。<code>tryWriteLock()</code>也是获取写锁，但获取失败会返回stamp=0.对应释放锁方法<code>tryUnlockWrite()</code>.此方法用于异常的恢复。</p>
+<h6 id="乐观读例子"><a href="#乐观读例子" class="headerlink" title="乐观读例子"></a>乐观读例子</h6><p>根据<code>tryOptimisticRead()</code>方法的注释</p>
+<p><code>Returns a stamp that can later be validated, or zero if exclusively locked.</code></p>
+<p>可以知道，</p>
+<blockquote>
+<p>如果排他锁即写锁存在，返回的stamp为0  <strong>乐观读锁认为读的时候是不会有写锁产生的</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testTryOptimisticRead</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">     <span class="keyword">long</span> stamp = sl.writeLock();</span><br><span class="line">     <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;写锁被占用后： &quot;</span>+sl.tryOptimisticRead());</span><br><span class="line">     &#125;).start();</span><br><span class="line">     TimeUnit.SECONDS.sleep(<span class="number">2</span>);<span class="comment">//为了保证锁释放前被另一个线程调用</span></span><br><span class="line">     sl.unlockWrite(stamp);</span><br><span class="line"></span><br><span class="line">     stamp = sl.readLock();</span><br><span class="line">     <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;读锁被占用后： &quot;</span>+sl.tryOptimisticRead());</span><br><span class="line">     &#125;).start();</span><br><span class="line">     TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">     sl.unlockRead(stamp);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用结果</p>
+<blockquote>
+<p>写锁被占用后： 0<br>读锁被占用后： 512</p>
+</blockquote>
+<p>获取乐观读锁的方法一般与<code>validate</code>方法一起使用，有以下三种情况</p>
+<ul>
+<li><p><code>Returns true if the lock has not been exclusively acquired since issuance of the given stamp.</code> 锁没被占用，即没有线程去加锁，则返回true</p>
+</li>
+<li><p><code>Always returns false if the  stamp is zero.</code></p>
+<p>stamp为0（一般表示尝试加锁失败）返回false</p>
+</li>
+<li><p><code>Always returns true if the stamp represents a currently held lock.</code></p>
+<p>当前线程持有锁，返回true</p>
+</li>
+<li><p><code>Invoking this method with a value not obtained from &#123;@link #tryOptimisticRead&#125; or a locking method for this lock has no defined effect or result.</code></p>
+<p>stamp 不是从<code>tryOptimisticRead()</code>或者加锁方法中得到的，则没有意义，返回false。</p>
+</li>
+</ul>
+</blockquote>
+<p>进入获取乐观读锁的方法实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">tryOptimisticRead</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> s;</span><br><span class="line">        <span class="keyword">return</span> (((s = state) &amp; WBIT) == <span class="number">0L</span>) ? (s &amp; SBITS) : <span class="number">0L</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">validate</span><span class="params">(<span class="keyword">long</span> stamp)</span> </span>&#123;</span><br><span class="line">    U.loadFence();</span><br><span class="line">    <span class="keyword">return</span> (stamp &amp; SBITS) == (state &amp; SBITS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了内存读屏障<code>U.loadFence()</code>，严格保证了该方法之前的所有load操作在内存屏障之前完成。</p>
+<h6 id="读锁例子"><a href="#读锁例子" class="headerlink" title="读锁例子"></a>读锁例子</h6><p><code>readLock()</code>：获取读锁，同样可能会造成阻塞，返回一个stamp.对应释放锁方法为<code>unlockRead(long)</code>。也有<code>tryReadLock</code>和<code>tryUnlockRead</code>方法，通常也是用于异常后的恢复。基本思想是，先加一个读锁，判断数据有没有被修改，没被修改则将读锁转为写锁，转为写锁成功则修改数据，否则释放读锁资源，再次获取写锁，直到获取成功为止。</p>
+<h5 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h5><ol>
+<li> <a href="https://www.pdai.tech/md/java/java8/java8-stampedlock.html">stampedlock解析</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JUC</category>
+        <category>StampedLock</category>
+      </categories>
+      <tags>
+        <tag>StampedLock</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高效工具分享</title>
+    <url>/2021/07/01/chrome%20%E8%84%9A%E6%9C%AC%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h1><blockquote>
+<p>分享一些 <code>chrome</code> 脚本, 及创建教程,<br>利用操作系统的搜索引擎, 可以快速打开你经常去的网站<br>同理, 你也可以用此方法, 去简化更多事情</p>
+</blockquote>
+<h1 id="2-演示"><a href="#2-演示" class="headerlink" title="2. 演示"></a>2. 演示</h1><p><img src="https://www.caijy.top//2021-07-01%2015.40.29.gif" alt="2021-07-01 15.40.29.gif"></p>
+<h1 id="3-命令"><a href="#3-命令" class="headerlink" title="3. 命令"></a>3. 命令</h1><h2 id="3-1-使用-shell-带的-open-a-命令"><a href="#3-1-使用-shell-带的-open-a-命令" class="headerlink" title="3.1 使用 shell 带的 open -a 命令"></a>3.1 使用 <code>shell</code> 带的 <code>open -a</code> 命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">open -a /Applications/Google\ Chrome.app https://www.bilibili.com/</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>解释:<br>​</p>
+</blockquote>
+<blockquote>
+<p><code>open -a</code> 打开指定的 app<br><code>Google\ Chrome.app</code><br>chrome 名字有空格, \ 避免空格, 同时也可以加引号使用 <code>open -a &quot;Google Chrome.app&quot;</code><br>app 后面跟 网站地址, 即可</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625126346699-c328ac0e-7aa6-4915-a34c-7e0f330528f5.png" alt="image.png"></p>
+<h2 id="3-2-使用-chrome-自带命令"><a href="#3-2-使用-chrome-自带命令" class="headerlink" title="3.2 使用 chrome 自带命令"></a>3.2 使用 chrome 自带命令</h2><blockquote>
+<p><code>/Applications/Google Chrome.app/Contents/MacOS</code> 文件夹下有一个 <code>Google Chrome</code><br>这是一个可执行文件, 它也可以直接打开指定网站, 也有一些参数可以使用<br>具体看下面</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625126430581-59336a9d-8302-4c6c-b9f2-9684da06967e.png" alt="image.png"></p>
+<p><img src="https://www.caijy.top//1625129556334-6931c702-9a47-42a8-925c-31698f3a953f.png" alt="image.png"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 直接打开网站, 如果此时已有 chrome 窗口, 则以 tag 形式加入</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新窗口打开网站</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 无痕模式打开网站, 如果此时已有 chrome 无痕窗口, 则以 tag 形式加入</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --incognito www.baidu.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新窗口, 无痕模式打开网站</span></span><br><span class="line">/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --new-window --incognito www.baidu.com</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="4-脚本文件创建"><a href="#4-脚本文件创建" class="headerlink" title="4. 脚本文件创建"></a>4. 脚本文件创建</h1><ul>
+<li>创建一个文件, 以 <code>.sh</code> 结尾</li>
+<li>右键文件 –&gt; 显示简介 –&gt; 打开方式 –&gt; 选择 **终端 **(相当于默认打开软件的设置)</li>
+<li>然后命令行给予该文件可执行权限, 也可以给该文件夹下所有的文件可执行权限</li>
+<li>command + space 聚焦搜索 该文件, 打开即可</li>
+</ul>
+<blockquote>
+<p>文件创建, 打开方式</p>
+</blockquote>
+<img src="https://www.caijy.top//1625127098149-54de0788-9ab9-4ac1-a01b-ed915f4c215c.png" alt="image.png" style="zoom:67%;">
+
+
+<blockquote>
+<p>可执行权限</p>
+</blockquote>
+<p><img src="https://www.caijy.top//1625128093085-c8ade73a-f4bb-4557-8d93-3c7b6e13d4f6.png" alt="image.png"></p>
+<h1 id="5-脚本分享"><a href="#5-脚本分享" class="headerlink" title="5. 脚本分享"></a>5. 脚本分享</h1><ul>
+<li>谷歌翻译<ul>
+<li>```java<br>open -a /Applications/Google\ Chrome.app <a href="https://translate.google.cn/">https://translate.google.cn/</a><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- 有道词典</span><br><span class="line">   - &#96;&#96;&#96;java</span><br><span class="line">     open -a &#x2F;Applications&#x2F;Google\ Chrome.app https:&#x2F;&#x2F;www.youdao.com&#x2F;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>百度地图<ul>
+<li><pre><code>open -a /Applications/Google\ Chrome.app https://www.youdao.com/
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">json 解析工具网站</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+open -a /Applications/Google\ Chrome.app https://www.bejson.com/
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="7-alfred"><a href="#7-alfred" class="headerlink" title="7. alfred"></a>7. alfred</h1><blockquote>
+<p>使用alfred可以达到同样的效果，并且不需要脚本配置</p>
+</blockquote>
+<h4 id="参考alfred配置，看-Web-Search部分即可。"><a href="#参考alfred配置，看-Web-Search部分即可。" class="headerlink" title="参考alfred配置，看 Web Search部分即可。"></a><a href="https://www.jianshu.com/p/e9f3352c785f">参考alfred配置</a>，看 Web Search部分即可。</h4>]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jclasslib分析字节码</title>
+    <url>/2021/03/24/jclasslib%E5%88%86%E6%9E%90%E5%AD%97%E8%8A%82%E7%A0%81/</url>
+    <content><![CDATA[<h4 id="下载及使用"><a href="#下载及使用" class="headerlink" title="下载及使用"></a>下载及使用</h4><pre><code>1. 搜索  &quot;jclasslib Bytecode viewer &quot;下载插件，并重启IDEA
+2. IDEA   view -&gt; show Bytecode With Jclasslib
+</code></pre>
+<h4 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@org</span>.junit.Test</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">20</span>;</span><br><span class="line">      <span class="keyword">int</span> c = sum(a,b);</span><br><span class="line">      System.out.println(c);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> args1, <span class="keyword">int</span> args2)</span> </span>&#123;</span><br><span class="line">      Lists.newArrayList().forEach((t)-&gt; System.out.println(t));<span class="comment">//为了能看到动态连接的指令</span></span><br><span class="line">      <span class="keyword">return</span> args1 + args2;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="首先会将当前这个实例放入局部变量表"><a href="#首先会将当前这个实例放入局部变量表" class="headerlink" title="首先会将当前这个实例放入局部变量表"></a>首先会将当前这个实例放入局部变量表</h5><h5 id><a href="#" class="headerlink" title></a><img src="http://www.caijy.top/image-20210323224206973.png" style="zoom: 50%;"></h5><h5 id="解析字节码"><a href="#解析字节码" class="headerlink" title="解析字节码"></a>解析字节码</h5><p>注意：这里说的栈是指<strong>操作数栈</strong>。</p>
+<h6 id="test02的字节码"><a href="#test02的字节码" class="headerlink" title="test02的字节码"></a><code>test02</code>的字节码</h6><ul>
+<li><blockquote>
+<p>0 bipush 10    //将常量10推送至栈顶<br>2 istore_1       // 将int类型数值(10)存入局部变量表<br>3 bipush 20   //将常量20推送至栈顶<br>5 istore_2      // 将int类型数值(20)存入局部变量表<br>6 aload_0      // 将第一个引用类型变量（this）推送至栈顶<br>7 iload_1      // 将第二个int 型本地变量(a)推送至栈顶<br>8 iload_2      // 将第二个int 型本地变量(b)推送至栈顶<br>9 invokespecial #2 &lt;Test2.sum&gt;  //调用超类构造方法，实例初始化方法，私有方法<br>12 istore_3   // 将int类型数值(30)存入局部变量表<br>13 getstatic #3 &lt;java/lang/System.out&gt;<br>16 iload_3<br>17 invokevirtual #4 &lt;java/io/PrintStream.println&gt;<br>20 return  //当前方法返回void</p>
+</blockquote>
+</li>
+</ul>
+<h6 id="sum的字节码"><a href="#sum的字节码" class="headerlink" title="sum的字节码 `"></a><code>sum</code>的字节码 `</h6><ul>
+<li><blockquote>
+<p>0 invokestatic #5 &lt;org/assertj/core/util/Lists.newArrayList&gt;<br>3 invokedynamic #6 &lt;accept, BootstrapMethods #0&gt;   //<strong>java8的lambda表达式 成为了 动态连接指令invokedynamic 的生成方式</strong><br>8 invokevirtual #7 &lt;java/util/ArrayList.forEach&gt;<br>11 iload_1<br>12 iload_2<br>13 iadd     //将栈顶2个int类型的值相加并将结果压入栈顶<br>14 ireturn    //当前方法返回int</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>JVM</category>
+        <category>分析字节码</category>
+      </categories>
+      <tags>
+        <tag>JVM字节码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac工具箱</title>
+    <url>/2021/06/28/mac%E5%B7%A5%E5%85%B7%E7%AE%B1/</url>
+    <content><![CDATA[<p><a href="https://www.yuque.com/jianying-8bux1/mt5ny0/ic6tqk">传送门</a></p>
+]]></content>
+      <categories>
+        <category>mac</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Phaser</title>
+    <url>/2021/03/26/phaser/</url>
+    <content><![CDATA[<h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><blockquote>
+<p>JDK5中引入了CyclicBarrier和CountDownLatch这两个并发控制类，而JDK7中引入的Phaser按照官方的说法是提供了一个功能类似但是更加灵活的实现。</p>
+<p>CyclicBarrier可以被看成一个发令枪，内部有个计数器，初始值为0。每个线程准备就绪后，计数器加一，直到等于设定的目标值。当线程全部就绪后，一起并发执行，类似于百米赛跑。</p>
+<p>CountDownLatch类似于下班后最后一个关门的人，等到最后一个人走了才把门关上。即线程全部执行完毕后在main线程中执行接下来的逻辑。</p>
+<p>CountDownLatch是一次性的，CyclicBarrier是可复用的。试想一下，如果<strong>一个任务需要分多阶段进行，且每个阶段可以多个线程并发执行</strong>，用CyclicBarrier和CountDownLatch实现就比较复杂了。为了解决这个问题，Phaser就登场了。</p>
+<p>Phaser 可以保证每个阶段执行的顺序，即阶段1必须执行完才会执行阶段2。</p>
+</blockquote>
+<h6 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h6><p>现在我们来讲一个寝室室友一起出去吃饭的例子。这个例子分为起床，穿衣洗漱，吃饭，散步，返回5个阶段。</p>
+<span id="more"></span>
+
+<ul>
+<li><p>晒代码(假设有3个室友)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] name = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;pA&quot;</span>,<span class="string">&quot;pB&quot;</span>,<span class="string">&quot;pC&quot;</span>&#125;;</span><br><span class="line">   <span class="keyword">public</span>  Phaser phaser = <span class="keyword">new</span> Phaser(name.length)&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;*********阶段&quot;</span>+(phase+<span class="number">1</span>)+<span class="string">&quot;结束！********&quot;</span>);</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">  </span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getUp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;起床了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">wash</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;穿衣洗漱了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;吃饭了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">  </span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">walk</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;散步了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">goHome</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           System.out.println(Thread.currentThread().getName()+<span class="string">&quot;回家了！&quot;</span>);</span><br><span class="line">           phaser.arriveAndAwaitAdvance();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           getUp();</span><br><span class="line">           wash();</span><br><span class="line">           eat();</span><br><span class="line">           walk();</span><br><span class="line">           goHome();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">  </span><br><span class="line">   <span class="meta">@org</span>.junit.Test</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length; i++) &#123;</span><br><span class="line">           <span class="keyword">new</span> Thread(<span class="keyword">new</span> Person(),name[i]).start();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>执行效果</p>
+<h6 id><a href="#" class="headerlink" title></a><img src="http://www.caijy.top//20210331162424.png" alt="image-20210331162417798"></h6></li>
+<li><p>类的说明</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> parent   the parent phaser   父phaser</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> parties  the number of parties required to advance to the next phase  	       * 需要到达下一阶段的人数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Phaser</span><span class="params">(Phaser parent, <span class="keyword">int</span> parties)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//.....略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>status是一个64位的long变量，设计十分巧妙，详见  <a href="http://www.voidcn.com/article/p-hvlsqvuf-bbe.html">Phaser</a>。</p>
+<p>这里的源码就省略了，看了这段代码会发现，这个方法的实现用了大量的<strong>位运算</strong>去计算<strong>status</strong>的值，也使用了大量的<strong>CAS</strong>操作。考虑到并发条件下，status这个变量的资源会被大量竞争，CAS系统层面的操作很可能会被重复调用造成大量CPU开销。所以建议使用父Phaser，把对status一部分的计算分担到子Phaser中，父Phaser 只需负责推动每个阶段的进行，提高Phaser的吞吐量。</p>
+<h6 id="常用的方法"><a href="#常用的方法" class="headerlink" title="常用的方法"></a>常用的方法</h6><blockquote>
+<p><code>bulkRegister(int parties)</code>    批量注册需要协作的线程。</p>
+<p><code>arriveAndAwaitAdvance()</code>         线程执行结束。必须等待其他线程</p>
+<p><code>onAdvance(int phase, int registeredParties)</code>     每个阶段线程都执行完毕会调用此方法</p>
+</blockquote>
+</li>
+</ul>
+<h6 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String[] name = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;pA&quot;</span>, <span class="string">&quot;pB&quot;</span>, <span class="string">&quot;pC&quot;</span>, <span class="string">&quot;pD&quot;</span>, <span class="string">&quot;pE&quot;</span>&#125;;</span><br><span class="line"><span class="keyword">public</span> String[] nameX = <span class="keyword">new</span> String[]&#123;<span class="string">&quot;XA&quot;</span>, <span class="string">&quot;XB&quot;</span>, <span class="string">&quot;XC&quot;</span>, <span class="string">&quot;XD&quot;</span>, <span class="string">&quot;XE&quot;</span>&#125;;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Phaser parent = <span class="keyword">new</span> Phaser() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******parent***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="keyword">final</span> Phaser phaser1 = <span class="keyword">new</span> Phaser(parent) &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******phaser1***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="keyword">final</span> Phaser phaser2 = <span class="keyword">new</span> Phaser(parent) &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onAdvance</span><span class="params">(<span class="keyword">int</span> phase, <span class="keyword">int</span> registeredParties)</span> </span>&#123;</span><br><span class="line">               System.out.println(<span class="string">&quot;*******phaser2***&quot;</span> + phase + <span class="string">&quot;********&quot;</span>);</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">super</span>.onAdvance(phase, registeredParties);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       phaser1.bulkRegister(<span class="number">5</span>);</span><br><span class="line">       phaser2.bulkRegister(<span class="number">4</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length; i++) &#123;</span><br><span class="line">           <span class="keyword">int</span> finalI = i;</span><br><span class="line">           Thread t = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">               System.out.println(name[finalI] + <span class="string">&quot;:&quot;</span> + finalI);</span><br><span class="line">               phaser1.arriveAndAwaitAdvance();</span><br><span class="line">           &#125;);</span><br><span class="line">           t.start();</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">           <span class="keyword">int</span> finalI = i;</span><br><span class="line">           Thread t = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">               System.out.println(nameX[finalI] + <span class="string">&quot;:&quot;</span> + finalI);</span><br><span class="line">               phaser2.arriveAndAwaitAdvance();</span><br><span class="line">           &#125;);</span><br><span class="line">           t.start();</span><br><span class="line">       &#125;</span><br><span class="line">       parent.awaitAdvance(parent.getPhase());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="-1"><a href="#-1" class="headerlink" title></a><img src="http://www.caijy.top//20210331165607.png" alt="image-20210331165607204"></h5><p>参考</p>
+<ol>
+<li> <a href="http://www.voidcn.com/article/p-hvlsqvuf-bbe.html">Phaser使用和解析</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JUC</category>
+        <category>Phaser</category>
+      </categories>
+      <tags>
+        <tag>JUC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>博客的设置</title>
+    <url>/2021/03/01/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<h4 id="主题选好了，接下来要把这个demo变成我们自己的博客"><a href="#主题选好了，接下来要把这个demo变成我们自己的博客" class="headerlink" title="主题选好了，接下来要把这个demo变成我们自己的博客"></a>主题选好了，接下来要把这个demo变成我们自己的博客</h4><p>1.将根目录的<code>_config.yml</code>文件修改一下<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/1.png"></p>
+<span id="more"></span>
+<p>2.找到<code>blog/node_modules/hexo-theme-next</code>复制它的<code>_config.yml</code>到博客根目录<br><code>cp .\node_modules\hexo-theme-next\_config.yml _config.next.yml</code><br>3.看<code>_config.next.yml</code>这个文件，改动点不多<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/2.png"><br>设置菜单主题<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/3.png"><br>设置菜单显示的内容和侧边栏的显示位置<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/4.png"><br>设置头像<br>4.创建标签、分类、关于等页面</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>source</code>文件夹下多了三个文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: about</span><br><span class="line">date: 2021-02-28 22:52:21</span><br><span class="line">tags:</span><br><span class="line">type: about</span><br><span class="line">comments: false</span><br><span class="line">sitemap: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>对应的是<code>about</code>文件夹的就改成about，其他2个也一样设置<br>5.添加搜索功能</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm install hexo<span class="literal">-generator</span><span class="literal">-searchdb</span> -<span class="literal">-save</span></span><br></pre></td></tr></table></figure>
+<p>找到<code>_config.yml</code>文件的 Extensions下面添加</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 搜索</span></span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+<p>找到主题配置文件的Local search将<code>enable</code>设置为<code>true</code>6.添加阅读全文按钮只要在博客里面加上 <code>&lt;!--more--&gt;</code>就行7.设置分类<code>博客设置</code>和标签<code>博客</code>的方法</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 给博客选择主题</span><br><span class="line">date: <span class="number">2021</span><span class="literal">-02</span><span class="literal">-28</span> <span class="number">22</span>:<span class="number">52</span>:<span class="number">21</span></span><br><span class="line">categories: </span><br><span class="line">- 博客</span><br><span class="line">- 博客设置</span><br><span class="line">tags: 博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>8<a href="https://hexo.io/zh-cn/docs/asset-folders">图片加载配置</a></p>
+<p>记录一下主题官网 <a href="http://theme-next.iissnan.com/getting-started.html">theme-next</a>为了方便写博客，推荐使用Hexo-admin 工具写md</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>访问<code>http://localhost:4000/admin</code>即可，看效果<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/5.png"></p>
+]]></content>
+      <categories>
+        <category>博客</category>
+        <category>博客设置</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -785,6 +720,188 @@
       </tags>
   </entry>
   <entry>
+    <title>数据库事务</title>
+    <url>/2021/03/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1/</url>
+    <content><![CDATA[<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><blockquote>
+<p>什么是事务？</p>
+</blockquote>
+<p>要么都成功，要么都失败。</p>
+<h4 id="ACID原则"><a href="#ACID原则" class="headerlink" title="ACID原则"></a>ACID原则</h4><blockquote>
+<p>关系型数据库支持事务的 ACID 原则，即原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+</blockquote>
+<h5 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性(Atomicity)"></a>原子性(Atomicity)</h5><p>要么都成功，要么都失败。</p>
+<h5 id="一致性-Consistency"><a href="#一致性-Consistency" class="headerlink" title="一致性(Consistency)"></a>一致性(Consistency)</h5><p>一致性是指在事务开始之前和事务结束以后，数据完整性要保持一致。</p>
+<p>比如A给B转账，事务前后A和B的总金额是一样的，这就是最终一致性。</p>
+<h5 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性(Isolation)"></a>隔离性(Isolation)</h5><p>事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不会被其他事务的操作数据所干扰。</p>
+<h5 id="持久性-Durability"><a href="#持久性-Durability" class="headerlink" title="持久性(Durability)"></a>持久性(Durability)</h5><p>事务一旦提交则不可逆，被持久化到数据库中</p>
+<h4 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h4><blockquote>
+<p>在并发环境下，多个事务在执行操作，事务的隔离性很难保证，因此会出现很多并发一致性问题。</p>
+</blockquote>
+<span id="more"></span>
+<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5><blockquote>
+<p>脏读就是指当一个事务正在访问数据，并且对数据进行了修改，而这种修改还没有提交到数据库中，这时，另外一个事务也访问这个数据，然后使用了这个数据。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">张三的工资为<span class="number">5000</span>,事务A中把他的工资改为<span class="number">8000</span>,但事务A尚未提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B正在读取张三的工资，读取到张三的工资为<span class="number">8000</span>。</span><br><span class="line">随后，</span><br><span class="line">事务A发生异常，而回滚了事务。张三的工资又回滚为<span class="number">5000</span>。</span><br><span class="line">最后，</span><br><span class="line">事务B读取到的张三工资为<span class="number">8000</span>的数据即为脏数据，事务B做了一次脏读。</span><br></pre></td></tr></table></figure>
+
+<h5 id="幻读"><a href="#幻读" class="headerlink" title="幻读"></a>幻读</h5><blockquote>
+<p>事务读取数据后，另一个事务新增或删除了一条记录，导致查询出来的结果跟前一次不一样。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">目前工资为<span class="number">5000</span>的员工有<span class="number">10</span>人，事务A读取所有工资为<span class="number">5000</span>的人数为<span class="number">10</span>人。</span><br><span class="line">此时，</span><br><span class="line">事务B插入一条工资也为<span class="number">5000</span>的记录。</span><br><span class="line">这是，事务A再次读取工资为<span class="number">5000</span>的员工，记录为<span class="number">11</span>人。此时产生了幻读。</span><br></pre></td></tr></table></figure>
+
+<h5 id="不可重复读"><a href="#不可重复读" class="headerlink" title="不可重复读"></a>不可重复读</h5><blockquote>
+<p>一个事务多次读同一个数据，中间另一个事务提交并修改了数据，会造成多次读到的数据不一样。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">例如：</span><br><span class="line">在事务A中，读取到张三的工资为<span class="number">5000</span>，操作没有完成，事务还没提交。</span><br><span class="line">与此同时，</span><br><span class="line">事务B把张三的工资改为<span class="number">8000</span>，并提交了事务。</span><br><span class="line">随后，</span><br><span class="line">在事务A中，再次读取张三的工资，此时工资变为<span class="number">8000</span>。在一个事务中前后两次读取的结果并不致，导致了不可重复读。</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>**虽然都是读取了未提交的数据，但脏读的重点是修改，幻读的重点在于新增或者删除；而不可重复读是读取了另一个事务未提交的数据 **</p>
+<h5 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h5><blockquote>
+<p>A和B访问修改同一个数据，A事务撤消时，把已提交的B事务的数据覆盖掉</p>
+</blockquote>
+<h5 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h5><blockquote>
+<p>A和B访问修改同一个数据，A事务提交时，把已提交的B事务的数据覆盖掉</p>
+</blockquote>
+<h4 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h4><blockquote>
+<p>封锁就是事务T在对某个数据对象（例如表记录等）操作前先向系统发起请求，对其加锁。</p>
+<p>在事务T释放锁之前，其他事务不能更新此数据对象。</p>
+<p>封锁是实现并发控制的一个非常重要的技术。</p>
+</blockquote>
+<h5 id="基本封锁类型"><a href="#基本封锁类型" class="headerlink" title="基本封锁类型"></a>基本封锁类型</h5><h6 id="排他锁-X锁-写锁"><a href="#排他锁-X锁-写锁" class="headerlink" title="排他锁(X锁/写锁)"></a>排他锁(X锁/写锁)</h6><blockquote>
+<p>INNODB中锁的概念。释放锁之前，其他事务不能读取和修改加锁的数据</p>
+</blockquote>
+<h6 id="共享锁-S锁-读锁"><a href="#共享锁-S锁-读锁" class="headerlink" title="共享锁(S锁/读锁)"></a>共享锁(S锁/读锁)</h6><blockquote>
+<p>INNODB中锁的概念。释放锁之前，其他事务可以读取但不能修改加锁的数据</p>
+</blockquote>
+<h6 id="锁的相容性"><a href="#锁的相容性" class="headerlink" title="锁的相容性"></a>锁的相容性</h6><table>
+<thead>
+<tr>
+<th>-</th>
+<th>X</th>
+<th>S</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>X</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>S</td>
+<td>N</td>
+<td>Y</td>
+</tr>
+</tbody></table>
+<h6 id="扩展和补充"><a href="#扩展和补充" class="headerlink" title="扩展和补充"></a>扩展和补充</h6><blockquote>
+<h4 id="表锁-偏读"><a href="#表锁-偏读" class="headerlink" title="表锁(偏读)"></a>表锁(偏读)</h4><h6 id="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"><a href="#由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。" class="headerlink" title="由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。"></a>由于MYISAM只支持表锁，INNODB支持表锁和行锁。所以MYISAM和INNODB中表锁的情况都一致。</h6><p>查看加锁的表：<code>show open tables</code></p>
+<p>加锁命令：<code>lock table [表名][read/write]</code></p>
+<p>释放锁命令：<code>unlock tables</code></p>
+<p>如何分析表锁</p>
+<ul>
+<li><blockquote>
+<p>执行<code>show status like &#39;table%&#39;</code></p>
+<p>查看``Table_locks_waited`  ，表示产生锁争用而发生等待的次数，没等待一次锁值加1。值越高说明表锁争用情况严重。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"><a href="#会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。" class="headerlink" title="会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。"></a>会话1给A表加写锁，则只能读和写A表，不能读其他未加读锁的表。会话2不能读到A表，会一直阻塞，直到A表的写锁释放。</h5><h5 id="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"><a href="#会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。" class="headerlink" title="会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。"></a>会话1给A表加读锁，则只能读A表，不能读其他未加读锁的表，且不能修改A表。会话2可以读到A表，但是更新A表时会一直阻塞，直到A表的读锁释放。</h5><h3 id="行锁-偏写"><a href="#行锁-偏写" class="headerlink" title="行锁(偏写)"></a>行锁(偏写)</h3><p>行锁的特点是：</p>
+<ul>
+<li>开销大、加锁慢；会出现死锁；锁粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
+</ul>
+<h5 id="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"><a href="#INNODB与MYISAM最大不同有2点：支持事务和采用行级锁" class="headerlink" title="INNODB与MYISAM最大不同有2点：支持事务和采用行级锁"></a>INNODB与MYISAM最大不同有2点：<code>支持事务</code>和<code>采用行级锁</code></h5><p>可以看出，行锁是支持事务的。</p>
+<h5 id="如何手动锁定一行"><a href="#如何手动锁定一行" class="headerlink" title="如何手动锁定一行"></a>如何手动锁定一行</h5><blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">begin;</span><br><span class="line">...... for update;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<p>此时其他会话要修改这行的数据，会发生阻塞，直到<code>commit</code></p>
+</blockquote>
+<h5 id="什么情况下行锁变表锁？"><a href="#什么情况下行锁变表锁？" class="headerlink" title="什么情况下行锁变表锁？"></a>什么情况下行锁变表锁？</h5><p>比如（演示前要先<code>set autocommit=0;</code>）： </p>
+<p>会话1<code>update A set NAME=100 where ID=1; </code> NAME <code>VARCHAR</code> 类型没有使用单引号.</p>
+<p>会话2 <code>select * from A where ID=1 </code>。此时由于会话1内部产生了自动类型转换造成<strong>索引失效</strong>，导致表锁。如果会话1不<code>commit</code>会一直阻塞。</p>
+<h4 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h4><blockquote>
+<p>演示前要先<code>set autocommit=0;</code>。</p>
+<p>会话1：<code>select * from A where id &gt;1 and id &lt;8。</code> 假设A表没有id=6的记录。</p>
+<p>会话2： <code>insert into A values (6，.....)</code>。此时插入id=6的记录，会发生阻塞。即发生了间隙锁。</p>
+<h5 id="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"><a href="#当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。" class="headerlink" title="当我们用范围条件检索数据，并请求共享锁或排他锁时，Innodb会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。Innodb也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。"></a>当我们用范围条件检索数据，并请求共享锁或排他锁时，<code>Innodb</code>会给符合条件的已有数据记录的索引项加锁。在范围条件内但并不存在的记录，叫做“间隙”。<code>Innodb</code>也会对间隙加锁。在某种场景下间隙锁造成的阻塞，会对性能造成很大影响。</h5></blockquote>
+</blockquote>
+<h5 id="封锁协议之三级封锁协议"><a href="#封锁协议之三级封锁协议" class="headerlink" title="封锁协议之三级封锁协议"></a>封锁协议之三级封锁协议</h5><blockquote>
+<p>解决了并发一致性问题。</p>
+</blockquote>
+<h6 id="一级封锁协议"><a href="#一级封锁协议" class="headerlink" title="一级封锁协议"></a>一级封锁协议</h6><blockquote>
+<p>事务在修改数据之前必须对数据加<strong>X锁</strong>，直到释放锁</p>
+</blockquote>
+<ol>
+<li> 一级封锁协议可防止丢失修改，并保证事务T是可恢复的</li>
+<li> 读数据不需要加读锁，不能解决不可重复读和脏读问题</li>
+</ol>
+<h6 id="二级封锁协议"><a href="#二级封锁协议" class="headerlink" title="二级封锁协议"></a>二级封锁协议</h6><blockquote>
+<p>在一级封锁协议基础上，在读取数据前要加读锁，读完后即释放锁</p>
+</blockquote>
+<ol>
+<li>可以防止丢失修改和脏读</li>
+</ol>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BA%8C%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
+<h6 id="三级封锁协议"><a href="#三级封锁协议" class="headerlink" title="三级封锁协议"></a>三级封锁协议</h6><blockquote>
+<p>在一级封锁协议基础上，读取数据要加读锁，直到事务结束才释放</p>
+</blockquote>
+<ol>
+<li>三级封锁协议可防止丢失修改、脏读和不可重复读</li>
+</ol>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E7%BA%A7%E5%B0%81%E9%94%81.png"></p>
+<h6 id="三种协议的对比"><a href="#三种协议的对比" class="headerlink" title="三种协议的对比"></a>三种协议的对比</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%B8%89%E5%8D%8F%E8%AE%AE%E5%AF%B9%E6%AF%94.png"></p>
+<h5 id="封锁协议之两段锁协议"><a href="#封锁协议之两段锁协议" class="headerlink" title="封锁协议之两段锁协议"></a>封锁协议之两段锁协议</h5><blockquote>
+<p>加锁和解锁阶分为两个阶段进行。</p>
+<p>内容：</p>
+<ol>
+<li>在对任何数据进行读写操作之前，事务首先要获得对该数据的封锁</li>
+<li>在释放一个封锁之后，事务不再获得其他封锁</li>
+</ol>
+<p>可串行化调度是指，通过并发控制，使得并发执行的事务结果与某个串行执行的事务结果相同。事务遵循两段锁协议是保证可串行化调度的充分条件。例如以下操作满足两段锁协议，它是可串行化调度。</p>
+<p>lock-x(A)…lock-s(B)…lock-s(C)…unlock(A)…unlock(C)…unlock(B)</p>
+<p>但不是必要条件，例如以下操作不满足两段锁协议，但是它还是可串行化调度。</p>
+<p>lock-x(A)…unlock(A)…lock-s(B)…unlock(B)…lock-s(C)…unlock(C)</p>
+</blockquote>
+<h5 id="封锁带来的问题"><a href="#封锁带来的问题" class="headerlink" title="封锁带来的问题"></a>封锁带来的问题</h5><h6 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h6><blockquote>
+<p>系统可能是某个事务永远处于等待状态，得不到封锁的机会</p>
+</blockquote>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%B4%BB%E9%94%81.png"></p>
+<p>如何避免？先来先服务策略</p>
+<h6 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h6><p><img src="/images/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%AD%BB%E9%94%81.png"></p>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><blockquote>
+<p>为了解决上述问题，数据库通过<strong>锁机制</strong>解决并发访问的问题。根据锁定对象不同：分为行级锁和表级锁；根据并发事务锁定的关系上看：分为共享锁和排它锁，共享锁会防止排它锁但允许其他的共享锁。而排它锁既防止共享锁也防止其他排它锁。为了更改数据，数据库必须在进行更改的行上施加行排它锁，insert、update、delete和select for update语句都会隐式采用必要的行锁定。</p>
+<p>但是直接使用锁机制管理是很复杂的，基于锁机制，数据库给用户提供了不同的<strong>事务隔离级别</strong>，只要设置了事务隔离级别，数据库就会分析事务中的sql语句然后自动选择合适的锁。 </p>
+</blockquote>
+<h5 id="读未提交"><a href="#读未提交" class="headerlink" title="读未提交"></a><strong>读未提交</strong></h5><blockquote>
+<p>读未提交(READ_UNCOMMITTED)，即能够读取到没有被提交的数据，所以很明显这个级别的隔离机制无法解决脏读、不可重复读、幻读中的任何一种，因此很少使用</p>
+</blockquote>
+<h5 id="读已提交"><a href="#读已提交" class="headerlink" title="读已提交"></a><strong>读已提交</strong></h5><blockquote>
+<p>读已提交(READ_COMMITED)，即能够读到那些已经提交的数据，能够防止脏读，但是无法限制不可重复读和幻读</p>
+</blockquote>
+<h5 id="可重复读"><a href="#可重复读" class="headerlink" title="可重复读"></a><strong>可重复读</strong></h5><blockquote>
+<p>可重复读(REPEATABLE_READ)，即在数据读出来之后加锁，类似”select * from XXX for update”，明确数据读取出来就是为了更新用的，所以要加一把锁，防止别人修改它。REPEATABLE_READ的意思也类似，读取了一条数据，这个事务不结束，别的事务就不可以改这条记录，这样就解决了脏读、不可重复读的问题，但是幻读的问题还是无法解决</p>
+</blockquote>
+<h5 id="串行化"><a href="#串行化" class="headerlink" title="串行化"></a><strong>串行化</strong></h5><blockquote>
+<p>串行化(SERLALIZABLE)，最高的事务隔离级别，不管多少事务，挨个运行完一个事务的所有子事务之后才可以执行另外一个事务里面的所有子事务。比如幻读，事务A的插入或删除操作必须等待事务B的事务结束后才会进行，否则会一直阻塞。这样就解决了脏读、不可重复读和幻读的问题了。但缺点是性能十分低下。</p>
+</blockquote>
+<p>不同数据库默认的隔离级别是不同的。mysql支持四种隔离级别,默认隔离级别是<code>REPEATABLE_READ</code>,oracle支持<code>READ_COMMITED</code>和<code>SERLALIZABLE</code>,默认隔离级别是<code>READ_COMMITED</code>。</p>
+<h4 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h4><blockquote>
+<p>多版本并发控制(Multi-Version Concurrentcy control)的简称，针对读已提交和可重复读</p>
+<p>通过记录多个修改的历史版本替代锁，实现事务间的隔离效果，保证非阻塞读！</p>
+<p>实现核心为三点</p>
+<ul>
+<li>表的隐藏列：记录事务ID及上个版本数据地址，即事务ID <strong>trix_id</strong>和回滚指针<strong>roll_pointer</strong></li>
+<li>undo log: 记录数据各版本修改历史即事务链，生成undo日志的时候会带上隐藏列</li>
+<li>read view: 读视图，用于判断哪些版本可见</li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>数据库</category>
+        <category>事务</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>给博客选择主题</title>
     <url>/2021/03/02/%E7%BB%99%E5%8D%9A%E5%AE%A2%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98/</url>
     <content><![CDATA[<h4 id="给博客选择主题，拿流行的NEXT主题为例。"><a href="#给博客选择主题，拿流行的NEXT主题为例。" class="headerlink" title="给博客选择主题，拿流行的NEXT主题为例。"></a>给博客选择主题，拿流行的NEXT主题为例。</h4><p>1.初始化一个博客，文件夹命名为<em>hexo-site</em><code>hexo init hexo-site</code><br>2.下载源代码</p>
@@ -798,34 +915,6 @@
 <p>4.修改<code>_config.yml</code>文件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Live2D</span><br><span class="line">## https:&#x2F;&#x2F;github.com&#x2F;EYHN&#x2F;hexo-helper-live2d</span><br><span class="line">live2d:</span><br><span class="line">  enable: true</span><br><span class="line">  # enable: false</span><br><span class="line">  scriptFrom: local # 默认</span><br><span class="line">  pluginRootPath: live2dw&#x2F; # 插件在站点上的根目录(相对路径)</span><br><span class="line">  pluginJsPath: lib&#x2F; # 脚本文件相对与插件根目录路径</span><br><span class="line">  pluginModelPath: assets&#x2F; # 模型文件相对与插件根目录路径</span><br><span class="line">  # scriptFrom: jsdelivr # jsdelivr CDN</span><br><span class="line">  # scriptFrom: unpkg # unpkg CDN</span><br><span class="line">  # scriptFrom: https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;live2d-widget@3.x&#x2F;lib&#x2F;L2Dwidget.min.js # 你的自定义 url</span><br><span class="line">  tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中</span><br><span class="line">  debug: false # 调试, 是否在控制台输出日志</span><br><span class="line">  model:</span><br><span class="line">    use: live2d-widget-model-wanko</span><br><span class="line">    scale: 1</span><br><span class="line">    hHeadPos: 0.5</span><br><span class="line">    vHeadPos: 0.618</span><br><span class="line">    # use: live2d-widget-model-wanko # npm-module package name</span><br><span class="line">    # use: wanko # 博客根目录&#x2F;live2d_models&#x2F; 下的目录名</span><br><span class="line">    # use: .&#x2F;wives&#x2F;wanko # 相对于博客根目录的路径</span><br><span class="line">    # use: https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;live2d-widget-model-wanko@1.0.5&#x2F;assets&#x2F;wanko.model.json # 你的自定义 url</span><br><span class="line">  display:</span><br><span class="line">    superSample: 2</span><br><span class="line">    width: 150</span><br><span class="line">    height: 300</span><br><span class="line">    position: right</span><br><span class="line">    hOffset: 0</span><br><span class="line">    vOffset: -20</span><br><span class="line">  mobile:</span><br><span class="line">    show: true # 是否在移动设备上显示</span><br><span class="line">    scale: 0.5 # 移动设备上的缩放       </span><br><span class="line">  react:</span><br><span class="line">    opacityDefault: 0.7</span><br><span class="line">    opacityOnHover: 0.8</span><br></pre></td></tr></table></figure>
 <p>注意：<code>live2d.model.use</code>的值跟你选的模块文件夹名称要对应上，比如这里是<code>live2d-widget-model-wanko</code><br>5.执行<code>hexo clean</code>和<code>hexo g</code><br>6.执行<code>hexo s</code>看效果<br><img src="/images/%E7%BB%99%E5%8D%9A%E5%AE%A2%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98/3.png"></p>
-]]></content>
-      <categories>
-        <category>博客</category>
-        <category>博客设置</category>
-      </categories>
-      <tags>
-        <tag>博客</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>博客的设置</title>
-    <url>/2021/03/01/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<h4 id="主题选好了，接下来要把这个demo变成我们自己的博客"><a href="#主题选好了，接下来要把这个demo变成我们自己的博客" class="headerlink" title="主题选好了，接下来要把这个demo变成我们自己的博客"></a>主题选好了，接下来要把这个demo变成我们自己的博客</h4><p>1.将根目录的<code>_config.yml</code>文件修改一下<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/1.png"></p>
-<span id="more"></span>
-<p>2.找到<code>blog/node_modules/hexo-theme-next</code>复制它的<code>_config.yml</code>到博客根目录<br><code>cp .\node_modules\hexo-theme-next\_config.yml _config.next.yml</code><br>3.看<code>_config.next.yml</code>这个文件，改动点不多<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/2.png"><br>设置菜单主题<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/3.png"><br>设置菜单显示的内容和侧边栏的显示位置<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/4.png"><br>设置头像<br>4.创建标签、分类、关于等页面</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
-<p>可以看到<code>source</code>文件夹下多了三个文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: about</span><br><span class="line">date: 2021-02-28 22:52:21</span><br><span class="line">tags:</span><br><span class="line">type: about</span><br><span class="line">comments: false</span><br><span class="line">sitemap: false</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<p>对应的是<code>about</code>文件夹的就改成about，其他2个也一样设置<br>5.添加搜索功能</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm install hexo<span class="literal">-generator</span><span class="literal">-searchdb</span> -<span class="literal">-save</span></span><br></pre></td></tr></table></figure>
-<p>找到<code>_config.yml</code>文件的 Extensions下面添加</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 搜索</span></span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: <span class="number">10000</span></span><br></pre></td></tr></table></figure>
-<p>找到主题配置文件的Local search将<code>enable</code>设置为<code>true</code>6.添加阅读全文按钮只要在博客里面加上 <code>&lt;!--more--&gt;</code>就行7.设置分类<code>博客设置</code>和标签<code>博客</code>的方法</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 给博客选择主题</span><br><span class="line">date: <span class="number">2021</span><span class="literal">-02</span><span class="literal">-28</span> <span class="number">22</span>:<span class="number">52</span>:<span class="number">21</span></span><br><span class="line">categories: </span><br><span class="line">- 博客</span><br><span class="line">- 博客设置</span><br><span class="line">tags: 博客</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-<p>8<a href="https://hexo.io/zh-cn/docs/asset-folders">图片加载配置</a></p>
-<p>记录一下主题官网 <a href="http://theme-next.iissnan.com/getting-started.html">theme-next</a>为了方便写博客，推荐使用Hexo-admin 工具写md</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>访问<code>http://localhost:4000/admin</code>即可，看效果<br><img src="/images/%E5%8D%9A%E5%AE%A2%E7%9A%84%E8%AE%BE%E7%BD%AE/5.png"></p>
 ]]></content>
       <categories>
         <category>博客</category>
