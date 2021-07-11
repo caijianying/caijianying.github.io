@@ -281,7 +281,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-11 12:08:40" itemprop="dateModified" datetime="2021-07-11T12:08:40+08:00">2021-07-11</time>
+        <time title="修改时间：2021-07-11 12:50:53" itemprop="dateModified" datetime="2021-07-11T12:50:53+08:00">2021-07-11</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -305,37 +305,18 @@
     <div class="post-body" itemprop="articleBody">
           <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ol>
 <li>mac环境</li>
-<li>JDK 1.8.202</li>
+<li>JDK 1.8.0_202</li>
 <li>Gradle 4.10.3</li>
 </ol>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h5 id="把spring源码fork到自己的仓库"><a href="#把spring源码fork到自己的仓库" class="headerlink" title="把spring源码fork到自己的仓库"></a>把spring源码fork到自己的仓库</h5><p><code>https://github.com/spring-projects/spring-framework</code></p>
-<h5 id="下载spring源码"><a href="#下载spring源码" class="headerlink" title="下载spring源码"></a>下载spring源码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git<span class="meta">@github</span>.com:caijianying/spring-framework.git -b <span class="number">5.1</span>.x</span><br></pre></td></tr></table></figure>
-
-<!--mor-->
-
-<h5 id="确定gradle版本"><a href="#确定gradle版本" class="headerlink" title="确定gradle版本"></a>确定gradle版本</h5><p>进入<code>spring-framework</code>查看配置文件<code>cat gradle/wrapper/gradle-wrapper.properties</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">distributionBase=GRADLE_USER_HOME</span><br><span class="line">distributionPath=wrapper/dists</span><br><span class="line">distributionUrl=https\:<span class="comment">//services.gradle.org/distributions/gradle-4.10.3-bin.zip</span></span><br><span class="line">zipStoreBase=GRADLE_USER_HOME</span><br><span class="line">zipStorePath=wrapper/dists</span><br></pre></td></tr></table></figure>
-
-<p><code>distributionUrl</code>就是下载地址</p>
-<h5 id="预编译前，修改build-gradle的镜像源"><a href="#预编译前，修改build-gradle的镜像源" class="headerlink" title="预编译前，修改build.gradle的镜像源"></a>预编译前，修改<code>build.gradle</code>的镜像源</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">	repositories &#123;</span><br><span class="line">		maven &#123; url <span class="string">&#x27;https://maven.aliyun.com/repository/spring-plugin&#x27;</span> &#125;</span><br><span class="line">    maven &#123; url <span class="string">&quot;https://repo.spring.io/libs-spring-framewrok-build&quot;</span> &#125;    </span><br><span class="line">	&#125;</span><br><span class="line">	dependencies &#123;</span><br><span class="line">		classpath(<span class="string">&quot;io.spring.gradle:propdeps-plugin:0.0.9.RELEASE&quot;</span>)</span><br><span class="line">		classpath(<span class="string">&quot;org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.16&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="查看import-into-idea-md"><a href="#查看import-into-idea-md" class="headerlink" title="查看import-into-idea.md"></a>查看<code>import-into-idea.md</code></h5><ol>
-<li>Precompile <code>spring-oxm</code> with <code>./gradlew :spring-oxm:compileTestJava</code></li>
-<li>Import into IntelliJ (File -&gt; New -&gt; Project from Existing Sources -&gt; Navigate to directory -&gt; Select build.gradle)</li>
-<li>When prompted exclude the <code>spring-aspects</code> module (or after the import via File-&gt; Project Structure -&gt; Modules)</li>
-<li>Code away</li>
-</ol>
-<h3 id="问题及解决"><a href="#问题及解决" class="headerlink" title="问题及解决"></a>问题及解决</h3><h4 id="预编译过程中可能会出现JDK-tools无法被Kotlin找到的问题"><a href="#预编译过程中可能会出现JDK-tools无法被Kotlin找到的问题" class="headerlink" title="预编译过程中可能会出现JDK tools无法被Kotlin找到的问题"></a>预编译过程中可能会出现<code>JDK tools</code>无法被<code>Kotlin</code>找到的问题</h4><p><code>Kotlin could not find the required JDK tools in the Java installation &#39;/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home&#39; used by Gradle. Make sure Gradle is running on a JDK, not JRE.</code></p>
-<ol>
-<li><p>检查下当前的java环境 <code>/usr/libexec/java_home -V</code></p>
-<p><img src="https://www.caijy.top//%E6%88%AA%E5%B1%8F2021-07-11%20%E4%B8%8B%E5%8D%8812.01.06.png" alt="截屏2021-07-11 下午12.01.06"></p>
-<p>看到有两个JDK 路径，打开发现<code>/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home</code>下的JDK确实没有jre，而通过dmg安装的<code>/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home</code>路径下有</p>
-</li>
-<li><p>在gradle.properties中配置org.gradle.java.home，指定gradle编译使用的java环境目录</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">   org.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1<span class="number">.8</span><span class="number">.0_202</span>.jdk/Contents/Home</span><br><span class="line"></span><br><span class="line">#### Kotlin版本太低</span><br><span class="line"></span><br><span class="line">`Kotlin: API version <span class="number">1.1</span> is no longer supported; please, use version <span class="number">1.2</span> or greater.`</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> 修改`build.gradle` 的`apiVersion` 和`languageVersion`</span><br><span class="line"></span><br><span class="line">   ```java</span><br><span class="line">   compileKotlin &#123;</span><br><span class="line">   		kotlinOptions &#123;</span><br><span class="line">   			jvmTarget = <span class="string">&quot;1.8&quot;</span></span><br><span class="line">   			freeCompilerArgs = [<span class="string">&quot;-Xjsr305=strict&quot;</span>]</span><br><span class="line">   			apiVersion = <span class="string">&quot;1.2&quot;</span></span><br><span class="line">   			languageVersion = <span class="string">&quot;1.2&quot;</span></span><br><span class="line">   		&#125;</span><br><span class="line">   	&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="运行单元测试，总是执行gradle打包命令"><a href="#运行单元测试，总是执行gradle打包命令" class="headerlink" title="运行单元测试，总是执行gradle打包命令"></a>运行单元测试，总是执行gradle打包命令</h4><p>这两处选择IDEA<img src="https://www.caijy.top//1.png" alt="1" style="zoom:50%;"></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/10/spring%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
