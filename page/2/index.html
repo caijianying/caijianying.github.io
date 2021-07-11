@@ -197,20 +197,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -241,6 +241,109 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://caijianying.github.io/2021/03/23/JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lf.gif">
+      <meta itemprop="name" content="caijy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="caijy's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/23/JVM/" class="post-title-link" itemprop="url">JVM</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-23 22:52:21" itemprop="dateCreated datePublished" datetime="2021-03-23T22:52:21+08:00">2021-03-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-26 13:13:05" itemprop="dateModified" datetime="2021-06-26T13:13:05+08:00">2021-06-26</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><img src="http://www.caijy.top/image-20210318221702882.png" alt="image-20210318221702882" style="zoom: 80%;">
+
+<h4 id="运行时数据区"><a href="#运行时数据区" class="headerlink" title="运行时数据区"></a>运行时数据区</h4><h1 id><a href="#" class="headerlink" title></a><img src="http://www.caijy.top/image-20210321125505092.png" alt="image-20210321125505092"></h1><h5 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h5><blockquote>
+<p>程序计数器，可以看作是当前线程所执行的字节码的行号指示器。</p>
+<p>字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令。</p>
+<ol>
+<li><p>为什么说程序计数器是线程私有的？</p>
+<blockquote>
+<p>为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各条线程 </p>
+<p>之间计数器互不影响，独立存储。</p>
+</blockquote>
+</li>
+<li><p>如果线程正在执行的是一个<strong>Java方法</strong>，这个计数器记录的是正在执行的虚拟机字节码指令的地 </p>
+<p>址；如果正在执行的是<strong>本地（Native）方法</strong>，这个计数器值则应为空（Undefined）。</p>
+</li>
+</ol>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/03/23/JVM/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
