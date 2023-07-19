@@ -17,17 +17,9 @@
         s.parentNode.insertBefore(hm, s);
       })();
 
-      <!--配置导航栏-->
-      window.$docsify = {
-        loadNavbar: true
-      }
   </script>
 </head>
 <body>
-<nav>
-  <a href="#/">EN</a>
-  <a href="#/zh-cn/">中文</a>
-</nav>
 <div id="app"></div>
 <script>
     var gitalkConfig = {
@@ -44,6 +36,8 @@
       auto2top: true,
       coverpage: true,
       loadSidebar: true,
+      <!--配置导航栏-->
+      loadNavbar: true,
       maxLevel: 4,
       subMaxLevel: 2,
       search: {
