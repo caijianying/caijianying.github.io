@@ -16,22 +16,31 @@
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
       })();
+
+      <!--配置导航栏-->
+      window.$docsify = {
+        loadNavbar: true
+      }
   </script>
 </head>
 <body>
+<nav>
+  <a href="#/">EN</a>
+  <a href="#/zh-cn/">中文</a>
+</nav>
 <div id="app"></div>
 <script>
     var gitalkConfig = {
-      clientID: '4a657aa4ae6c0f1862a1',
-      clientSecret: '94793d5bac0c884a8798ea941f7c5bc9fb004720',
-      repo: 'fuzhengwei.github.io',
-      owner: 'fuzhengwei',
-      admin: ["fuzhengwei"],
+      clientID: '669298f2d0d7712b5a0b',
+      clientSecret: '269c377bb903b6874105ab087488643b53c0cce4',
+      repo: 'caijianying.github.io',
+      owner: 'caijianying',
+      admin: ["caijianying"],
       distractionFreeMode: false
     };
     window.$docsify = {
-      name: '小傅哥',
-      repo: 'https://github.com/fuzhengwei/fuzhengwei.github.io',
+      name: '小白菜',
+      repo: 'https://github.com/caijianying/caijianying.github.io',
       auto2top: true,
       coverpage: true,
       loadSidebar: true,
