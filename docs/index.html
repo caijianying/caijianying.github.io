@@ -23,12 +23,12 @@
 <body>
 <div id="app"></div>
 <script>
-  var o = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function(){
-    var res = o.apply(this, arguments);
-    this.setRequestHeader('Access-Control-Allow-Origin', "*");
-    return res;
-  }
+  // var o = XMLHttpRequest.prototype.open;
+  // XMLHttpRequest.prototype.open = function(){
+  //   var res = o.apply(this, arguments);
+  //   this.setRequestHeader('Access-Control-Allow-Origin', "*");
+  //   return res;
+  // }
 
     var gitalkConfig = {
       clientID: '669298f2d0d7712b5a0b',
