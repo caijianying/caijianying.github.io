@@ -9,4 +9,4 @@
 [![stars](https://badgen.net/github/stars/caijianying/caijianying.github.io?icon=github&color=4ab8a1)](https://github.com/caijianying/caijianying.github.io) [![forks](https://badgen.net/github/forks/caijianying/caijianying.github.io?icon=github&color=4ab8a1)](https://github.com/caijianying/caijianying.github.io) 
 
 [GitHub](<https://github.com/caijianying/caijianying.github.io>)
-[开始阅读](README.md)
+[开始阅读](md/guide/README.md)
