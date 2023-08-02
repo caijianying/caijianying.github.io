@@ -32,14 +32,73 @@
 从执行情况来看，虽然看似啥都没做，但是还是做了**扫包和手动注册**的判断逻辑的。
 
 ## invokeBeanFactoryPostProcessors
->这一步想必记忆还是相当深刻的。就在这一步，执行了`BeanFactoryPostProcessor`对配置类的`BeanDefinition`进行CGLIB的增强。
-实例化并调用所有已注册的`BeanFactoryPostProcessors`，按给定的顺序或默认顺序执行。
+这一步包含了对`BeanDefinition`进行的增强，如前面说的[ConfigurationClassPostProcessor](/md/source_code/spring/后置处理器/ConfigurationClassPostProcessor/ConfigurationClassPostProcessor.md)对配置类的`BeanDefinition`进行CGLIB的增强。
+其实就是，实例化并调用所有已注册的`BeanFactoryPostProcessors`，按给定的顺序或默认顺序执行。
 
 1. 执行所有的`BeanDefinitionRegistryPostProcessor#postProcessBeanDefinitionRegistry`，
    执行优先级为：@PriorityOrdered > @Ordered > 其他
 2. 执行所有的`BeanFactoryPostProcessor#postProcessBeanFactory`,执行优先级同上
 
->1. `ConfigurationClassPostProcessor`先执行 `postProcessBeanDefinitionRegistry` 进行**BeanDefinition注册**，调用链路为：
-> `processConfigBeanDefinitions` => `this.reader.loadBeanDefinitions(configClasses);` => `ConfigurationClassBeanDefinitionReader#loadBeanDefinitionsFromRegistrars`
-> 2. 再执行`postProcessBeanFactory`，**对注册的BeanDefinition进行CGLIB增强**，调用链路为：
-> `enhanceConfigurationClasses` => CGLIB代理增强(代码片段): `Class<?> enhancedClass = enhancer.enhance(configClass, this.beanClassLoader);`
+## registerBeanPostProcessors
+注册所有的`BeanPostProcessor`，这种类型的后置处理器会在Bean实例化前后做出拦截。
+
+1. 找到所有`BeanPostProcessor`类型的实现类，注册顺序按照优先级分类：`@PriorityOrdered` > `@Ordered` > 其他非内部后置处理器 > 内部后置处理器。
+2. 依次通过`ConfigurableBeanFactory#addBeanPostProcessor`或`AbstractBeanFactory#addBeanPostProcessors`对后置处理器进行注册。
+2. 最后注册`ApplicationListenerDetector`，
+   会检查`ApplicationListener`接口的bean是否可以通过`getBeanNamesForType`获取到，保证这种方式的可靠性
+   
+## initMessageSource
+初始化国际化相关的资源
+
+## initApplicationEventMulticaster
+初始化事件多播器。默认使用`SimpleApplicationEventMulticaster`作为多播器
+
+## onRefresh()
+Spring提供的扩展方法，本身是空方法。用于在单例Bean实例化之前，初始化一些特殊的Bean。目前工作中暂无此场景，若大家有碰到此场景的话，欢迎[联系我](/md/guide/README)
+
+## registerListeners
+>Spring中运用了多种设计模式，这是观察者模式的一种体现
+
+1. 为多播器添加早先指定好的`ApplicationListener`，比如SpringBoot的`SpringApplication#prepareContext`就会在容器Refresh之前注册指定的`ApplicationListener`。
+2. 为多播器添加`ApplicationListener`的实现类
+3. 使用多播器提前发布事件通知
+
+## finishBeanFactoryInitialization
+实例化所有非懒加载的实例bean。
+我们直接看核心方法`beanFactory.preInstantiateSingletons();`的`AbstractBeanFactory#getBean(java.lang.String)`,
+跟踪到`AbstractBeanFactory#doGetBean`
+
+>**这里以`demoApplication`为例,跟着一步步调试**
+> 1. **transformedBeanName(name) :** 转换Bean的名称，包括对FactoryBean的名称截取等。这里依旧是`demoApplication`
+> 2. **getSingleton(beanName) :** 这里是第一次从单例池获取，返回为null
+> 3. **markBeanAsCreated(beanName) :** 标记这个bean正在被创建
+     1. 加入到`this.alreadyCreated`集合中
+     2. 并且表示为可重新Merge定义(将`RootBeanDefinition.stale`改为`true`)
+> 4. **getMergedLocalBeanDefinition(beanName) :** 此时会再走一遍这个方法。
+> ![img.png](createBean_merge_bd.png)
+> 你多调试几次就会发现，这段代码的逻辑就是：
+     > 除了第一次走了下面的`return getMergedBeanDefinition(beanName, getBeanDefinition(beanName));`，
+     > 后面几次都会直接`return mbd`，直到执行完`markBeanAsCreated(beanName);`再次进来，**它会重新再merge一遍BeanDefinition**。
+> 5. **checkMergedBeanDefinition(mbd, beanName, args) :** 校验合并后的结果
+> 6. **getSingleton(String beanName, ObjectFactory<?> singletonFactory) :** 
+     > 这个是`getSingleton`重载的一个方法，实现了真正的实例化过程。
+     1. 从单例池拿，发现拿不到，于是乎👇
+     2. `beforeSingletonCreation(beanName);`这个是对循环依赖的一个校验
+     3. `singletonObject = singletonFactory.getObject();`这个方法是由一个lambda表达式触发的，相当于执行了`AbstractAutowireCapableBeanFactory#createBean`
+         1. `resolveBeanClass(mbd, beanName)` , 解析BeanClass
+         2. `resolveBeforeInstantiation(beanName, mbdToUse)`: 执行BeanPostProcessor的`postProcessBeforeInitialization`和`postProcessAfterInitialization`
+         3. 真正的`doCreateBean`，这一步比较复杂。 [查看详解](/md/source_code/spring/Spring的骚操作/doCreateBean/createBean)
+     4. `afterSingletonCreation(beanName);` ,去掉正在被创建的标识：`singletonsCurrentlyInCreation`
+     5. `addSingleton(beanName, singletonObject);` 加入到单例池中
+> 7. **getObjectForBeanInstance :** 拿到实例对象，主要包含对FactoryBean的对象获取
+
+
+
+## finishRefresh
+> 推送相应的事件
+
+1. 清理上下文级的资源缓存
+2. 初始化生命周期处理器,使用默认的处理器`DefaultLifecycleProcessor`
+3. 发布最后的事件
+
+

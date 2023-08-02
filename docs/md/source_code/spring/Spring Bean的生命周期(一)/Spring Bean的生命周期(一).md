@@ -1,4 +1,5 @@
 >要知道SpringBean的生命周期，我们首先要从**SpringBean是如何创建的**这个问题入手，反推SpringBean的生命周期。
+
 ## Spring容器的Bean是如何创建的
 首先看我们用`@Bean`注解配置的这个类。
 > 众所周知，一个Bean被创建必然会调用其构造方法，我们把断点打在构造方法处，然后启动项目。
@@ -63,30 +64,12 @@
 后来多次调试发现，`PostProcessorRegistrationDelegate#invokeBeanFactoryPostProcessors(java.util.Collection<? extends BeanFactoryPostProcessor>, ConfigurableListableBeanFactory)`
 这个方法执行完后，会将原本的beanClass修改为CGLIB的代理对象。
 继续缩小范围，最后找到了是这个处理器在捣鬼,这个必须要全名啊：`org.springframework.context.annotation.ConfigurationClassPostProcessor`！
+[这篇文章将会详细介绍ConfigurationClassPostProcessor](/md/source_code/spring/后置处理器/ConfigurationClassPostProcessor/ConfigurationClassPostProcessor.md)
 ![img.png](CGLIB_processor.png)
-从这个名字上看，这是一个专门处理配置类的`BeanPostFactoryProcessor`，它在`postProcessBeanFactory`方法中将原有全类名替换为CGLIB增强后的代理类。
+从这个名字上看，这是一个专门处理配置类的`BeanFactoryPostProcessor`，它在`postProcessBeanFactory`方法中将原有全类名替换为CGLIB增强后的代理类。
 Spring会将由`@Configuration`修饰的类优先处理。
-
-## BeanPostFactoryProcessor的执行优先级
-BeanFactoryPostProcessor的执行发生在`invokeBeanFactoryPostProcessors`中，这个方法
-1. 首先执行`BeanDefinitionRegistryPostProcessor`接口的`postProcessBeanDefinitionRegistry`方法，这个后置处理器用于注册`BeanDefinition`的(执行顺序是：优先执行实现了接口`PriorityOrdered`的，其次实现了`Ordered`的，最后其他的)
-2. 再执行剩余的`BeanFactoryPostProcessor`接口的`postProcessBeanFactory`(执行顺序同上)
-
-而我们可以从`ConfigurationClassPostProcessor`的依赖关系中，知道它是一个特殊的`BeanDefinitionRegistryPostProcessor`，且实现了`PriorityOrdered`，所以它执行优先级是最高的。
-![img.png](ConfigurationClassPostProcessor.png)
-
-## ConfigurationClassPostProcessor做了什么
-在`invokeBeanFactoryPostProcessors`方法中，
-Spring先是执行了`BeanDefinitionRegistryPostProcessor#postProcessBeanDefinitionRegistry`方法将`ConfigurationClassPostProcessor`注册到容器中，
-然后执行了`BeanFactoryPostProcessor#postProcessBeanFactory`对`BeanDefinition`做了CGLIB增强。
-`ConfigurationClassPostProcessor#postProcessBeanFactory`方法调用了`enhanceConfigurationClasses`方法做配置类的增强。这个方法的大致步骤是：
-1. 从`beanDefinitionMap`中筛选出，`BeanDefinition`属性中含有配置类标志的Bean。
-    * 配置类标志(代码片段)：`if (ConfigurationClassUtils.CONFIGURATION_CLASS_FULL.equals(configClassAttr)) {...}`
-    * 保存筛选结果(代码片段)：`configBeanDefs.put(beanName, (AbstractBeanDefinition) beanDef);`
-2. 对筛选出来的配置类的`BeanDefinition`做CGLIB的代理增强
-    * CGLIB代理增强(代码片段): `Class<?> enhancedClass = enhancer.enhance(configClass, this.beanClassLoader);`
     
-根据我们对`@Bean`和`@Configuration`两种注解的bean的调试，Bean的创建过程可以归纳为
+根据以上我们对`@Bean`和`@Configuration`两种注解的bean的调试，Bean的创建过程可以归纳为
 * 注册BeanDefinition => 判断是否要对`BeanDefinition`进行增强，若有则增强 => 调用容器方法`AbstractBeanFactory#doGetBean`以反射的方式创建Bean
 
 这是不是很简单，当然这个只是Bean创建的前因后果，并不是一个完整的生命周期。下一篇将继续破解Spring Bean的生命周期
