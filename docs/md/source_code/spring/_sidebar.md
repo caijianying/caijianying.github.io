@@ -24,6 +24,8 @@
 
     - [Spring的骚操作](#)
       - [Bean创建的具体过程](/md/source_code/spring/Spring的骚操作/doCreateBean/createBean.md)
+      - [Spring如何解决循环依赖问题](/md/source_code/spring/Spring的骚操作/circularReferences/circularReferences.md)
+      - [Spring依赖注入原理](/md/source_code/spring/Spring的骚操作/autowiredModel/autowiredModel.md)
 
     - [Spring的后置处理器](#)
         - [ConfigurationClassPostProcessor](/md/source_code/spring/后置处理器/ConfigurationClassPostProcessor/ConfigurationClassPostProcessor.md)
