@@ -1,2 +1,3 @@
 - [目录](/md/out_of_order/_sidebar)
-    - [AI绘画：stable_diffusion_webui本地搭建](/md/out_of_order/stable_diffusion_webui.md)
+    - [AI绘画：stable_diffusion_webui本地搭建](/md/out_of_order/stable_diffusion_webui/stable_diffusion_webui.md)
+    - [JVM知识点整理](/md/out_of_order/jvm_knowledge/jvm_knowledge.md)
