@@ -103,7 +103,7 @@
 
       <module id="${rootArtifactId}-infrastructure" dir="__rootArtifactId__-infrastructure" name="${rootArtifactId}-infrastructure">
 
-### 使用脚手架
+## 使用脚手架
 
 
 >注意⚠️
