@@ -1,0 +1,1 @@
+- [](/md/springboot_middleware/archetype/archetype.md)
