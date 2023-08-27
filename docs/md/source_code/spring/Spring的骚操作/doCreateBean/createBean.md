@@ -38,9 +38,11 @@
 5. **initializeBean :** 初始化Bean
    1. **invokeAwareMethods :** 执行Aware方法，`BeanNameAware`｜`BeanClassLoaderAware`｜`BeanFactoryAware`
    2. 执行`BeanPostProcessor#postProcessBeforeInitialization`。
-      这里的一个后置处理器`CommonAnnotationBeanPostProcessor`要重点关注，
+      > 这里知道一下就行。
+      > 这里的一个后置处理器`CommonAnnotationBeanPostProcessor`要重点关注，
       它的`postProcessBeforeInitialization`实际上是执行的父类`InitDestroyAnnotationBeanPostProcessor`方法，
       会执行`@PostConstruct`标注的初始化方法
-   3. **invokeInitMethods :** 执行初始化方法，执行`InitializingBean#afterPropertiesSet`和指定的初始化方法
+      
+   3. **invokeInitMethods :** 执行初始化方法，执行`InitializingBean#afterPropertiesSet`, 然后执行指定的初始化方法
    4. 执行`BeanPostProcessor#postProcessAfterInitialization`
 5. **registerDisposableBeanIfNecessary :** 注册销毁容器的Bean。如果要测试销毁容器，需要手动将context关闭。
