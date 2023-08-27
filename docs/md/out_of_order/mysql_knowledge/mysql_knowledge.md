@@ -1,10 +1,10 @@
 1. ACID： 原子性、一致性、隔离性、持久性。
    
-   `redo log` 用来崩溃修复保证事务的持久性、`undo log`用来事务回滚保证事务的原子性、`bin log`用来备份保证一致性
+   `redo log` 用来崩溃修复保证事务的持久性、`undo log`用来事务回滚保证事务的原子性、`binlog`用来备份保证一致性
 
 2. 对`redo log`的操作会有个二阶段提交的过程。
    
-   事务执行时会写入`redo log`标记为`prepare`。事务提交后会写入`bin log`，然后会写入`redo log`标记为commit。这个做法是为了避免写入`bin log`失败，导致事务已提交的数据恢复不了。
+   事务执行时会写入`redo log`标记为`prepare`。事务提交后会写入`binlog`，然后会写入`redo log`标记为commit。这个做法是为了避免写入`binlog`失败，导致事务已提交的数据恢复不了。
 
 3. 数据库宕机，会从`undo log`中恢复。❌ 数据库宕机，会从`redo log`中恢复。
 
