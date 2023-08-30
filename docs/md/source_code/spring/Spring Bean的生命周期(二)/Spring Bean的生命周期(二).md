@@ -83,7 +83,7 @@ Spring提供的扩展方法，本身是空方法。用于在单例Bean实例化�
 > 6. **getSingleton(String beanName, ObjectFactory<?> singletonFactory) :** 
      > 这个是`getSingleton`重载的一个方法，实现了真正的实例化过程。
      1. 从单例池拿，发现拿不到，于是乎👇
-     2. `beforeSingletonCreation(beanName);`这个是对循环依赖的一个校验
+     2. `beforeSingletonCreation(beanName);`如果这个单例bean正在被创建，则抛出Bean正在被创建的异常。
      3. `singletonObject = singletonFactory.getObject();`这个方法是由一个lambda表达式触发的，相当于执行了`AbstractAutowireCapableBeanFactory#createBean`
          1. `resolveBeanClass(mbd, beanName)` , 解析BeanClass
          2. `resolveBeforeInstantiation(beanName, mbdToUse)`: 执行BeanPostProcessor的`postProcessBeforeInitialization`和`postProcessAfterInitialization`
