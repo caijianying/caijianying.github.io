@@ -11,10 +11,10 @@
 ## 搭建
 
 >搭建之前首先要有一个可运行的项目，没有项目的可以使用演示项目，欢迎大家fork和star。
->
+> 
+>演示项目[springboot-project-archetype](https://github.com/caijianying/springboot-project-archetype)是基于DDD架构自定义的一个脚手架, 包含了基础的Mysql数据库和Mybatis-Plus配置。
+> 
 >[![stars](https://badgen.net/github/stars/caijianying/springboot-project-archetype?icon=github&color=4ab8a1)](https://github.com/caijianying/springboot-project-archetype) [![forks](https://badgen.net/github/forks/caijianying/springboot-project-archetype?icon=github&color=4ab8a1)](https://github.com/caijianying/springboot-project-archetype)
-
-演示项目[springboot-project-archetype](https://github.com/caijianying/springboot-project-archetype)是基于DDD架构自定义的一个脚手架, 包含了基础的Mysql数据库和Mybatis-Plus配置。
 
 ### 1. 安装maven脚手架插件
 
