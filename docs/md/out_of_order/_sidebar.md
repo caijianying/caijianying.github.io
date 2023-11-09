@@ -4,4 +4,5 @@
     - [Mysql知识点整理](/md/out_of_order/mysql_knowledge/mysql_knowledge)
     - [Maven依赖的作用域](/md/out_of_order/test_scope/test_scope)
     - [velocity实践](/md/out_of_order/velocity/velocity)
+    - [SpringBoot 如何优雅地配置日志](/md/out_of_order/springboot_logback/springboot_logback)
     
