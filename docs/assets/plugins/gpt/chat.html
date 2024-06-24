@@ -380,7 +380,8 @@
         "removeBtnText": "",
         "resendBtnText": "",
         "replyBtnText": "",
-        "checkCodePrompt": ""
+        "checkCodePrompt": "",
+        "thinkingText": ""
     }
     window.javaQuery({
         request: JSON.stringify({
@@ -578,7 +579,7 @@
 
         // 创建提示文本
         var thinkingText = document.createElement('span');
-        thinkingText.innerHTML = '正在思考';
+        thinkingText.innerHTML = UI_CONFIG['thinkingText'];
 
         // 将思考图标和提示文本添加到思考 <div> 中
         thinkingDiv.appendChild(thinkingIcon);
@@ -1033,6 +1034,7 @@
                 UI_CONFIG.removeBtnText = resp['removeBtnText'];
                 UI_CONFIG.replyBtnText = resp['replyBtnText'];
                 UI_CONFIG.resendBtnText = resp['resendBtnText'];
+                UI_CONFIG.thinkingText = resp['thinkingText'];
 
                 const agentTabName = resp['agentTabName'];
                 const generalTabName = resp['generalTabName'];
