@@ -258,6 +258,7 @@
 
         /* 按钮样式 */
         .button-style {
+            margin-left: auto; /* 按钮向右移动，自动填充剩余空间 */
             padding: 6px 12px; /* 设置按钮的内边距 */
             background-color: #3b82f6; /* 按钮背景色为蓝色 */
             color: white; /* 按钮文本颜色为白色 */
@@ -267,7 +268,6 @@
             font-weight: bold; /* 按钮文本加粗 */
             transition: background-color 0.3s; /* 过渡效果 */
             white-space: nowrap; /* 确保按钮文本不换行 */
-            margin: 0 5px; /* 调整按钮之间的间距 */
         }
 
         /* 鼠标悬停在按钮上时改变背景颜色 */
@@ -737,7 +737,7 @@
         bubble.appendChild(icon);
         bubble.appendChild(tips);
 
-        if (type == 'guide'){
+        if (type == 'guide') {
             // 创建新的按钮
             const copyPromptBtn = document.createElement('button');
             copyPromptBtn.className = 'button-style copy-prompt-btn';
@@ -821,11 +821,15 @@
         undoTaskIds.split(',').forEach(taskId => {
             var bubbleInfoDiv = document.getElementById('bubble_info_' + taskId);
             var bubbleDiv = document.getElementById('bubble_' + taskId);
+            var bubbleGuideDiv = document.getElementById('bubble_guide_' + taskId);
             var interruptDiv = document.getElementById('interrupt_' + taskId);
             var taskDiv = document.getElementById(taskId);
 
             if (bubbleInfoDiv != null) {
                 bubbleInfoDiv.remove();
+            }
+            if (bubbleGuideDiv != null) {
+                bubbleGuideDiv.remove();
             }
             if (taskDiv != null) {
                 taskDiv.remove();
