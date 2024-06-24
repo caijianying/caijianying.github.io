@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1E1E1E;
+            color: #A9B7C6;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #2B2B2B;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px; /* 调整为更小的值 */
+            background-color: #2B2B2B; /* 背景色调整 */
+            padding: 5px; /* 调整内边距 */
+        }
+
+        .tab-btn {
+            background-color: #3B3F41;
+            color: #A9B7C6;
+            border: 1px solid #444;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tab-btn:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: #2B2B2B;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .tab-guide {
+            display: none;
+            background-color: #2B2B2B;
+            padding: 10px;
+            border-radius: 5px;
+            color: #FFD700; /* Golden color for guidance */
+            font-weight: bold; /* Make guidance text bold */
+            font-size: 0.8em; /* Increase font size */
+            text-align: center; /* 调整文本居中 */
+            margin-bottom: 3px; /* 调整为更小的值 */
+        }
+
+        .tab-guide.active {
+            display: block;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field {
+            flex: 1;
+            background-color: #3B3F41;
+            border: none;
+            color: #A9B7C6;
+            outline: none;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 5px;
+            resize: vertical;
+            max-height: 120px;
+            overflow-y: auto;
+            transition: background-color 0.3s;
+        }
+
+        .send-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* 新增样式部分 */
+        div, code {
+            font-size: 14px;
+        }
+
+        code {
+            display: inline-block; /* 将 code 标签设置为块级元素，以便添加样式 */
+            padding: 10px 10px; /* 为 code 标签添加适度的内边距 */
+            border-radius: 10px; /* 添加圆角边框 */
+            background-color: #2B2B2B;
+            color: #A9B7C6;
+        }
+
+        div {
+            margin-bottom: 10px;
+            background-color: #3B3F41;
+            color: #A9B7C6;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .toolbar button {
+            font-size: 12px;
+            background-color: transparent;
+            border: none;
+            color: #757575;
+            cursor: pointer;
+        }
+
+        .toolbar .right-auto {
+            margin-right: auto;
+        }
+
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: #757575;
+        }
+
+        /* 定义思考图标的旋转动画 */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 应用旋转动画到思考图标 */
+        .thinking-icon {
+            animation: spin 1s linear infinite;
+            /* 设置元素的变换原点为中心 */
+            transform-origin: 50% 50%;
+        }
+
+        .bubble {
+            display: flex;
+            align-items: center;
+            padding: 10px; /* 增加一些内边距，使内容不那么紧凑 */
+            background-color: #e6ffed; /* 浅绿色背景色 */
+            border: 2px solid #7ee787; /* 绿色边框 */
+            border-radius: 10px; /* 边框半径增大，增加圆角 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 阴影加深，增强立体感 */
+            color: #333; /* 文本颜色与背景对比增强 */
+            font-weight: bold; /* 加粗文本，增加视觉突出度 */
+        }
+
+        .bubble .icon {
+            color: #7ee787; /* 绿色勾号图标 */
+            margin-right: 10px; /* 图标与文本之间增加间距 */
+        }
+
+        .bubble div {
+            margin-bottom: 0px;
+        }
+
+        /* 气泡样式 */
+        .bubble_info {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #e6f4ff; /* 浅蓝色背景色 */
+            border: 2px solid #3b82f6; /* 蓝色边框 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 阴影加深 */
+            color: #333; /* 文本颜色 */
+            font-weight: bold; /* 加粗文本 */
+        }
+
+        /* 气泡样式 */
+        .bubble_guide {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #e6f4ff; /* 浅蓝色背景色 */
+            border: 2px solid #3B3F41; /* 灰色 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 阴影加深 */
+            color: #333; /* 文本颜色 */
+            font-weight: bold; /* 加粗文本 */
+        }
+
+        /* 图标样式 */
+        .bubble_guide .icon {
+            color: #3B3F41; /* 灰色图标 */
+            margin-right: 10px; /* 图标与文本之间增加间距 */
+        }
+
+        /* 图标样式 */
+        .bubble_info .icon {
+            color: #3b82f6; /* 蓝色图标 */
+            margin-right: 10px; /* 图标与文本之间增加间距 */
+        }
+
+        .topBar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        /* 按钮样式 */
+        .button-style {
+            padding: 6px 12px; /* 设置按钮的内边距 */
+            background-color: #3b82f6; /* 按钮背景色为蓝色 */
+            color: white; /* 按钮文本颜色为白色 */
+            border: none; /* 无边框 */
+            border-radius: 5px; /* 边框半径，增加圆角 */
+            cursor: pointer; /* 鼠标样式 */
+            font-weight: bold; /* 按钮文本加粗 */
+            transition: background-color 0.3s; /* 过渡效果 */
+            white-space: nowrap; /* 确保按钮文本不换行 */
+            margin: 0 5px; /* 调整按钮之间的间距 */
+        }
+
+        /* 鼠标悬停在按钮上时改变背景颜色 */
+        .button-style:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .body {
+            padding: 8px;
+        }
+
+        .body textarea {
+            font-size: 14px;
+            width: 100%;
+            height: 100px;
+            background-color: #808f97;
+            border: none;
+            border-radius: 4px; /* 边框圆角 */
+            outline: none; /* 去掉默认的聚焦边框 */
+        }
+
+        .new-badge {
+            position: absolute;
+            top: -3px;
+            left: 58px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <p>Welcome to the ChatGPT Coding !</p>
+    <div class="tab-container">
+        <button id="tab1-btn" class="tab-btn" onclick="openTab(this,'tab1')">tab1</button>
+        <button id="tab2-btn" class="tab-btn" onclick="openTab(this,'tab2')">tab2</button>
+    </div>
+    <div id="guide1" class="tab-guide active">
+
+    </div>
+    <div id="guide2" class="tab-guide">
+
+    </div>
+</div>
+
+<div class="container">
+    <div id="tab1" class="tab-content active">
+        <!-- Rest of the content for Tab 1 -->
+        <div class="input-container">
+            <textarea class="input-field" placeholder="Type your question here..." rows="1"></textarea>
+            <button class="send-btn" onclick="sendMessage()">
+                <svg t="1677645536588" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     p-id="6079"
+                     width="16" height="16">
+                    <path d="M85.333333 896 981.333333 512 85.333333 128 85.333333 426.666667 725.333333 512 85.333333 597.333333Z"
+                          p-id="6080" fill="#8a8a8a"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="body">
+            <!-- Chat Content for Tab 1 -->
+        </div>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <!-- Rest of the content for Tab 2 -->
+        <div class="input-container">
+            <textarea class="input-field" placeholder="Type your goal here..." rows="1"></textarea>
+            <button class="send-btn" onclick="sendMessage()">
+                <svg t="1677645536588" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     p-id="6079"
+                     width="16" height="16">
+                    <path d="M85.333333 896 981.333333 512 85.333333 128 85.333333 426.666667 725.333333 512 85.333333 597.333333Z"
+                          p-id="6080" fill="#8a8a8a"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="body">
+            <!-- Chat Content for Tab 2 -->
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const sendSvg = `<svg t="1677645536588" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg"
+                     p-id="6079"
+                     width="16" height="16">
+                    <path d="M85.333333 896 981.333333 512 85.333333 128 85.333333 426.666667 725.333333 512 85.333333 597.333333Z"
+                          p-id="6080" fill="#8a8a8a"></path>
+                </svg>`;
+    const stopSvg = `<svg t="1680696019850" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1587" width="16" height="16"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m3.008-92.992a416 416 0 1 0 0-832 416 416 0 0 0 0 832zM320 320h384v384H320V320z" fill="#d81e06" p-id="1588"></path></svg>`;
+    const newSvg = `<svg class="new-badge" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><text x="8" y="9" font-family="Arial" font-size="6" font-weight="bold" text-anchor="middle" fill="#FF6347" transform="rotate(45 8 9)">new!</text></svg>`;
+    let useAgent = false;
+    let generalGuide = "";
+    let agentGuide = "";
+    let curTab = 'tab1';
+    let tab1 = {
+        showGuide: false
+    };
+    let tab2 = {
+        showGuide: false
+    };
+    let UI_CONFIG = {
+        "editBtnText": "",
+        "removeBtnText": "",
+        "resendBtnText": "",
+        "replyBtnText": "",
+        "checkCodePrompt": ""
+    }
+    window.javaQuery({
+        request: JSON.stringify({
+            code: "reloading"
+        }),
+        persistent: false,
+        onSuccess: function (response) {
+            loadResources(response);
+        },
+        onFailure: function (error_code, error_message) {
+
+        }
+    });
+
+    function init() {
+        // 注册需要的语言
+        hljs.highlightAll();
+
+        // 设置 marked.js 的选项，启用代码高亮
+        marked.setOptions({
+            highlight: function (code, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, {language: lang}).value;
+                } else {
+                    return hljs.highlightAuto(code).value;
+                }
+            }
+        });
+    }
+
+    async function showGuide(guideId, guideText) {
+        document.getElementById(guideId).innerHTML = '';
+        for (let i = 0; i < guideText.length; i++) {
+            const part = guideText.charAt(i);
+            document.getElementById(guideId).innerHTML += part;
+            // 睡眠50毫秒
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+    }
+
+    function addToolbarBelowQuestion(params) {
+        // 修改为stop.svg
+        document.getElementById(curTab).querySelector('.send-btn').innerHTML = `${stopSvg}`;
+        document.getElementById(curTab).querySelector('.send-btn').setAttribute('type', 'stop');
+        document.getElementById(curTab).querySelector('.input-field').value = '';
+
+        console.log(params);
+        var questionId = params['id'];
+        let mdQuestion = params['md'];
+        var questionElement = document.getElementById(questionId);
+        if (questionElement == null) {
+            // 使用 marked 解析 Markdown 文本
+            let renderedHTML = marked.parse(mdQuestion);
+            if (!mdQuestion.includes("code")) {
+                renderedHTML = mdQuestion;
+            }
+            var question = `
+                <div id="${questionId}" class="question-container">
+                    <div class="question-header">
+                        <strong>你:</strong>
+                    </div>
+                    <div class="questionArea">
+                        ${renderedHTML}
+                    </div>
+                    <div class="toolbar">
+                        <button class="toolbar-btn" onclick="edit(this)">` + UI_CONFIG["editBtnText"] + `</button>
+                        <button class="toolbar-btn right-auto" onclick="remove(this)">` + UI_CONFIG["removeBtnText"] + `</button>
+                        <button class="toolbar-btn" onclick="reply(this)">` + UI_CONFIG["replyBtnText"] + `</button>
+                    </div>
+                </div>`;
+            document.getElementById(curTab).querySelector('.body').innerHTML += question;  // 不需要再次将 question 字符串转为 HTML
+        } else {
+            questionElement.querySelector('.toolbar').style.display = 'none'; // 修改样式设置方式
+        }
+        // 在内容插入之后，再次调用 hljs.highlightAll()
+        hljs.highlightAll();
+    }
+
+    function remove(self) {
+        var curDiv = self.parentElement.parentElement;
+        window.javaQuery({
+            request: JSON.stringify({
+                code: "removeQuestion",
+                data: {
+                    questionId: curDiv.id,
+                    useAgent: useAgent
+                }
+            }),
+            persistent: false,
+            onSuccess: function (response) {
+
+            },
+            onFailure: function (error_code, error_message) {
+
+            }
+        });
+    }
+
+    function edit(self) {
+        // 点击编辑按钮后，将问题区域替换为一个 <textarea> 元素
+        var textarea = document.createElement('textarea');
+        // 替换问题区域为 <textarea>
+        var q1Div = self.parentElement.parentElement.querySelector(`.questionArea`);
+        var copyBtn = q1Div.querySelector('.topBar');
+        if (copyBtn != null) {
+            copyBtn.remove();
+        }
+        textarea.value = q1Div.innerText; // 设置当前问题内容为初始值
+        self.parentElement.parentElement.replaceChild(textarea, q1Div);
+
+        // 为 <textarea> 设置焦点，以便开始编辑
+        textarea.focus();
+        // 为元素添加失去焦点事件监听器
+        textarea.addEventListener('blur', lostFocus);
+    }
+
+    function lostFocus(e) {
+        self = e.target;
+        var div = document.createElement('div');
+        div.className = 'questionArea';
+        let value = self.value;
+        if (value.toString().includes('```')) {
+            value = value.replace('```', '\n```\n');
+            addCopyButtonToCodeBlocks();
+        }
+        const renderedHTML = marked.parse(value);
+        div.innerHTML = renderedHTML;
+        self.parentElement.replaceChild(div, self);
+    }
+
+    // JavaScript调用java中的方法
+    function reply(self) {
+        var curDiv = self.parentElement.parentElement;
+        var message = curDiv.querySelector('.questionArea').textContent;
+        window.javaQuery({
+            request: JSON.stringify({
+                code: "reply",
+                data: {
+                    questionId: curDiv.id,
+                    questionBody: message,
+                    useAgent: useAgent
+                }
+            }),
+            persistent: false,
+            onSuccess: function (response) {
+
+            },
+            onFailure: function (error_code, error_message) {
+
+            }
+        });
+    }
+
+    function removeAllNextDiv(curDivId) {
+        var originDiv = document.getElementById(curDivId);
+        var curDiv = originDiv;
+        // 如果父元素存在
+        if (curDiv.parentElement) {
+            // 获取给定 div 元素后面的同级 div 元素
+            let nextDiv = curDiv.nextElementSibling;
+            // 遍历所有同级 div 元素
+            while (nextDiv && nextDiv.tagName) {
+                // 检查是否是 div 元素
+                if (nextDiv.tagName.toLowerCase() === "div") {
+                    // 从 DOM 中删除同级 div 元素
+                    nextDiv.remove();
+                }
+                // nextDiv已被删除，使用curDiv获取下一个同级元素
+                nextDiv = curDiv.nextElementSibling;
+            }
+        }
+        originDiv.remove();
+    }
+
+    // 定义函数，用于在聊天记录的最后一个 <div> 元素下面显示思考图标和提示信息
+    function showThinkingIcon() {
+        var thinkDivOld = document.getElementById(curTab).querySelector('#thinkingDiv');
+        if (thinkDivOld || thinkDivOld != null) {
+            return;
+        }
+        // 获取聊天记录容器
+        var chatContainer = document.getElementById(curTab).querySelector('.body');
+
+        // 创建一个新的 <div> 元素，包含思考图标和提示信息
+        var thinkingDiv = document.createElement('div');
+        thinkingDiv.style.display = 'flex';
+        thinkingDiv.style.alignItems = 'center';
+        thinkingDiv.style.marginTop = '10px';
+        thinkingDiv.id = 'thinkingDiv';
+
+        // 创建思考图标
+        var thinkingIcon = document.createElement('span');
+        thinkingIcon.innerHTML = '|'; // 这里可以使用合适的图标，或添加自定义图标
+        thinkingIcon.className = 'thinking-icon'; // 给图标添加类名
+
+        // 创建提示文本
+        var thinkingText = document.createElement('span');
+        thinkingText.innerHTML = '正在思考';
+
+        // 将思考图标和提示文本添加到思考 <div> 中
+        thinkingDiv.appendChild(thinkingIcon);
+        thinkingDiv.appendChild(thinkingText);
+
+        chatContainer.appendChild(thinkingDiv);
+        return thinkingDiv;
+    }
+
+    // 完成回复，添加复制代码按钮、移除思考中图标、移除光标、显示问题工具栏
+    function finishAnalyzing(questionId) {
+        document.getElementById(curTab).querySelector('#thinkingDiv').remove();
+        var cursor = document.getElementById(curTab).querySelector('#cursor');
+        if (cursor) {
+            cursor.remove();
+        }
+        if (questionId) {
+            document.getElementById(questionId).querySelector('.toolbar').style = null;
+        }
+        addCopyButtonToCodeBlocks();
+    }
+
+    // 完成回复，添加复制代码按钮、移除思考中图标、移除光标、显示问题工具栏
+    function finishReply() {
+        if (document.getElementById(curTab).querySelector('#thinkingDiv') != null) {
+            document.getElementById(curTab).querySelector('#thinkingDiv').remove();
+        }
+        if (document.getElementById(curTab).querySelector('#cursor') != null) {
+            document.getElementById(curTab).querySelector('#cursor').remove();
+        }
+        addCopyButtonToCodeBlocks();
+        showQuestionToolbar();
+    }
+
+    function showQuestionToolbar() {
+        var questionAreas = document.getElementById(curTab).querySelectorAll('.questionArea');
+        questionAreas.forEach(function (questionArea, index) {
+            var toolbar = questionArea.nextElementSibling;
+            if (toolbar.style.display) {
+                toolbar.style.display = '';
+            }
+        });
+    }
+
+    function addCopyButtonToCodeBlocks() {
+        var codeBlocks = document.getElementById(curTab).querySelectorAll('pre > code');
+        codeBlocks.forEach(function (codeBlock, index) {
+            if (codeBlock.hasAttribute('data-top-bar-inserted')) {
+                // 检查 codeBlock 是否已经包含 topBar，如果已经插入过则跳过
+                let previousDiv = codeBlock.previousSibling;
+                if (previousDiv && previousDiv.className) {
+                    // 前面绑定的事件会失效，这里重新绑定事件
+                    if (previousDiv.className === "topBar") {
+                        let btn = previousDiv.querySelector('button');
+                        btn.onclick = function () {
+                            // 复制代码块内容
+                            var range = document.createRange();
+                            range.selectNode(codeBlock);
+                            var selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+                            document.execCommand('copy');
+                            btn.innerText = 'copied！'
+                        };
+                        btn.onmouseleave = function () {
+                            setTimeout(function () {
+                                btn.innerText = 'copy code'
+                            }, 1000);
+                        }
+                    }
+                }
+                return;
+            }
+            // 创建一个包含编程语言和复制按钮的区域
+            var topBar = document.createElement('div');
+            topBar.className = 'topBar';
+
+            // 左上角显示编程语言（这里假设语言信息存储在 code 标签的 data-language 属性中）
+            var language = codeBlock.classList[0].replace("language-", "");
+            var languageDisplay = document.createElement('span');
+            languageDisplay.style.fontSize = '12px';
+            languageDisplay.style.color = '#757575';
+            languageDisplay.innerText = language;
+            topBar.appendChild(languageDisplay);
+
+            // 右上角显示复制按钮
+            var copyButton = document.createElement('button');
+            copyButton.innerText = 'copy code';
+            copyButton.style.fontSize = '12px';
+            copyButton.style.backgroundColor = 'transparent';
+            copyButton.style.border = 'none';
+            copyButton.style.color = '#757575';
+            copyButton.style.cursor = 'pointer';
+            copyButton.onclick = function () {
+                // 复制代码块内容
+                var range = document.createRange();
+                range.selectNode(codeBlock);
+                var selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                document.execCommand('copy');
+                copyButton.innerText = 'copied!'
+            };
+            copyButton.onmouseleave = function () {
+                setTimeout(function () {
+                    copyButton.innerText = 'copy code'
+                }, 1000);
+            }
+
+            topBar.appendChild(copyButton);
+
+            // 将 topBar 插入到代码块上方
+            codeBlock.parentElement.insertBefore(topBar, codeBlock);
+
+            // 设置 codeBlock 父元素为相对定位，以便于定位复制按钮
+            codeBlock.parentElement.style.position = 'relative';
+
+            // 设置 codeBlock 上的属性，标识已经插入了 topBar
+            codeBlock.setAttribute('data-top-bar-inserted', 'true');
+        });
+    }
+
+    function bubble(tipsBody, type, taskId) {
+        var bubbleClassName = getBubbleClassName(type);
+        var bubbleId = bubbleClassName + '_' + taskId;
+
+        var bubbleEle = document.getElementById(bubbleId);
+        if (bubbleEle != null) {
+            return;
+        }
+
+        var iconClassName = '';
+        if (bubbleClassName == 'bubble') {
+            iconClassName = "fa-solid fa-check-circle icon";
+        }
+        if (bubbleClassName == 'bubble_info' || bubbleClassName == 'bubble_guide') {
+            iconClassName = "fa-solid fa-circle-info icon";
+        }
+
+        // 创建一个新的div元素，作为气泡框
+        const bubble = document.createElement('div');
+        bubble.className = bubbleClassName;
+        if (taskId) {
+            bubble.id = bubbleId;
+            if (type == 'interrupt') {
+                bubble.id = 'interrupt_' + taskId;
+            }
+        }
+        // 创建一个新的i元素，作为气泡框
+        const icon = document.createElement('i');
+        icon.className = iconClassName;
+        // 创建一个新的i元素，作为气泡框
+        const tips = document.createElement('span');
+        tips.textContent = '' + tipsBody + '';
+
+        bubble.appendChild(icon);
+        bubble.appendChild(tips);
+
+        if (type == 'guide'){
+            // 创建新的按钮
+            const copyPromptBtn = document.createElement('button');
+            copyPromptBtn.className = 'button-style copy-prompt-btn';
+            copyPromptBtn.innerText = 'Copy Prompt';
+            copyPromptBtn.onclick = copyPrompt;
+            bubble.appendChild(copyPromptBtn);
+        }
+        // 将气泡框添加到文档中
+        document.getElementById(curTab).querySelector('.body').appendChild(bubble);
+    }
+
+    function getBubbleClassName(type) {
+        var className = '';
+        if (type == 'interrupt' || type == 'success') {
+            className = 'bubble';
+        }
+        if (type == 'info') {
+            className = 'bubble_info';
+        }
+        if (type == 'guide') {
+            className = 'bubble_guide';
+        }
+        return className;
+    }
+
+    function addToolBarBtnForBubble(replyId) {
+        const bubbleInfoId = 'bubble_info_' + replyId;
+        var replyDiv = document.getElementById(bubbleInfoId);
+        var toolbarDiv = "<button class='button-style' onclick='replyTask(this)'>" + UI_CONFIG["replyBtnText"] + "</button>";
+        replyDiv.innerHTML += toolbarDiv;
+    }
+
+    function copyPrompt() {
+        // 创建一个<textarea>元素
+        var textArea = document.createElement('textarea');
+
+        // 设置需要复制的文本
+        textArea.value = UI_CONFIG.checkCodePrompt;
+
+        // 将<textarea>元素添加到页面中
+        document.body.appendChild(textArea);
+
+        // 选择文本
+        textArea.select();
+
+        // 执行复制命令
+        var successful = document.execCommand('copy');
+        if (successful) {
+            alert('文本已成功复制到剪贴板');
+        } else {
+            alert('复制操作失败，请手动复制文本');
+        }
+
+        // 删除<textarea>元素
+        document.body.removeChild(textArea);
+    }
+
+
+    function replyTask(self) {
+        const replyId = self.parentElement.id.replace('bubble_info_', '');
+        window.javaQuery({
+            request: JSON.stringify({
+                code: "replyTask",
+                data: {
+                    useAgent: true,
+                    replyId: replyId
+                }
+            }),
+            onSuccess: function (response) {
+                // 修改为stop.svg
+                document.getElementById(curTab).querySelector('.send-btn').innerHTML = `${stopSvg}`;
+                document.getElementById(curTab).querySelector('.send-btn').setAttribute('type', 'stop');
+            },
+            onFailure: function (error_code, error_message) {
+
+            }
+        });
+    }
+
+    function removeNextTasks(undoTaskIds) {
+        undoTaskIds.split(',').forEach(taskId => {
+            var bubbleInfoDiv = document.getElementById('bubble_info_' + taskId);
+            var bubbleDiv = document.getElementById('bubble_' + taskId);
+            var interruptDiv = document.getElementById('interrupt_' + taskId);
+            var taskDiv = document.getElementById(taskId);
+
+            if (bubbleInfoDiv != null) {
+                bubbleInfoDiv.remove();
+            }
+            if (taskDiv != null) {
+                taskDiv.remove();
+            }
+            if (bubbleDiv != null) {
+                bubbleDiv.remove();
+            }
+            if (interruptDiv != null) {
+                interruptDiv.remove();
+            }
+        });
+    }
+
+    function beforeTask(tips, type, taskId) {
+        showThinkingIcon();
+        bubble(tips, type, taskId);
+        addToolBarBtnForBubble(taskId);
+    }
+
+    function fixMarkdownCodeBlocks(markdownText) {
+        // 将所有的三个反引号 ` 替换为带有换行的三个反引号，以确保正确的代码块标记
+        markdownText = markdownText.replace(/```/g, '\n```');
+        // 添加换行符，以确保代码块内部的代码具有正确的缩进和格式
+        markdownText = markdownText.replace(/\\n/g, '\n');
+        const supportedLanguages = hljs.listLanguages();
+        // 正则表达式匹配 Markdown 中的代码块语法，提取出语言和代码内容
+        const codeBlockRegex = /```(\w+)(.*)\n([\s\S]*?)```/g;
+        // 匹配 Markdown 中的代码块，并提取语言和代码内容
+        markdownText = markdownText.replace(codeBlockRegex, (match, langWithKeyword, extra, code) => {
+            for (let lang of supportedLanguages) {
+                if (langWithKeyword.startsWith(lang)) {
+                    const keyword = langWithKeyword.slice(lang.length);
+                    const newCode = keyword + extra + `\n` + code;
+                    return `\`\`\`${lang}\n${newCode}\n\`\`\``;
+                }
+            }
+            return match;
+        });
+        return markdownText;
+    }
+
+    function autoRenderMarkDown(params) {
+        var replyId = params['id'];
+        let md = params['md'];
+        // 使用 marked 解析 Markdown 文本
+        const mdInfo = fixMarkdownCodeBlocks(md);
+        const renderedHTML = marked.parse(mdInfo);
+        const cursorHtml = '<span id="cursor" class="cursor"></span>';
+        const newReply = `
+            <div class="reply-container">
+                <div class="reply-header">
+                    <strong>AI:</strong>
+                </div>
+                <div class="replyArea">
+                    ${renderedHTML}
+                </div>
+                ${cursorHtml}
+            </div>`;
+        const replyDiv = document.getElementById(replyId);
+        if (replyDiv == null) {
+            document.getElementById(curTab).querySelector(".body").innerHTML += '<div id=' + replyId + '>' + newReply + '</div>';
+        } else {
+            document.getElementById(replyId).innerHTML = newReply;
+        }
+        // 在内容插入之后，再次调用 hljs.highlightAll()
+        hljs.highlightAll();
+    }
+
+
+    function openTab(button, tabId) {
+        curTab = tabId;
+        const tabs = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+        button.classList.add('active');
+
+        const contents = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove('active');
+        }
+        const activeTab = document.getElementById(tabId);
+        if (activeTab) {
+            activeTab.classList.add('active');
+        } else {
+            console.error(`Element with ID ${tabId} not found.`);
+        }
+
+        if (tabId == 'tab1') {
+            useAgent = false;
+            triggerGuide('guide1');
+            if (tab1.showGuide) {
+                return;
+            }
+            tab1.showGuide = true;
+            showGuide('guide1', generalGuide);
+        } else {
+            useAgent = true;
+            triggerGuide('guide2');
+            if (tab2.showGuide) {
+                return;
+            }
+            tab2.showGuide = true;
+            showGuide('guide2', agentGuide);
+        }
+    }
+
+    function triggerGuide(guideId) {
+        const guides = document.getElementsByClassName('tab-guide');
+        for (let i = 0; i < guides.length; i++) {
+            guides[i].classList.remove('active');
+        }
+
+        const guide = document.getElementById(guideId);
+        if (guide) {
+            guide.classList.add('active');
+        }
+    }
+
+    function sendMessage() {
+        const question = document.getElementById(curTab).querySelector('.input-field').value;
+        console.log(question);
+        window.javaQuery({
+            request: JSON.stringify({
+                code: "sendMessage",
+                data: {
+                    useAgent: useAgent,
+                    message: question
+                }
+            }),
+            persistent: false,
+            onSuccess: function (response) {
+
+            },
+            onFailure: function (error_code, error_message) {
+
+            }
+        });
+    }
+
+    function btnClick(agent, question) {
+        const tabBtn = agent ? 'tab2-btn' : 'tab1-btn';
+        const tabId = agent ? 'tab2' : 'tab1';
+        document.getElementById(tabId).querySelector('.input-field').value = question['md'];
+        curTab = tabId;
+        useAgent = agent;
+        openTab(document.getElementById(tabBtn), tabId);
+        sendMessage();
+    }
+
+    function stopAnswer(useAgent) {
+        console.log('stopAnswer: ' + useAgent);
+        const tabId = useAgent ? 'tab2' : 'tab1';
+        document.getElementById(tabId).querySelector('.send-btn').setAttribute('type', 'stop');
+        document.getElementById(tabId).querySelector('.send-btn').innerHTML = `${sendSvg}`;
+    }
+
+    // 加载CSS文件
+    function loadCSS(basePath) {
+        var cssLink = document.createElement("link");
+        cssLink.rel = "stylesheet";
+        cssLink.type = "text/css";
+        cssLink.href = basePath + "/static/css/all.min.css";
+        document.getElementsByTagName("head")[0].appendChild(cssLink);
+
+        var atomCss = document.createElement("link");
+        atomCss.rel = "stylesheet";
+        atomCss.type = "text/css";
+        atomCss.href = basePath + "/static/css/atom-one-dark.min.css";
+        document.getElementsByTagName("head")[0].appendChild(atomCss);
+    }
+
+    // 加载JavaScript文件
+    function loadJS(basePath) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = basePath + "/static/js/highlight.min.js";
+        document.body.appendChild(script);
+
+        var markedScript = document.createElement("script");
+        markedScript.type = "text/javascript";
+        markedScript.src = basePath + "/static/js/marked.min.js";
+        document.body.appendChild(markedScript);
+    }
+
+    function loadResources(basePath) {
+        loadCSS(basePath);
+        loadJS(basePath);
+        window.onload = init;
+        window.javaQuery({
+            request: JSON.stringify({
+                code: "reloadOk"
+            }),
+            persistent: false,
+            onSuccess: function (response) {
+                const resp = JSON.parse(response);
+                console.log(resp);
+                generalGuide = resp['generalGuide'];
+                agentGuide = resp['agentGuide'];
+                UI_CONFIG.editBtnText = resp['editBtnText'];
+                UI_CONFIG.removeBtnText = resp['removeBtnText'];
+                UI_CONFIG.replyBtnText = resp['replyBtnText'];
+                UI_CONFIG.resendBtnText = resp['resendBtnText'];
+
+                const agentTabName = resp['agentTabName'];
+                const generalTabName = resp['generalTabName'];
+                document.getElementById('tab1-btn').innerText = generalTabName;
+                document.getElementById('tab2-btn').innerText = agentTabName;
+                document.getElementById('tab2-btn').innerHTML += `${newSvg}`;
+
+                // 默认打开第一个标签
+                openTab(document.getElementById('tab1-btn'), curTab);
+                document.getElementById(curTab).querySelector('.send-btn').setAttribute('type', 'ask');
+            },
+            onFailure: function (error_code, error_message) {
+
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
