@@ -296,10 +296,62 @@
             left: 58px;
         }
 
+        .more-link {
+            color: #FFD700;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* 更暗的背景遮罩 */
+            transition: background-color 0.3s;
+        }
+
+        .modal-content {
+            background-color: #2B2B2B;
+            margin: 10% auto; /* 调整 margin-top 以适应各种屏幕 */
+            padding: 20px;
+            border: 1px solid #444;
+            width: 80%;
+            max-width: 600px; /* 设置最大宽度以防止过宽 */
+            border-radius: 10px;
+            color: #A9B7C6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s; /* 添加淡入动画 */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s; /* 添加过渡效果 */
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #FFD700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
-<body>
 
+<body style="background-color: rgb(59, 63, 65);">
 <div class="header">
     <p>Welcome to the ChatGPT Coding !</p>
     <div class="tab-container">
@@ -311,6 +363,19 @@
     </div>
     <div id="guide2" class="tab-guide">
 
+    </div>
+
+    <div id="guide1-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('guide1-modal')">&times;</span>
+            <p id="generalMore"></p>
+        </div>
+    </div>
+    <div id="guide2-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('guide2-modal')">&times;</span>
+            <p id="agentMore"></p>
+        </div>
     </div>
 </div>
 
@@ -366,8 +431,6 @@
     const stopSvg = `<svg t="1680696019850" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1587" width="16" height="16"><path d="M512 1024A512 512 0 1 1 512 0a512 512 0 0 1 0 1024z m3.008-92.992a416 416 0 1 0 0-832 416 416 0 0 0 0 832zM320 320h384v384H320V320z" fill="#d81e06" p-id="1588"></path></svg>`;
     const newSvg = `<svg class="new-badge" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><text x="8" y="9" font-family="Arial" font-size="6" font-weight="bold" text-anchor="middle" fill="#FF6347" transform="rotate(45 8 9)">new!</text></svg>`;
     let useAgent = false;
-    let generalGuide = "";
-    let agentGuide = "";
     let curTab = 'tab1';
     let tab1 = {
         showGuide: false
@@ -376,6 +439,13 @@
         showGuide: false
     };
     let UI_CONFIG = {
+        "generalTabName":"",
+        "agentTabName":"",
+        "guideLearnMore":"",
+        "generalTopic":"",
+        "generalMore":"",
+        "agentTopic":"",
+        "agentMore":"",
         "editBtnText": "",
         "removeBtnText": "",
         "resendBtnText": "",
@@ -1036,20 +1106,29 @@
             onSuccess: function (response) {
                 const resp = JSON.parse(response);
                 console.log(resp);
-                generalGuide = resp['generalGuide'];
-                agentGuide = resp['agentGuide'];
+                UI_CONFIG.generalTabName = resp['generalTabName'];
+                UI_CONFIG.agentTabName = resp['agentTabName'];
+                UI_CONFIG.guideLearnMore = resp['guideLearnMore'];
+                UI_CONFIG.generalTopic = resp['generalTopic'];
+                UI_CONFIG.generalMore = resp['generalMore'];
+                UI_CONFIG.agentTopic = resp['agentTopic'];
+                UI_CONFIG.agentMore = resp['agentMore'];
                 UI_CONFIG.editBtnText = resp['editBtnText'];
                 UI_CONFIG.removeBtnText = resp['removeBtnText'];
                 UI_CONFIG.replyBtnText = resp['replyBtnText'];
                 UI_CONFIG.resendBtnText = resp['resendBtnText'];
                 UI_CONFIG.thinkingText = resp['thinkingText'];
                 UI_CONFIG.checkCodePrompt = resp['checkCodePrompt'];
-
                 const agentTabName = resp['agentTabName'];
                 const generalTabName = resp['generalTabName'];
                 document.getElementById('tab1-btn').innerText = generalTabName;
                 document.getElementById('tab2-btn').innerText = agentTabName;
                 document.getElementById('tab2-btn').innerHTML += `${newSvg}`;
+                // guide init
+                document.getElementById('guide1').innerHTML += (` ${UI_CONFIG['generalTopic']}<span id="guide1-more" class="more-link" onclick="openModal('guide1-modal')">${UI_CONFIG['guideLearnMore']}</span>`);
+                document.getElementById('generalMore').innerText= UI_CONFIG['generalMore'];
+                document.getElementById('guide2').innerHTML += (` ${UI_CONFIG['agentTopic']}<span id="guide2-more" class="more-link" onclick="openModal('guide2-modal')">${UI_CONFIG['guideLearnMore']}</span>`);
+                document.getElementById('agentMore').innerText= UI_CONFIG['agentMore'];
 
                 // 默认打开第一个标签
                 openTab(document.getElementById('tab1-btn'), curTab);
