@@ -787,9 +787,17 @@
         // 执行复制命令
         var successful = document.execCommand('copy');
         if (successful) {
-            alert('文本已成功复制到剪贴板');
-        } else {
-            alert('复制操作失败，请手动复制文本');
+            window.javaQuery({
+                request: JSON.stringify({
+                    code: "copyPromptNextStep"
+                }),
+                onSuccess: function (response) {
+
+                },
+                onFailure: function (error_code, error_message) {
+
+                }
+            });
         }
 
         // 删除<textarea>元素
