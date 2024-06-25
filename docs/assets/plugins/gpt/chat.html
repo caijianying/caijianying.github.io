@@ -776,7 +776,7 @@
         var textArea = document.createElement('textarea');
 
         // 设置需要复制的文本
-        textArea.value = UI_CONFIG.checkCodePrompt;
+        textArea.value = UI_CONFIG["checkCodePrompt"];
 
         // 将<textarea>元素添加到页面中
         document.body.appendChild(textArea);
@@ -1043,6 +1043,7 @@
                 UI_CONFIG.replyBtnText = resp['replyBtnText'];
                 UI_CONFIG.resendBtnText = resp['resendBtnText'];
                 UI_CONFIG.thinkingText = resp['thinkingText'];
+                UI_CONFIG.checkCodePrompt = resp['checkCodePrompt'];
 
                 const agentTabName = resp['agentTabName'];
                 const generalTabName = resp['generalTabName'];
