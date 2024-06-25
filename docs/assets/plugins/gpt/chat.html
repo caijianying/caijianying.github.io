@@ -77,7 +77,7 @@
             border-radius: 5px;
             color: #FFD700; /* Golden color for guidance */
             font-weight: bold; /* Make guidance text bold */
-            font-size: 0.8em; /* Increase font size */
+            font-size: 1.2em; /* Increase font size */
             text-align: center; /* 调整文本居中 */
             margin-bottom: 3px; /* 调整为更小的值 */
         }
@@ -1034,7 +1034,7 @@
             guides[i].classList.remove('active');
         }
 
-        const guide = document.getElementById(guideId);
+        const guide = document.getElementById(guideId).parentElement;
         if (guide) {
             guide.classList.add('active');
         }
