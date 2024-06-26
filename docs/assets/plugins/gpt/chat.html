@@ -303,6 +303,25 @@
             font-weight: bold;
         }
 
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -326,7 +345,7 @@
             border-radius: 10px;
             color: #A9B7C6;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.3s; /* 添加淡入动画 */
+            animation: zoomIn 0.3s; /* 添加淡入动画 */
             font-size: 16px;
         }
 
@@ -345,14 +364,6 @@
             cursor: pointer;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 
@@ -1146,7 +1157,12 @@
     }
 
     function openModal(id) {
-        document.getElementById(id).style.display = "block";
+        var modal = document.getElementById(id);
+        modal.style.display = "block";
+        var modalContent = modal.querySelector('.modal-content');
+        modalContent.style.animation = 'none';
+        modalContent.offsetHeight; // 触发重新布局
+        modalContent.style.animation = 'zoomIn 0.5s, shake 0.5s';
     }
 
     function closeModal(id) {
