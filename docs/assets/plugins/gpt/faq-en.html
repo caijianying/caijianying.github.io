@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+        }
+        .faq-item h3 {
+            margin: 0;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .faq-item p {
+            margin: 0;
+            padding: 10px;
+            display: none;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <div class="faq-item">
+        <h3>Question 1: How do I register an account?</h3>
+        <p>Answer: You can create a new account by clicking the "Register" button at the top right corner of the page. Fill in the required personal information and submit to complete the registration.</p>
+    </div>
+    <div class="faq-item">
+        <h3>Question 2: How do I reset my password?</h3>
+        <p>Answer: On the login page, click the "Forgot Password" link, enter your registered email address, and the system will send you an email to reset your password.</p>
+    </div>
+    <div class="faq-item">
+        <h3>Question 3: How do I contact customer service?</h3>
+        <p>Answer: You can send your questions or feedback through the form on the "Contact Us" page, and our customer service team will respond as soon as possible.</p>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.faq-item h3').forEach(item => {
+        item.addEventListener('click', () => {
+            const p = item.nextElementSibling;
+            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+</script>
+
+</body>
+</html>

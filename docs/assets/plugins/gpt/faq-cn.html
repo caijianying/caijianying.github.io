@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ 页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .faq-item {
+            margin-bottom: 20px;
+        }
+        .faq-item h3 {
+            margin: 0;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .faq-item p {
+            margin: 0;
+            padding: 10px;
+            display: none;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>常见问题</h1>
+    <div class="faq-item">
+        <h3>问题 1: 如何注册账户？</h3>
+        <p>回答: 您可以通过点击页面右上角的“注册”按钮来创建一个新账户。填写必要的个人信息并提交即可完成注册。</p>
+    </div>
+    <div class="faq-item">
+        <h3>问题 2: 如何重置密码？</h3>
+        <p>回答: 在登录页面点击“忘记密码”链接，输入您的注册邮箱地址，系统会发送一封重置密码的邮件给您。</p>
+    </div>
+    <div class="faq-item">
+        <h3>问题 3: 如何联系客户服务？</h3>
+        <p>回答: 您可以通过点击“联系我们”页面上的表单来发送您的问题或意见，我们的客服团队会尽快回复您。</p>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.faq-item h3').forEach(item => {
+        item.addEventListener('click', () => {
+            const p = item.nextElementSibling;
+            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+</script>
+
+</body>
+</html>
