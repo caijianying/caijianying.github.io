@@ -447,7 +447,8 @@
     let UI_CONFIG = {
         "generalTabName": "",
         "agentTabName": "",
-        "guideLearnMore": "",
+        "generalKeyword": "",
+        "agentKeyword": "",
         "generalTopic": "",
         "generalMore": "",
         "agentTopic": "",
@@ -1013,7 +1014,7 @@
             showGuide('guide1', UI_CONFIG['generalTopic']);
             // 睡眠100毫秒
             new Promise(resolve => setTimeout(resolve, 100));
-            document.getElementById('guide1-more').innerText = UI_CONFIG['guideLearnMore'];
+            document.getElementById('guide1-more').innerText = UI_CONFIG['generalKeyword'];
         } else {
             useAgent = true;
             triggerGuide('guide2');
@@ -1024,7 +1025,7 @@
             showGuide('guide2', UI_CONFIG['agentTopic']);
             // 睡眠100毫秒
             new Promise(resolve => setTimeout(resolve, 100));
-            document.getElementById('guide2-more').innerText = UI_CONFIG['guideLearnMore'];
+            document.getElementById('guide2-more').innerText = UI_CONFIG['agentKeyword'];
         }
     }
 
@@ -1120,10 +1121,11 @@
                 console.log(resp);
                 UI_CONFIG.generalTabName = resp['generalTabName'];
                 UI_CONFIG.agentTabName = resp['agentTabName'];
-                UI_CONFIG.guideLearnMore = resp['guideLearnMore'];
+                UI_CONFIG.generalKeyword = resp['generalKeyword'];
                 UI_CONFIG.generalTopic = resp['generalTopic'];
                 UI_CONFIG.generalMore = resp['generalMore'];
                 UI_CONFIG.agentTopic = resp['agentTopic'];
+                UI_CONFIG.agentKeyword = resp['agentKeyword'];
                 UI_CONFIG.agentMore = resp['agentMore'];
                 UI_CONFIG.editBtnText = resp['editBtnText'];
                 UI_CONFIG.removeBtnText = resp['removeBtnText'];
