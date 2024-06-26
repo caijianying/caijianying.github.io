@@ -459,7 +459,8 @@
         "resendBtnText": "",
         "replyBtnText": "",
         "checkCodePrompt": "",
-        "thinkingText": ""
+        "thinkingText": "",
+        "youText": "",
     }
     window.javaQuery({
         request: JSON.stringify({
@@ -513,7 +514,7 @@
             var question = `
                 <div id="${questionId}" class="question-container">
                     <div class="question-header">
-                        <strong>你:</strong>
+                        <strong>`+UI_CONFIG['youText']+`:</strong>
                     </div>
                     <div class="questionArea">
                         ${renderedHTML}
@@ -1124,6 +1125,7 @@
                 UI_CONFIG.resendBtnText = resp['resendBtnText'];
                 UI_CONFIG.thinkingText = resp['thinkingText'];
                 UI_CONFIG.checkCodePrompt = resp['checkCodePrompt'];
+                UI_CONFIG.youText = resp['youText'];
                 const agentTabName = resp['agentTabName'];
                 const generalTabName = resp['generalTabName'];
                 document.getElementById('tab1-btn').innerText = generalTabName;
