@@ -288,6 +288,7 @@
             border: none;
             border-radius: 4px; /* 边框圆角 */
             outline: none; /* 去掉默认的聚焦边框 */
+            white-space: pre-wrap;
         }
 
         .new-badge {
@@ -304,11 +305,21 @@
         }
 
         @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-            100% { transform: translateX(0); }
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-10px);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+            75% {
+                transform: translateX(-10px);
+            }
+            100% {
+                transform: translateX(0);
+            }
         }
 
         @keyframes zoomIn {
@@ -362,6 +373,10 @@
             color: #FFD700;
             text-decoration: none;
             cursor: pointer;
+        }
+
+        .questionArea {
+            white-space: pre-wrap;
         }
 
     </style>
@@ -512,23 +527,18 @@
         document.getElementById(curTab).querySelector('.send-btn').setAttribute('type', 'stop');
         document.getElementById(curTab).querySelector('.input-field').value = '';
 
-        console.log(params);
         var questionId = params['id'];
         let mdQuestion = params['md'];
+        console.log(params);
         var questionElement = document.getElementById(questionId);
         if (questionElement == null) {
-            // 使用 marked 解析 Markdown 文本
-            let renderedHTML = marked.parse(mdQuestion);
-            if (!mdQuestion.includes("code")) {
-                renderedHTML = mdQuestion;
-            }
             var question = `
                 <div id="${questionId}" class="question-container">
                     <div class="question-header">
-                        <strong>`+UI_CONFIG['youText']+`:</strong>
+                        <strong>` + UI_CONFIG['youText'] + `:</strong>
                     </div>
                     <div class="questionArea">
-                        ${renderedHTML}
+                        ${mdQuestion}
                     </div>
                     <div class="toolbar">
                         <button class="toolbar-btn" onclick="edit(this)">` + UI_CONFIG["editBtnText"] + `</button>
@@ -537,6 +547,9 @@
                     </div>
                 </div>`;
             document.getElementById(curTab).querySelector('.body').innerHTML += question;  // 不需要再次将 question 字符串转为 HTML
+            const questionArea = document.getElementById(curTab).querySelector('.questionArea');
+            questionArea.innerHTML = questionArea.innerHTML.trim();
+
         } else {
             questionElement.querySelector('.toolbar').style.display = 'none'; // 修改样式设置方式
         }
@@ -589,10 +602,9 @@
         let value = self.value;
         if (value.toString().includes('```')) {
             value = value.replace('```', '\n```\n');
-            addCopyButtonToCodeBlocks();
         }
-        const renderedHTML = marked.parse(value);
-        div.innerHTML = renderedHTML;
+        value = value.trim();
+        div.innerHTML = value;
         self.parentElement.replaceChild(div, self);
     }
 
@@ -675,9 +687,12 @@
 
     // 完成回复，添加复制代码按钮、移除思考中图标、移除光标、显示问题工具栏
     function finishAnalyzing(questionId) {
-        document.getElementById(curTab).querySelector('#thinkingDiv').remove();
+        var thinkDiv = document.getElementById(curTab).querySelector(`#thinkingDiv`);
+        if (thinkDiv && thinkDiv != null) {
+            thinkDiv.remove();
+        }
         var cursor = document.getElementById(curTab).querySelector('#cursor');
-        if (cursor) {
+        if (cursor && cursor != null) {
             cursor.remove();
         }
         if (questionId) {
@@ -1068,11 +1083,13 @@
     function btnClick(agent, question) {
         const tabBtn = agent ? 'tab2-btn' : 'tab1-btn';
         const tabId = agent ? 'tab2' : 'tab1';
-        document.getElementById(tabId).querySelector('.input-field').value = question['md'];
         curTab = tabId;
         useAgent = agent;
         openTab(document.getElementById(tabBtn), tabId);
-        sendMessage();
+        if (question && question != '') {
+            document.getElementById(tabId).querySelector('.input-field').value = question['md'];
+            sendMessage();
+        }
     }
 
     function stopAnswer(useAgent) {
