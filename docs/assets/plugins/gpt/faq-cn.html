@@ -11,33 +11,77 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
+
         h1 {
             text-align: center;
             color: #333;
+            margin-bottom: 30px;
         }
+
         .faq-item {
             margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
+
         .faq-item h3 {
             margin: 0;
             padding: 10px;
             background-color: #007BFF;
             color: #fff;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
+
+        .faq-item h3:hover {
+            background-color: #0056b3;
+        }
+
         .faq-item p {
             margin: 0;
-            padding: 10px;
+            padding: 15px;
             display: none;
             background-color: #f9f9f9;
             border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .faq-item p.show {
+            display: block;
+            max-height: 500px; /* Set a max-height to allow transition */
+            opacity: 1;
+        }
+
+        .contact {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .contact a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -46,16 +90,29 @@
 <div class="container">
     <h1>常见问题</h1>
     <div class="faq-item">
-        <h3>问题 1: 如何注册账户？</h3>
-        <p>回答: 您可以通过点击页面右上角的“注册”按钮来创建一个新账户。填写必要的个人信息并提交即可完成注册。</p>
+        <h3>问题 1: AI代理模式是如何工作的？</h3>
+        <p>回答: 首先将目标拆解成多个任务，然后对任务进行更详细的实现，最终根据以上任务总结出完整的代码。</p>
     </div>
     <div class="faq-item">
-        <h3>问题 2: 如何重置密码？</h3>
-        <p>回答: 在登录页面点击“忘记密码”链接，输入您的注册邮箱地址，系统会发送一封重置密码的邮件给您。</p>
+        <h3>问题 2: 为何AI代理模式生成的代码不符合我的要求？</h3>
+        <p>回答: 想让生成的代码更加符合你的要求，可以做如下尝试：<br>
+            1. 尽可能详细地描述你的目标和达成目标必须要满足的条件，比如要有图形界面、要使用pygame库，要有方块移动功能等。<br>
+            2. 生成的代码可能会存在缺少具体实现的情况（如游戏中的方块移动功能），所以要查看拆解的任务中是否包含方块移动功能。如果没有，建议重新生成。<br>
+            3. 可能会由于某个任务实现得过于简单，导致最终代码缺少必要的实现。针对这一情况，可以重试你觉得不满意的任务。<br>
+            4. 偶尔会出现代码格式混乱的情况。针对这一情况，可以重试任务。<br>
+            以上尝试无疑会让代码准确性提升不少，但如官网所说，ChatGPT也可能会犯错，请理智使用。
+        </p>
     </div>
     <div class="faq-item">
-        <h3>问题 3: 如何联系客户服务？</h3>
-        <p>回答: 您可以通过点击“联系我们”页面上的表单来发送您的问题或意见，我们的客服团队会尽快回复您。</p>
+        <h3>问题 3: 如何设置网络代理？</h3>
+        <p>回答: 打开你的IDE。打开settings->tools->ChatGPT Coding,选择"Http Proxy"进行设置</p>
+    </div>
+    <div class="faq-item">
+        <h3>问题 4: 关于点击ChatGPT图标？</h3>
+        <p>回答: 对于mac用户，会优先打开已安装的ChatGPT桌面程序(固定路径"/Applications/ChatGPT.app")，若没安装则跳转至网页端。对于windows用户，跳转至网页端。</p>
+    </div>
+    <div class="contact">
+        若你的问题无法得到有效解决，请联系我，邮箱：<a href="mailto:xiaobaicai088@gmail.com">xiaobaicai088@gmail.com</a>
     </div>
 </div>
 
@@ -63,7 +120,7 @@
     document.querySelectorAll('.faq-item h3').forEach(item => {
         item.addEventListener('click', () => {
             const p = item.nextElementSibling;
-            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+            p.classList.toggle('show');
         });
     });
 </script>

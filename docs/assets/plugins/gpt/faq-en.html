@@ -11,33 +11,77 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
+
         h1 {
             text-align: center;
             color: #333;
+            margin-bottom: 30px;
         }
+
         .faq-item {
             margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
         }
+
         .faq-item h3 {
             margin: 0;
             padding: 10px;
             background-color: #007BFF;
             color: #fff;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
+
+        .faq-item h3:hover {
+            background-color: #0056b3;
+        }
+
         .faq-item p {
             margin: 0;
-            padding: 10px;
+            padding: 15px;
             display: none;
             background-color: #f9f9f9;
             border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .faq-item p.show {
+            display: block;
+            max-height: 500px; /* Set a max-height to allow transition */
+            opacity: 1;
+        }
+
+        .contact {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .contact a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -46,16 +90,29 @@
 <div class="container">
     <h1>Frequently Asked Questions</h1>
     <div class="faq-item">
-        <h3>Question 1: How do I register an account?</h3>
-        <p>Answer: You can create a new account by clicking the "Register" button at the top right corner of the page. Fill in the required personal information and submit to complete the registration.</p>
+        <h3>Question 1: How does AI agent mode work?</h3>
+        <p>Answer: First, break down the goal into multiple tasks, then implement each task in detail, and finally summarize the complete code based on these tasks.</p>
     </div>
     <div class="faq-item">
-        <h3>Question 2: How do I reset my password?</h3>
-        <p>Answer: On the login page, click the "Forgot Password" link, enter your registered email address, and the system will send you an email to reset your password.</p>
+        <h3>Question 2: Why doesn't the generated code from AI agent mode meet my requirements?</h3>
+        <p>Answer: To make the generated code more tailored to your needs, you can try the following:<br>
+            1. Describe your goals and the essential conditions that must be met in as much detail as possible, such as requiring a graphical interface, using the pygame library, or having block movement functionality.<br>
+            2. The generated code may lack specific implementations (e.g., block movement in a game). Check if such functionalities are included in the breakdown of tasks. If not, consider regenerating.<br>
+            3. Sometimes a task may seem too simple, resulting in a lack of necessary implementations in the final code. In such cases, retry the unsatisfactory tasks.<br>
+            4. Occasionally, the code may appear disorganized. Retry the task in such instances.<br>
+            Following these steps will undoubtedly improve code accuracy. However, as stated on the official website, ChatGPT may still make mistakes. Please use it wisely.
+        </p>
     </div>
     <div class="faq-item">
-        <h3>Question 3: How do I contact customer service?</h3>
-        <p>Answer: You can send your questions or feedback through the form on the "Contact Us" page, and our customer service team will respond as soon as possible.</p>
+        <h3>Question 3: How do I set up a network proxy?</h3>
+        <p>Answer: Open your IDE. Navigate to settings -> tools -> ChatGPT Coding, select "Http Proxy" for configuration</p>
+    </div>
+    <div class="faq-item">
+        <h3>Question 4: What happens when I click the ChatGPT icon?</h3>
+        <p>Answer: For macOS users, it will prioritize opening the installed ChatGPT desktop application (fixed path "/Applications/ChatGPT.app"). If not installed, it will redirect to the web version. For Windows users, it will redirect to the web version.</p>
+    </div>
+    <div class="contact">
+        If your question cannot be effectively resolved, please contact me via email: <a href="mailto:xiaobaicai088@gmail.com">xiaobaicai088@gmail.com</a>
     </div>
 </div>
 
@@ -63,7 +120,7 @@
     document.querySelectorAll('.faq-item h3').forEach(item => {
         item.addEventListener('click', () => {
             const p = item.nextElementSibling;
-            p.style.display = p.style.display === 'block' ? 'none' : 'block';
+            p.classList.toggle('show');
         });
     });
 </script>
