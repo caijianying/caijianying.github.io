@@ -10,9 +10,8 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             background-color: #f0f0f0;
             color: #333;
         }
@@ -27,10 +26,14 @@
             border-radius: 8px;
         }
 
+        h1, h2 {
+            color: #007BFF;
+            text-align: center;
+        }
+
         h1 {
             font-size: 2em;
             margin-bottom: 10px;
-            color: #007BFF;
         }
 
         h2 {
@@ -45,44 +48,82 @@
             margin-bottom: 20px;
         }
 
-        .description {
+        .features {
             font-size: 1.2em;
             line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .features h2 {
+            margin-top: 20px;
+        }
+
+        .learn-more {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            background-color: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .learn-more a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .learn-more a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>IDEA Plugin 【ChatGPT Coding】 Introduction</h1>
-    <div class="description">
-        <p>Welcome to ChatGPT Coding! This plugin will greatly enhance your development efficiency, offering a variety of practical features to make your coding process smoother.</p>
-        <p>The plugin has two modes: Regular Mode and AI Agent Mode. It supports various common programming languages.</p>
-        <p>Regular Mode includes features such as intelligent code completion, code explanation, and code optimization. AI Agent Mode is designed to independently think about the target and complete more complex coding tasks.</p>
-        <p>Configure your ApiKey in the plugin settings: Preferences -> Tools -> ChatGPT Coding.</p>
-        <p>Download and experience our plugin now to enjoy a more efficient development process! For more details, see <a href="faq-en.html">FAQ</a>.</p>
+    <h1>IDEA Plugin: ChatGPT Coding Feature Introduction</h1>
+    <div class="features">
+        <h2>Improve Development Efficiency</h2>
+        <p>In normal mode, increase development efficiency with intelligent code completion, code explanation, and code optimization features.</p>
+
+        <h2>Better Usability</h2>
+        <p>In AI Agent mode, the plugin can independently think and complete more complex coding tasks.</p>
+
+        <h2>Supports Multiple Programming Languages</h2>
+        <p>The plugin supports multiple programming languages, making it applicable to different development environments.</p>
+
+        <h2>Easy Setup</h2>
+        <p>Users only need to configure their ApiKey in the plugin settings: Preferences -> Tools -> ChatGPT Coding.</p>
     </div>
-    <br/>
-    <h2>The Entire Process of Using AI Agent Mode to Create a Snake Game in 6 Minutes</h2>
+    <div class="learn-more">
+        <p>For more information, see <a href="faq-en.html">FAQ</a></p>
+    </div>
+    <h2>Using AI Agent Mode + GPT-3.5 to Create a Snake Game in 6 Minutes</h2>
     <video controls>
         <source src="static/screenshot/snake.mp4" type="video/mp4">
-        Your browser does not support the HTML5 video tag. <a href="static/screenshot/snake.mp4">Click here to watch</a>.
+        Your browser does not support the HTML5 video tag. <a href="static/screenshot/snake.mp4">Watch here</a>
     </video>
-    <div class="description">
-        <p>Debugging techniques used in the process can be found in the <a href="faq-en.html">FAQ</a>.</p>
+    <div class="features">
+        <p>See debugging techniques during implementation in the <a href="faq-en.html">FAQ</a></p>
         <p>This mode is more flexible, allowing you to:</p>
-        <p>1. Stop and ask questions at any time during execution.</p>
-        <p>2. Modify the target and re-ask questions.</p>
-        <p>3. Retry any task.</p>
-        <p>More shortcuts are waiting for you to discover.</p>
+        <ul>
+            <li>Stop questioning at any time during execution.</li>
+            <li>Modify the goal and ask again.</li>
+            <li>Retry any task.</li>
+        </ul>
+        Discover more shortcut operations.
     </div>
-    <br/>
     <h2>Normal Mode</h2>
     <video controls>
         <source src="static/screenshot/normal.mp4" type="video/mp4">
-        Your browser does not support the HTML5 video tag. <a href="static/screenshot/normal.mp4">Click here to watch</a>.
+        Your browser does not support the HTML5 video tag. <a href="static/screenshot/normal.mp4">Watch here</a>
     </video>
-    <div class="description">
-        <p>In addition to using keyboard shortcuts, you can also open the ChatGPT Coding menu by right-clicking.</p>
+    <div class="features">
+        <p>In addition to using shortcuts to open the menu, you can also right-click and select the ChatGPT Coding menu.</p>
     </div>
 </div>
 </body>
