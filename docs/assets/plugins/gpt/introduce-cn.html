@@ -10,9 +10,8 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             background-color: #f0f0f0;
             color: #333;
         }
@@ -27,10 +26,14 @@
             border-radius: 8px;
         }
 
+        h1, h2 {
+            color: #007BFF;
+            text-align: center;
+        }
+
         h1 {
             font-size: 2em;
             margin-bottom: 10px;
-            color: #007BFF;
         }
 
         h2 {
@@ -45,44 +48,82 @@
             margin-bottom: 20px;
         }
 
-        .description {
+        .features {
             font-size: 1.2em;
             line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .features h2 {
+            margin-top: 20px;
+        }
+
+        .learn-more {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            background-color: #e7f3ff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .learn-more a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .learn-more a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>IDEA 插件【ChatGPT Coding】介绍</h1>
-    <div class="description">
-        <p>欢迎使用ChatGPT Coding！此插件将极大地提升您的开发效率，提供多种实用功能，让您的编码过程更加顺畅。</p>
-        <p>插件分为普通模式和AI代理模式。支持多种常见编程语言。</p>
-        <p>普通模式主要包括智能代码补全、代码解释、代码优化等功能。AI代理模式旨在针对目标独立思考，完成更复杂的代码编写。</p>
-        <p>在插件设置中，配置您的 ApiKey：Preferences-> Tools-> ChatGPT Coding</p>
-        <p>立即下载并体验我们的插件，享受更高效的开发流程吧！了解更多见<a href="faq-cn.html">FAQ</a></p>
+    <h1>IDEA 插件【ChatGPT Coding】功能介绍</h1>
+    <div class="features">
+        <h2>提高开发效率</h2>
+        <p>普通模式下，通过智能代码补全、代码解释、代码优化等功能，提高开发效率。</p>
+
+        <h2>更好用</h2>
+        <p>在AI代理模式下，插件能够独立思考，完成更复杂的代码编写任务。</p>
+
+        <h2>支持多种编程语言</h2>
+        <p>插件支持多种编程语言，使得它可以应用于不同的开发环境。</p>
+
+        <h2>设置简单</h2>
+        <p>用户只需在插件设置中配置您的 ApiKey 即可：Preferences -> Tools -> ChatGPT Coding。</p>
     </div>
-    <br/>
-    <h2>使用AI代理模式【6分钟实现一个贪吃蛇游戏】的全过程</h2>
+    <div class="learn-more">
+        <p>了解更多见<a href="faq-cn.html">FAQ</a></p>
+    </div>
+    <h2>使用AI代理模式+GPT3.5【6分钟实现一个贪吃蛇游戏】的全过程</h2>
     <video controls>
         <source src="static/screenshot/snake.mp4" type="video/mp4">
         您的浏览器不支持 HTML5 视频标签。<a href="static/screenshot/snake.mp4">点此观看</a>
     </video>
-    <div class="description">
+    <div class="features">
         <p>实现过程中的调试技巧可见<a href="faq-cn.html">FAQ</a></p>
-        <P>此模式更加灵活，你能做到</P>
-        <P>1.执行过程中，可随时停止提问。</P>
-        <p>2.可修改目标，重新提问。</p>
-        <p>3.可对任何一个任务进行重试</p>
-        <P>更多的快捷操作等你发现。</P>
+        <p>此模式更加灵活，你能做到：</p>
+        <ul>
+            <li>执行过程中，可随时停止提问。</li>
+            <li>可修改目标，重新提问。</li>
+            <li>可对任何一个任务进行重试。</li>
+        </ul>
+        更多的快捷操作等你发现。
     </div>
-    <br/>
     <h2>普通模式</h2>
     <video controls>
         <source src="static/screenshot/normal.mp4" type="video/mp4">
         您的浏览器不支持 HTML5 视频标签。<a href="static/screenshot/normal.mp4">点此观看</a>
     </video>
-    <div class="description">
-        <p>以上菜单除了用快捷键打开，还可以右键选择ChatGPT Coding菜单</p>
+    <div class="features">
+        <p>以上菜单除了用快捷键打开，还可以右键选择 ChatGPT Coding 菜单。</p>
     </div>
 </div>
 </body>
