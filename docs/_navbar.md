@@ -6,7 +6,7 @@
     * [SkyWalking](md/completing/README.md)
   
 * SpringBoot中间件
-    * [搭建和使用工程脚手架 🔥](md/springboot_middleware/archetype/archetype.md)
+    * [手把手教你使用Maven Archetype自定义代码脚手架 🔥](md/springboot_middleware/archetype/archetype.md)
     * [白名单](md/completing/README.md)
     * [限流](md/completing/README.md)
     * [Apollo自动配置](md/completing/README.md)
