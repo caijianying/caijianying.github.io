@@ -25,10 +25,10 @@
 
 ### 0. 开发环境
 
->1. JDK8
+>1. java11
 >2. Maven 3.8.1
->3. SpringBoot 2.4.13
->4. MyBatis-Plus 3.4.1
+>3. SpringBoot 2.7.0
+>4. MyBatis-Plus 3.5.1
 
 ### 1. 安装maven脚手架插件
 
@@ -74,9 +74,11 @@
 
 > 注意⚠️
 >
->️我们配置模板的位置是target目录下的**`generated-sources/archetype/src/main/resources`**，可不要弄错了。
+>️我们配置模板的位置是target目录下的**`generated-sources/archetype/src/main/resources/archetype-resources`**，可不要弄错了。
 
-##### 1. 增加modules的信息
+##### 1. 修改子module的名称，改为双下划线形式，如`__rootArtifactId__-client`
+
+##### 2. 父pom增加modules的信息
 
 ```maven
       <modules>
@@ -110,9 +112,7 @@
       </dependency>
 ```
 
-##### 2. 同样的方式，修改子module的pom文件
-
-##### 3. 修改module的名称，改为双下划线形式，如`__rootArtifactId__-client`
+##### 3. 同样的方式，修改子module的pom文件
 
 ##### 4. 修改 `archetype-metadata`。位置在target目录下的`generated-sources/archetype/src/main/resources/META-INF/maven/archetype-metadata.xml`,命名方式跟上一步保持一致，注意id、dir、name的改法。如将
 
