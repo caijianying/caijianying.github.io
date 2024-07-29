@@ -11,26 +11,111 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
     <link rel="stylesheet" href="/assets/css/vue.css">
     <link rel="stylesheet" href="/assets/css/gitalk.css">
+    <!--    <style type="text/css">-->
+    <!--        .markdown-section {-->
+    <!--            position: relative;-->
+    <!--            overflow: hidden;-->
+    <!--        }-->
+
+    <!--        .lock-overlay {-->
+    <!--            display: flex; /* Use flex to center the content */-->
+    <!--            justify-content: center;-->
+    <!--            align-items: center;-->
+    <!--            position: absolute;-->
+    <!--            top: 40%; /* Start the overlay at 20% of the article height */-->
+    <!--            left: 0;-->
+    <!--            width: 100%;-->
+    <!--            height: 60%; /* Cover the remaining 80% */-->
+    <!--            background-color: rgba(255, 255, 255, 0.95);-->
+    <!--            text-align: center;-->
+    <!--            border-radius: 15px;-->
+    <!--            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);-->
+    <!--            z-index: 1000;-->
+    <!--        }-->
+
+    <!--        .lock-overlay h2 {-->
+    <!--            margin: 20px 0;-->
+    <!--            font-size: 24px;-->
+    <!--            color: #333;-->
+    <!--        }-->
+
+    <!--        .lock-overlay img {-->
+    <!--            max-width: 150px;-->
+    <!--            margin: 20px 0;-->
+    <!--        }-->
+
+    <!--        #unlock-btn {-->
+    <!--            margin-top: 20px;-->
+    <!--            padding: 10px 20px;-->
+    <!--            font-size: 16px;-->
+    <!--            background-color: #007bff;-->
+    <!--            color: #fff;-->
+    <!--            border: none;-->
+    <!--            cursor: pointer;-->
+    <!--            border-radius: 5px;-->
+    <!--            transition: background-color 0.3s;-->
+    <!--        }-->
+
+    <!--        #unlock-btn:hover {-->
+    <!--            background-color: #0056b3;-->
+    <!--        }-->
+
+
+    <!--        /* CSS for the copy button */-->
+    <!--        .copy-button {-->
+    <!--            position: absolute;-->
+    <!--            bottom: 5px;-->
+    <!--            right: 5px;-->
+    <!--            background-color: transparent;-->
+    <!--            border: none;-->
+    <!--            cursor: pointer;-->
+    <!--            padding: 0;-->
+    <!--        }-->
+
+    <!--        .copy-button svg {-->
+    <!--            width: fit-content;-->
+    <!--            height: fit-content;-->
+    <!--            fill: #3dc746;-->
+    <!--            margin: 0px -5px -24px 0px;-->
+    <!--        }-->
+
+    <!--        pre {-->
+    <!--            position: relative;-->
+    <!--            padding: 10px; /* Add space for the button */-->
+    <!--            border: 1px solid #ccc;-->
+    <!--        }-->
+
+    <!--        .copy-success {-->
+    <!--            position: absolute;-->
+    <!--            bottom: 30px;-->
+    <!--            right: 10px;-->
+    <!--            background-color: #3dc746;-->
+    <!--            color: white;-->
+    <!--            padding: 5px 10px;-->
+    <!--            border-radius: 5px;-->
+    <!--            display: none;-->
+    <!--        }-->
+    <!--    </style>-->
+
     <style type="text/css">
         .markdown-section {
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Hide overflow to prevent displaying content below the overlay */
         }
 
         .lock-overlay {
-            display: flex; /* Use flex to center the content */
-            justify-content: center;
-            align-items: center;
+            display: none; /* Default to hidden */
             position: absolute;
-            top: 40%; /* Start the overlay at 20% of the article height */
+            top: 0; /* Adjusted by JavaScript */
             left: 0;
             width: 100%;
-            height: 80%; /* Cover the remaining 80% */
+            height: 550px; /* Fixed height for the overlay */
             background-color: rgba(255, 255, 255, 0.95);
             text-align: center;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            overflow-y: auto; /* Allow vertical scrolling if content overflows */
         }
 
         .lock-overlay h2 {
@@ -60,7 +145,6 @@
             background-color: #0056b3;
         }
 
-        /* CSS for the copy button */
         .copy-button {
             position: absolute;
             bottom: 5px;
@@ -80,7 +164,7 @@
 
         pre {
             position: relative;
-            padding: 10px; /* Add space for the button */
+            padding: 10px;
             border: 1px solid #ccc;
         }
 
@@ -100,7 +184,7 @@
 <div id="app"></div>
 <script>
     window.$docsify = {
-        name: '小白菜 学编程',
+        name: '程序员小白菜',
         repo: 'https://github.com/caijianying/caijianying.github.io',
         auto2top: true,
         coverpage: true,
@@ -142,20 +226,6 @@
                     divEle.style = "width: " + main.clientWidth + "px; margin: 0 auto 20px;";
                     domObj.appendTo(domObj.find(".content"), divEle);
 
-                    let articles = ['Spring如何解决循环依赖问题'];
-                    let titleEle = document.querySelector('.sidebar-nav').querySelector('li ul .active a');
-                    if (titleEle != null) {
-                        const curArticle = titleEle.textContent;
-                        console.log(curArticle)
-                        console.log(document.cookie)
-                        for (let article of articles) {
-                            if (curArticle == article) {
-                                console.log('加锁成功！')
-                                lock()
-
-                            }
-                        }
-                    }
                     // Add copy button to pre>code block
                     const codeBlocks = document.querySelectorAll('pre > code');
                     codeBlocks.forEach(codeBlock => {
@@ -189,43 +259,157 @@
                         });
                     });
 
-                    // const titles = document.querySelectorAll('ul > :scope > li');
-                    // titles.forEach(t=>{
-                    //     console.log(t.textContent)
-                    // })
-                    const actives = document.querySelectorAll('.active');
-                    actives.forEach(t=>{
-                        console.log(t.textContent)
-                    })
+                    let articles = ['Spring如何解决循环依赖问题', '手把手教你使用Maven Archetype自定义代码脚手架'];
+                    if (needLock(articles)) {
+                        lock();
+                        const article = document.querySelector('.markdown-section');
+                        const overlay = document.querySelector('.lock-overlay');
+                        let intervalId = setInterval(() => {
+                            checkIsFans(function (token) {
+                                overlay.style.display = 'none';
+                                article.style.maxHeight = 'none';
+                                article.style.overflow = 'visible';
+                                clearInterval(intervalId)
+                                localStorage.setItem(token, 'UNLOCKED');
+                            });
+                        }, 2000)
+                    }
                 });
+
+                function generateVerificationCode() {
+                    const charset = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+                    const length = 6;
+                    let code = '';
+
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = Math.floor(Math.random() * charset.length);
+                        code += charset[randomIndex];
+                    }
+
+                    // 使用正则表达式验证生成的验证码
+                    const isValid = /^[0-9A-Za-z]{6}$/.test(code);
+                    if (isValid) {
+                        return code;
+                    } else {
+                        // 如果不符合条件，递归生成新的验证码
+                        return generateVerificationCode();
+                    }
+                }
+
+                // function lock() {
+                //     const article = document.querySelector('.markdown-section');
+                //     const key = 'docsify.lock.key';
+                //     let verificationCode = localStorage.getItem(key);
+                //     // Create lock overlay
+                //     const overlay = document.createElement('div');
+                //     overlay.classList.add('lock-overlay');
+                //     overlay.innerHTML = `
+                //         <h2>扫码或搜索：程序员小白菜</h2>
+                //         <h2>发送：${verificationCode}</h2>
+                //         <h2>即可立即永久解锁本站所有文章</h2>
+                //         <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
+                //     `;
+                //
+                //     // Append overlay to article
+                //     article.appendChild(overlay);
+                //
+                //     // Display the overlay
+                //     overlay.style.display = 'block';
+                // }
 
                 function lock() {
                     const article = document.querySelector('.markdown-section');
+                    const key = 'docsify.lock.key';
+                    let verificationCode = localStorage.getItem(key);
 
                     // Create lock overlay
                     const overlay = document.createElement('div');
                     overlay.classList.add('lock-overlay');
                     overlay.innerHTML = `
-                        <h2>扫码或搜索：程序员小白菜</h2>
-                        <h2>发送：92631C</h2>
-                        <h2>即可立即永久解锁本站所有文章</h2>
-                        <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
-                        <button id="unlock-btn">Unlock</button>
-                    `;
+        <h2>扫码或搜索：程序员小白菜</h2>
+        <h2>发送：${verificationCode}</h2>
+        <h2>即可立即永久解锁本站所有文章</h2>
+        <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
+    `;
 
                     // Append overlay to article
                     article.appendChild(overlay);
 
-                    // Display the overlay
-                    overlay.style.display = 'block';
+                    // Wait for the overlay to be added to the DOM before calculating its height
+                    setTimeout(() => {
+                        const articleHeight = article.scrollHeight; // Total height of the article including overflow
+                        const overlayHeight = overlay.offsetHeight;
+                        const topPosition = articleHeight * 0.4; // 40% of the article height
 
-                    // Add unlock button event listener
-                    const unlockButton = document.getElementById('unlock-btn');
-                    unlockButton.addEventListener('click', () => {
-                        overlay.style.display = 'none';
-                        article.style.maxHeight = 'none';
-                        article.style.overflow = 'visible';
-                    });
+                        // Adjust the overlay's top position
+                        overlay.style.top = `${topPosition}px`;
+
+                        // Calculate the visible height of the article
+                        const visibleHeight = topPosition + overlayHeight;
+                        if (article.scrollHeight > visibleHeight) {
+                            article.style.height = `${topPosition + 350 + 200}px`;
+                        }
+
+                        // Display the overlay
+                        overlay.style.display = 'block';
+                    }, 0); // Short timeout to ensure DOM updates
+                }
+
+
+                function checkIsFans(func) {
+                    let token = getToken();
+                    fetch("https://nse4qtqv6ao7-2921.shanghai-01.dayunet.com/api/check?token=" + token)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data && func) {
+                                func(token)
+                            }
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with your fetch operation:', error);
+                            return false
+                        });
+                }
+
+                function needLock(articles) {
+                    let check = localStorage.getItem(getToken());
+                    if (check != null) {
+                        return check != 'UNLOCKED';
+                    }
+                    let titleEle = document.querySelector('.sidebar-nav').querySelector('li ul .active a');
+                    if (titleEle != null) {
+                        const curArticle = titleEle.textContent;
+                        for (let article of articles) {
+                            if (curArticle == article) {
+                                return true
+                            }
+                        }
+                    }
+                    const curArticle = document.querySelector('.markdown-section h1');
+                    if (curArticle == null) {
+                        return false
+                    }
+                    for (let article of articles) {
+                        if (curArticle.innerText == article) {
+                            return true
+                        }
+                    }
+                    return false
+                }
+
+                function getToken() {
+                    const key = 'docsify.lock.key';
+                    let id = localStorage.getItem(key);
+                    if (id == null) {
+                        id = generateVerificationCode();
+                        localStorage.setItem(key, id);
+                    }
+                    return id;
                 }
             }
         ]
