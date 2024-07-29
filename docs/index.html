@@ -101,48 +101,103 @@
         .markdown-section {
             position: relative;
             overflow: hidden; /* Hide overflow to prevent displaying content below the overlay */
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-height: 60%; /* Show the top 60% of the content */
+            transition: max-height 0.3s;
         }
 
-        .lock-overlay {
-            display: none; /* Default to hidden */
+        #read-more-btn {
             position: absolute;
-            top: 0; /* Adjusted by JavaScript */
-            left: 0;
-            width: 100%;
-            height: 550px; /* Fixed height for the overlay */
-            background-color: rgba(255, 255, 255, 0.95);
-            text-align: center;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            overflow-y: auto; /* Allow vertical scrolling if content overflows */
-        }
-
-        .lock-overlay h2 {
-            margin: 20px 0;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .lock-overlay img {
-            max-width: 150px;
-            margin: 20px 0;
-        }
-
-        #unlock-btn {
-            margin-top: 20px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
+            font-size: 18px;
+            background-color: #28a745;
             color: #fff;
             border: none;
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        #read-more-btn:hover {
+            background-color: #218838;
+        }
+
+        .overlay-mask {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            z-index: 5;
+        }
+
+        .lock-overlay {
+            display: none; /* Default to hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            max-height: 80%;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            overflow-y: auto; /* Allow vertical scrolling if content overflows */
+            padding: 40px 20px;
+        }
+
+        .lock-overlay h2 {
+            margin: 20px 0;
+            font-size: 24px;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .lock-overlay img {
+            max-width: 200px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #unlock-btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         #unlock-btn:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            font-size: 28px; /* Increase font size */
+            font-weight: bold; /* Make the "×" bold */
+            cursor: pointer;
+            color: #fff;
         }
 
         .copy-button {
@@ -178,6 +233,12 @@
             border-radius: 5px;
             display: none;
         }
+
+        .highlight {
+            color: #ff6347; /* Use a bright color for highlighting */
+            font-weight: bold; /* Make the highlighted text bold */
+        }
+
     </style>
 </head>
 <body>
@@ -258,14 +319,23 @@
                             }, 2000);
                         });
                     });
-
+                    const article = document.querySelector('.markdown-section');
                     let articles = ['Spring如何解决循环依赖问题', '手把手教你使用Maven Archetype自定义代码脚手架'];
-                    if (needLock(articles)) {
+
+                    let needToLock = needLock(articles);
+                    let unLocked = hasUnLocked();
+                    let mustLock = needToLock && !unLocked;
+
+                    article.style.overflow = null;
+                    if (mustLock) {
                         lock();
-                        const article = document.querySelector('.markdown-section');
-                        const overlay = document.querySelector('.lock-overlay');
                         let intervalId = setInterval(() => {
                             checkIsFans(function (token) {
+                                const overlay = document.querySelector('.lock-overlay');
+                                let readMoreBtn = document.querySelector('#read-more-btn');
+                                readMoreBtn.style.display = 'none'; // Hide the read more button
+                                let overlayMask = document.querySelector('.overlay-mask');
+                                overlayMask.style.display = 'none'; // Hide the overlay mask
                                 overlay.style.display = 'none';
                                 article.style.maxHeight = 'none';
                                 article.style.overflow = 'visible';
@@ -273,8 +343,19 @@
                                 localStorage.setItem(token, 'UNLOCKED');
                             });
                         }, 2000)
+                    } else {
+                        article.style.maxHeight = 'none';
+                        article.style.overflow = 'visible';
                     }
                 });
+
+                function hasUnLocked() {
+                    let check = localStorage.getItem(getToken());
+                    if (check != null) {
+                        return check == 'UNLOCKED';
+                    }
+                    return false;
+                }
 
                 function generateVerificationCode() {
                     const charset = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -296,63 +377,58 @@
                     }
                 }
 
-                // function lock() {
-                //     const article = document.querySelector('.markdown-section');
-                //     const key = 'docsify.lock.key';
-                //     let verificationCode = localStorage.getItem(key);
-                //     // Create lock overlay
-                //     const overlay = document.createElement('div');
-                //     overlay.classList.add('lock-overlay');
-                //     overlay.innerHTML = `
-                //         <h2>扫码或搜索：程序员小白菜</h2>
-                //         <h2>发送：${verificationCode}</h2>
-                //         <h2>即可立即永久解锁本站所有文章</h2>
-                //         <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
-                //     `;
-                //
-                //     // Append overlay to article
-                //     article.appendChild(overlay);
-                //
-                //     // Display the overlay
-                //     overlay.style.display = 'block';
-                // }
-
                 function lock() {
                     const article = document.querySelector('.markdown-section');
                     const key = 'docsify.lock.key';
                     let verificationCode = localStorage.getItem(key);
 
+                    // Create read more button
+                    const readMoreBtn = document.createElement('button');
+                    readMoreBtn.id = 'read-more-btn';
+                    readMoreBtn.textContent = '阅读全文';
+                    article.appendChild(readMoreBtn);
+
+                    // Create overlay mask
+                    const overlayMask = document.createElement('div');
+                    overlayMask.classList.add('overlay-mask');
+                    article.appendChild(overlayMask);
+
                     // Create lock overlay
                     const overlay = document.createElement('div');
                     overlay.classList.add('lock-overlay');
                     overlay.innerHTML = `
-        <h2>扫码或搜索：程序员小白菜</h2>
-        <h2>发送：${verificationCode}</h2>
-        <h2>即可立即永久解锁本站所有文章</h2>
-        <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
-    `;
+                        <button class="close-btn">&times;</button>
+                        <h2>扫码或搜索：<span class="highlight">程序员小白菜</span></h2>
+                        <h2>发送：<span class="highlight">${verificationCode}</span></h2>
+                        <h2>即可<span class="highlight">立即永久</span>解锁本站所有文章</h2>
+                        <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
+                    `;
 
-                    // Append overlay to article
-                    article.appendChild(overlay);
+                    // Append overlay to body
+                    document.body.appendChild(overlay);
 
-                    // Wait for the overlay to be added to the DOM before calculating its height
-                    setTimeout(() => {
-                        const articleHeight = article.scrollHeight; // Total height of the article including overflow
-                        const overlayHeight = overlay.offsetHeight;
-                        const topPosition = articleHeight * 0.4; // 40% of the article height
-
-                        // Adjust the overlay's top position
-                        overlay.style.top = `${topPosition}px`;
-
-                        // Calculate the visible height of the article
-                        const visibleHeight = topPosition + overlayHeight;
-                        if (article.scrollHeight > visibleHeight) {
-                            article.style.height = `${topPosition + 350 + 200}px`;
-                        }
-
-                        // Display the overlay
+                    // Add click event to read more button
+                    readMoreBtn.addEventListener('click', function () {
+                        const rect = readMoreBtn.getBoundingClientRect();
+                        overlay.style.top = `${rect.top - overlay.offsetHeight - 350}px`;
+                        overlay.style.left = `${rect.left + rect.width / 2 - overlay.offsetWidth / 2}px`;
                         overlay.style.display = 'block';
-                    }, 0); // Short timeout to ensure DOM updates
+                    });
+
+                    const closeBtn = overlay.querySelector('.close-btn');
+                    closeBtn.addEventListener('click', function () {
+                        overlay.style.display = 'none';
+                    });
+
+                    // Adjust article height to show remaining 10% content below the button
+                    const adjustArticleHeight = () => {
+                        const totalHeight = article.scrollHeight;
+                        const visibleHeight = totalHeight * 0.1 + readMoreBtn.offsetHeight;
+                        article.style.maxHeight = `${visibleHeight}px`;
+                    };
+
+                    // Call the function initially
+                    adjustArticleHeight();
                 }
 
 
@@ -377,10 +453,6 @@
                 }
 
                 function needLock(articles) {
-                    let check = localStorage.getItem(getToken());
-                    if (check != null) {
-                        return check != 'UNLOCKED';
-                    }
                     let titleEle = document.querySelector('.sidebar-nav').querySelector('li ul .active a');
                     if (titleEle != null) {
                         const curArticle = titleEle.textContent;
