@@ -18,6 +18,8 @@
 * 字节码编程
     * [ByteBuddy](md/completing/README.md)
 
+* [最佳实践](md/best_practice/_sidebar.md)  
+
 * [杂项](md/out_of_order/_sidebar.md)
 
-* [手写Spring](md/handle/spring/spring_prepare/spring_prepare)
+[comment]: <> (* [手写Spring]&#40;md/handle/spring/spring_prepare/spring_prepare&#41;)

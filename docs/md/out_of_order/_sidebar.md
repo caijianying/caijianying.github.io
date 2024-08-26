@@ -3,4 +3,3 @@
     - [JVM知识点整理](/md/out_of_order/jvm_knowledge/jvm_knowledge)
     - [Mysql知识点整理](/md/out_of_order/mysql_knowledge/mysql_knowledge)
     - [Maven依赖的作用域](/md/out_of_order/test_scope/test_scope)
-    - [Ubuntu云服务器部署](/md/out_of_order/ubuntu_deploy/ubuntu_deploy.md)

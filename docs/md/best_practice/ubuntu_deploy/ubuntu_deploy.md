@@ -2,7 +2,7 @@
 
 > Ubuntu 22.04
 
-## 安装docker
+## 1.安装docker
 
 * 先看docker是否安装
 
@@ -28,7 +28,7 @@ snap install docker
 mkdir /home/docker 
 ```
 
-## 安装Docker-Compose
+## 2.安装Docker-Compose
 
 1. 打开网址：https://github.com/docker/compose/releases/tag/v2.16.0，
    复制下载地址docker-compose-linux-x86_64
@@ -48,7 +48,7 @@ docker-compose version
 
 ```
 
-## 容器化部署
+## 3.容器化部署
 
 ### 部署依赖组件
 
@@ -164,7 +164,9 @@ docker rmi -f docker-your-app;
 docker-compose -f docker-compose.yml up your-app
 ```
 
-## 记一次发送邮件功能在云服务器上部署遇到的问题
+## [4.Nginx配置域名访问](/md/best_practice/nginx_ssl_cors/nginx_ssl_cors.md)
+
+## 5.记一次发送邮件功能在云服务器上部署遇到的问题
 
 > 本次是采用**JDK11**的**JavaMail**发送邮件，邮件服务器为：**腾讯企业邮箱**,采用**SMTP**协议
 
