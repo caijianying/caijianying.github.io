@@ -1,0 +1,3 @@
+- [目录](/md/best_practice/_sidebar)
+    - [Ubuntu云服务器部署](/md/best_practice/ubuntu_deploy/ubuntu_deploy.md)
+    - [Nginx配置SSL证书&跨域访问](/md/best_practice/nginx_ssl_cors/nginx_ssl_cors.md)
