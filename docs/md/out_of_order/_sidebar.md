@@ -3,3 +3,4 @@
     - [JVM知识点整理](/md/out_of_order/jvm_knowledge/jvm_knowledge)
     - [Mysql知识点整理](/md/out_of_order/mysql_knowledge/mysql_knowledge)
     - [Maven依赖的作用域](/md/out_of_order/test_scope/test_scope)
+    - [String中的intern你了解吗](/md/out_of_order/string_pool/string_pool)
