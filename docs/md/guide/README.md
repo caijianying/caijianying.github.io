@@ -8,25 +8,44 @@
 ⏰ 提醒：在接下来你对本博客的阅读中，如果遇到一些内容、图稿、代码等的勘误都可以提交Issue的方式进行反馈。亦可通过微信：**is_xiaobaicai**(备注来源)一起讨论，小白菜会陆续进行完善，感谢您的支持！
 * Issue：https://github.com/caijianying/caijianying.github.io/issues
 
-## 一、源码系列
-`技术要想不断进步，就需要熟读源码，修炼内功。`
-* Spring源码
-* Mybatis源码
-* SkyWalking源码
+[comment]: <> (## 一、源码系列)
 
-## 二、SpringBoot中间件
-* 手写一个SpringBoot Starter
-* Apollo 组件
-* 日志系统组件
+[comment]: <> (`技术要想不断进步，就需要熟读源码，修炼内功。`)
 
-## 三、Idea插件开发
+[comment]: <> (* Spring源码)
+
+[comment]: <> (* Mybatis源码)
+
+[comment]: <> (* SkyWalking源码)
+
+[comment]: <> (## 二、SpringBoot中间件)
+
+[comment]: <> (* 手写一个SpringBoot Starter)
+
+[comment]: <> (* Apollo 组件)
+
+[comment]: <> (* 日志系统组件)
+
+[comment]: <> (## 三、Idea插件开发)
 
 
-## 四、字节码编程
+[comment]: <> (## 四、字节码编程)
 
-* Javaassist
-* ASM
-* ByteBuddy
+[comment]: <> (* Javaassist)
+
+[comment]: <> (* ASM)
+
+[comment]: <> (* ByteBuddy)
+
+[comment]: <> (## 五、杂项)
+
+[comment]: <> (顾名思义，就是乱七八糟的东西。后续杂项中内容更为丰富以后，会将其抽离出来单独做一个专题。)
+
+## 一、Spring源码
+
+## 二、搭建SpringBoot脚手架
+
+## 三、最佳实践
 
 ## 五、杂项
-顾名思义，就是乱七八糟的东西。后续杂项中内容更为丰富以后，会将其抽离出来单独做一个专题。
+顾名思义，就是乱七八糟的东西。后续杂项中内容更为丰富以后，会将其归类抽离出来单独做一个专题。

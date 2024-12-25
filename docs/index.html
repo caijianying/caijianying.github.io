@@ -1,70 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>程序员小白菜</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta charset="UTF-8">
-  <meta name="description" content="一个编程学习网站">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
-  <link rel="stylesheet" href="/assets/css/vue.css">
-  <link rel="stylesheet" href="/assets/css/gitalk.css">
+    <title>程序员小白菜</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="description" content="一个编程学习网站">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
+    <link rel="stylesheet" href="/assets/css/vue.css">
+    <link rel="stylesheet" href="/assets/css/gitalk.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
 </head>
 <body>
 <div id="app"></div>
 <script>
     window.$docsify = {
-      name: '程序员小白菜',
-      repo: 'https://github.com/caijianying/caijianying.github.io',
-      auto2top: true,
-      coverpage: true,
-      loadSidebar: true,
-      subMaxLevel: 2,
-      <!--配置导航栏-->
-      loadNavbar: true,
-      maxLevel: 4,
-      search: {
-        paths: 'auto',
-        placeholder: '🔍 Type to search ',
-        noData: '😞 No Results! ',
-        depth: 6
-      },
-      pagination: {
-        previousText: 'PREVIOUS',
-        nextText: 'NEXT',
-        crossChapter: true
-      }
-      ,
-      plugins: [
-        function (hook, vm) {
-          hook.doneEach(function() {
-            var label, domObj, main, divEle, gitalk;
-            label = md5(decodeURI(vm.route.path.split("/").pop()));
-            domObj = Docsify.dom;
-            main = domObj.getNode("#main");
-
-            Array.apply(
-                    null,
-                    document.querySelectorAll("div.gitalk-container")
-            ).forEach(function(ele) {
-              ele.remove();
-            });
-
-            divEle = domObj.create("div");
-            divEle.id = "gitalk-container-" + label;
-            divEle.className = "gitalk-container";
-            divEle.style = "width: " + main.clientWidth + "px; margin: 0 auto 20px;";
-            domObj.appendTo(domObj.find(".content"), divEle);
-            gitalk = new Gitalk(
-                    Object.assign(gitalkConfig, { id: !label ? "home" : label })
-            );
-            gitalk.render("gitalk-container-" + label);
-          });
+        name: '程序员小白菜',
+        repo: 'https://github.com/caijianying/caijianying.github.io',
+        auto2top: true,
+        coverpage: true,
+        loadSidebar: true,
+        subMaxLevel: 2,
+        <!--配置导航栏-->
+        loadNavbar: true,
+        maxLevel: 4,
+        search: {
+            paths: 'auto',
+            placeholder: '🔍 Type to search ',
+            noData: '😞 No Results! ',
+            depth: 6
+        },
+        pagination: {
+            previousText: 'PREVIOUS',
+            nextText: 'NEXT',
+            crossChapter: true
         }
-      ]
-    }                                 
-  </script>
+        ,
+        plugins: [
+            function (hook, vm) {
+                hook.doneEach(function () {
+                    const label = md5(decodeURIComponent(vm.route.path || '/'));
+                    const domObj = Docsify.dom;
+                    const main = domObj.getNode("#main");
+
+                    // 移除旧的 Gitalk 容器
+                    document.querySelectorAll(".gitalk-container").forEach(ele => ele.remove());
+
+                    // 创建新的 Gitalk 容器
+                    const divEle = domObj.create("div");
+                    divEle.id = "gitalk-container-" + label;
+                    divEle.className = "gitalk-container";
+                    divEle.style.width = main ? main.clientWidth + "px" : "100%";
+                    divEle.style.margin = "0 auto 20px;";
+                    domObj.appendTo(domObj.find(".content"), divEle);
+
+                    // 初始化 Gitalk
+                    if (typeof Gitalk !== "undefined") {
+                        const gitalk = new Gitalk(
+                            Object.assign(gitalkConfig, {id: label || "home"})
+                        );
+                        gitalk.render(divEle.id);
+                    }
+
+                    // 替换内容文本
+                    const content = document.querySelector(".content");
+                    if (content) {
+                        Array.from(content.querySelectorAll("p, span,li")).forEach(node => {
+                            if (node.innerHTML.includes("highLight(")) {
+                                node.innerHTML = node.innerHTML.replace(
+                                    /highLight\((.*?)\)/g,
+                                    '<strong><span style="color: #ea8c2e;">$1</span></strong>'
+                                );
+                            }
+
+                            if (node.innerHTML.includes("collapse(")) {
+                                // 2. 解析 collapse(问题, 答案) 语法
+                                node.innerHTML = node.innerHTML.replace(
+                                    /collapse\(([^,]+),\s*([^)]+)\)/g,
+                                    `
+                                    <div class="collapse-container">
+                                        <div class="collapse-header">$1</div>
+                                        <div class="collapse-content">$2</div>
+                                    </div>`
+                                );
+                            }
+                        });
+
+
+                        // 3. 添加折叠/展开的点击事件
+                        document.querySelectorAll('.collapse-header').forEach(header => {
+                            header.addEventListener('click', function () {
+                                const content = this.nextElementSibling;
+                                if (content) {
+                                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                                }
+                            });
+                        });
+
+                        // 4. 初始化默认折叠状态
+                        document.querySelectorAll('.collapse-content').forEach(content => {
+                            content.style.display = 'none'; // 默认折叠答案
+                        });
+                    }
+                });
+            },
+        ]
+    }
+</script>
 
 <script src="/assets/js/md5.js"></script>
 <script src="/assets/js/docsify.min.js"></script>
