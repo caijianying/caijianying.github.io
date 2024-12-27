@@ -92,7 +92,7 @@ public static class BoundSqlInterceptor {
 }
 ```
 ##### 判断是否是压测流量
-上一步[Step2: 压测标透传](md/stress_flag_transfer.md)，可以从上下文获取到此流量是否是压测流量
+上一步[Step2: 压测标透传](/stress_testing_agent/md/stress_flag_transfer.md)，可以从上下文获取到此流量是否是压测流量
 ```java
  Boolean inPt = (Boolean) ContextManager.getProperty(StressTestingConstant.HEADER_NAME_STRESS_TESTING_FLAG);
 ```

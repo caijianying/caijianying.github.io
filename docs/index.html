@@ -20,7 +20,7 @@
         name: '程序员小白菜',
         repo: 'https://github.com/caijianying/caijianying.github.io',
         auto2top: true,
-        coverpage: true,
+        coverpage: ['/', '/stress_testing_agent/'],
         loadSidebar: true,
         subMaxLevel: 2,
         <!--配置导航栏-->
@@ -71,7 +71,7 @@
                             if (node.innerHTML.includes("highLight(")) {
                                 node.innerHTML = node.innerHTML.replace(
                                     /highLight\((.*?)\)/g,
-                                    '<strong><span style="color: #ea8c2e;">$1</span></strong>'
+                                    '<strong><span style="color: #ea573f;">$1</span></strong>'
                                 );
                             }
 

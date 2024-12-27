@@ -18,8 +18,8 @@
 * 影子库影子表存储
 * 链路监控
 * 熔断通知
-
-接下来将对以上几点做highLight(代码级别)的讲解，进入[Quick Start](/md/quick_start.md)
+  
+接下来将对以上几点做highLight(代码级别)的讲解，进入[Quick Start](/stress_testing_agent/md/quick_start.md)
 
 
 ## 参考资料

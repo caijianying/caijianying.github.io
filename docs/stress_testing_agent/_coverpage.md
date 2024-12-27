@@ -10,4 +10,4 @@
 [![stars](https://badgen.net/github/stars/caijianying/Stress-Testing-Agent?icon=github&color=4ab8a1)](https://github.com/caijianying/Stress-Testing-Agent) [![forks](https://badgen.net/github/forks/caijianying/Stress-Testing-Agent?icon=github&color=4ab8a1)](https://github.com/caijianying/Stress-Testing-Agent) 
 
 [GitHub](<https://github.com/caijianying/Stress-Testing-Agent>)
-[快速开始](./md/quick_start)
+[快速开始](/stress_testing_agent/md/quick_start)

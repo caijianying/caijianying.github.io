@@ -33,7 +33,9 @@ public class MeltDownManager {
 
     private static volatile boolean NEED_MELTDOWN = false;
 
-
+    /**
+     * 开启定时任务，检测方法是否已执行
+     **/
     public static long meltDownIfNecessary() {
         long start = System.currentTimeMillis();
         Timer timer = new Timer();
@@ -54,6 +56,9 @@ public class MeltDownManager {
         return start;
     }
 
+    /**
+     * 如果超过了10s，则标记熔断
+     **/
     public static void markMeltDownFlag(long start) {
         if (System.currentTimeMillis() - start >= SECONDS_TO_MELTDOWN) {
             // 需要做熔断通知的标识
@@ -66,8 +71,7 @@ public class MeltDownManager {
 若highLight(10秒)内方法未被调用，则发送熔断通知。
 方法调用后，执行`markMeltDownFlag`方法，标记已调用。
 
-有以下几个核心的点
+有以下几个highLight(核心)的点, 但不是最优版，highLight(优化版)已在highLight(STA)中实现，[点击查看](/stress_testing_agent/)
 * 这里为了实现简单，使用`Timer`和`TimerTask`实现定时任务
-* 是否需要发起熔断，采用`NEED_MELTDOWN`标记，`volatile`保证线程之间的highLight(可见性)
-  * 注意：为了方便演示，这里没有考虑HTTP的异步调用
+* 是否需要发起熔断，采用`NEED_MELTDOWN`标记，`volatile`保证线程之间的highLight(可见性)。为了方便演示，这里没有考虑HTTP的异步调用
 * highLight(10秒)后，定时任务主动停止

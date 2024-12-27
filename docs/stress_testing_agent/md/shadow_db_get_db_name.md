@@ -69,5 +69,5 @@ public static class DefaultSqlSessionFactoryInterceptor {
         }
     }
 ```
-这里获取到数据库名称后，会存储在上下文中，上下文管理器已在[Step2: 压测标透传](./md/stress_flag_transfer.md)提到。
+这里获取到数据库名称后，会存储在上下文中，上下文管理器已在[Step2: 压测标透传](/stress_testing_agent/md/stress_flag_transfer.md)提到。
 

@@ -76,7 +76,7 @@ for (Object allArgument : allArguments) {
 ```
 到这一步我们已经拿到压测标了，但是还需要将压测标存储起来，用于后面判断highLight(是否需要写入压测流量)
 
-这里利用ThreadLocal实现了上下文管理器，可查看[Step2: 压测标透传](./md/stress_flag_transfer.md)
+这里利用ThreadLocal实现了上下文管理器，可查看[Step2: 压测标透传](/stress_testing_agent/md/stress_flag_transfer.md)
 
 
 

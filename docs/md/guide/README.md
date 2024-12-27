@@ -2,50 +2,16 @@
 
 > 你好，我是小白菜，一个不满足于CRUD的技术爱好者
 
-平时关注很多硬核博主(比如`Hollis`、`小傅哥`、`Guide哥`等)，在学习期间也是收获颇多。比如本站的搭建，就是基于`小傅哥`的项目做的二开完成的。
-本站秉承着 `持续学习，持续进步！持续分享有价值的原创！`的原则，希望大家共勉。而文章内容主要以`提问的方式`向大家呈现，不断探索问题背后的本质。
+平时关注很多硬核博主(比如`Hollis`、`小傅哥`、`Guide哥`等)，在学习期间也是收获颇多。比如本站的搭建，就是基于`docsify`完成的，`fork`于小傅哥的[博客项目](https://github.com/fuzhengwei/fuzhengwei.github.io)。
 
-⏰ 提醒：在接下来你对本博客的阅读中，如果遇到一些内容、图稿、代码等的勘误都可以提交Issue的方式进行反馈。亦可通过微信：**is_xiaobaicai**(备注来源)一起讨论，小白菜会陆续进行完善，感谢您的支持！
+本站秉承着 `持续学习，持续进步！持续分享有价值的原创！`的原则，希望大家共勉。
+
+⏰ 提醒：在接下来你对本博客的阅读中，如果遇到一些内容、图稿、代码等中的勘误都可以提交Issue的方式进行反馈，小白菜会陆续进行完善，感谢您的支持！
 * Issue：https://github.com/caijianying/caijianying.github.io/issues
 
-[comment]: <> (## 一、源码系列)
+## 教你编写全链路压测Agent
+该模块将对全链路压测的理论知识进行讲解，并逐步进行代码实现，有完整的演示项目供大家参考。
 
-[comment]: <> (`技术要想不断进步，就需要熟读源码，修炼内功。`)
+演示项目是开源项目highLight(STA)的基本实现，主要用于讲解和演示。
 
-[comment]: <> (* Spring源码)
-
-[comment]: <> (* Mybatis源码)
-
-[comment]: <> (* SkyWalking源码)
-
-[comment]: <> (## 二、SpringBoot中间件)
-
-[comment]: <> (* 手写一个SpringBoot Starter)
-
-[comment]: <> (* Apollo 组件)
-
-[comment]: <> (* 日志系统组件)
-
-[comment]: <> (## 三、Idea插件开发)
-
-
-[comment]: <> (## 四、字节码编程)
-
-[comment]: <> (* Javaassist)
-
-[comment]: <> (* ASM)
-
-[comment]: <> (* ByteBuddy)
-
-[comment]: <> (## 五、杂项)
-
-[comment]: <> (顾名思义，就是乱七八糟的东西。后续杂项中内容更为丰富以后，会将其抽离出来单独做一个专题。)
-
-## 一、Spring源码
-
-## 二、搭建SpringBoot脚手架
-
-## 三、最佳实践
-
-## 五、杂项
-顾名思义，就是乱七八糟的东西。后续杂项中内容更为丰富以后，会将其归类抽离出来单独做一个专题。
+如想对演示项目进一步优化，可参考highLight(STA)的实现，[感谢支持](/stress_testing_agent/)
