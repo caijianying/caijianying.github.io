@@ -16,4 +16,4 @@
 
 演示项目是开源项目highLight(STA)的基本实现，主要用于讲解和演示。
 
-如想对演示项目进一步优化，可参考highLight(STA)的实现，[感谢支持](/stress_testing_agent/)
+如想对演示项目进一步优化，可参考highLight(STA)的实现，[点击查看](/stress_testing_agent/)
