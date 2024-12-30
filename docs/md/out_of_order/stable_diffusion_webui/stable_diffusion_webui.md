@@ -1,5 +1,5 @@
 ## 前言
-闲暇时，整了下`stable diffusion webui`，玩了玩AI绘画。是不是看着还有点意思呢？那就继续往下看吧。
+闲暇时，整了下`stable diffusion webui`，玩了玩AI绘画。是不是看着还有点意思呢？那就往下看吧。
 
 ![demo.png](demo.png)
 
