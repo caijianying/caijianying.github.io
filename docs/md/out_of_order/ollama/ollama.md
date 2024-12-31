@@ -22,7 +22,7 @@ mac、m1
 
 ![img.png](model_intro.png)
 
-执行命令，这里选择的是安装默认的大模型。`ollama run llama3.2`
+执行命令，这里选择的是安装默认的大模型。`ollama run llama3.2`，默认安装目录为： `~/.ollama/models`
 
 ## 安装完成&验证
 ```shell
