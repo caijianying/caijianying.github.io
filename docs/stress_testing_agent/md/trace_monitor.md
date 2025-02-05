@@ -10,7 +10,7 @@
 * `SpanContext`: 方法调用链路的上下文
 
 
-![img.png](OpenTracing_DataModel.png)
+![img.png](../img/OpenTracing_DataModel.png)
 
 `OpenTracing`定义的2种引用关系
 * ChildOf: 如图，SpanC is ChildOf SpanA

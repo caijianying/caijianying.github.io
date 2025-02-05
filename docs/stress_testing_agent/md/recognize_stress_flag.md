@@ -4,7 +4,7 @@
 
 那么熟悉SpringMVC的都知道，可以从`org.springframework.web.servlet.DispatcherServlet`的`doDispatch`拿到`HttpServletRequest`对象。
 
-![img.png](recognize_stress_flag_dispartcherservlet.png)
+![img.png](../img/recognize_stress_flag_dispartcherservlet.png)
 
 拿到`HttpServletRequest`对象，获取header头数据就简单了。
 
