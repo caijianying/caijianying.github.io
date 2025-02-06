@@ -105,116 +105,116 @@
                         });
                     }
 
-                  // Add copy button to pre>code block
-                  const codeBlocks = document.querySelectorAll('pre > code');
-                  codeBlocks.forEach(codeBlock => {
-                    const copyButton = document.createElement('button');
-                    copyButton.classList.add('copy-button');
-                    copyButton.innerHTML = `
+                    // Add copy button to pre>code block
+                    const codeBlocks = document.querySelectorAll('pre > code');
+                    codeBlocks.forEach(codeBlock => {
+                        const copyButton = document.createElement('button');
+                        copyButton.classList.add('copy-button');
+                        copyButton.innerHTML = `
             <svg t="1721703489803" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4313" width="25" height="25">
                 <path d="M682.666667 341.333333h128v469.333334H341.333333v-128H213.333333V213.333333h469.333334v128z m0 85.333334v256h-256v42.666666h298.666666v-298.666666h-42.666666zM298.666667 298.666667v298.666666h298.666666V298.666667H298.666667z" fill="#3dc746" p-id="4314"></path>
             </svg>
         `;
-                    const successMessage = document.createElement('div');
-                    successMessage.classList.add('copy-success');
-                    successMessage.innerText = '复制成功!';
-                    codeBlock.parentElement.style.position = 'relative'; // Ensure the parent element is positioned
-                    codeBlock.parentElement.appendChild(copyButton);
-                    codeBlock.parentElement.appendChild(successMessage);
+                        const successMessage = document.createElement('div');
+                        successMessage.classList.add('copy-success');
+                        successMessage.innerText = '复制成功!';
+                        codeBlock.parentElement.style.position = 'relative'; // Ensure the parent element is positioned
+                        codeBlock.parentElement.appendChild(copyButton);
+                        codeBlock.parentElement.appendChild(successMessage);
 
-                    copyButton.addEventListener('click', () => {
-                      // Create a temporary textarea to copy the text
-                      const textarea = document.createElement('textarea');
-                      textarea.value = codeBlock.innerText;
-                      document.body.appendChild(textarea);
-                      textarea.select();
-                      document.execCommand('copy');
-                      document.body.removeChild(textarea);
-                      // Provide feedback to the user
-                      successMessage.style.display = 'block';
-                      setTimeout(() => {
-                        successMessage.style.display = 'none';
-                      }, 2000);
+                        copyButton.addEventListener('click', () => {
+                            // Create a temporary textarea to copy the text
+                            const textarea = document.createElement('textarea');
+                            textarea.value = codeBlock.innerText;
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            // Provide feedback to the user
+                            successMessage.style.display = 'block';
+                            setTimeout(() => {
+                                successMessage.style.display = 'none';
+                            }, 2000);
+                        });
                     });
-                  });
-                  const article = document.querySelector('.markdown-section');
-                  let articles = ['Spring如何解决循环依赖问题', '手把手教你使用Maven Archetype自定义代码脚手架'];
+                    const article = document.querySelector('.markdown-section');
+                    let articles = ['Step3: 数据隔离', 'Step4: 链路监控', 'Step5: 熔断通知'];
 
-                  let needToLock = needLock(articles);
-                  let unLocked = hasUnLocked();
-                  let mustLock = needToLock && !unLocked;
+                    let needToLock = needLock(articles);
+                    let unLocked = hasUnLocked();
+                    let mustLock = needToLock && !unLocked;
 
-                  article.style.overflow = null;
-                  if (mustLock) {
-                    lock();
-                    let intervalId = setInterval(() => {
-                      checkIsFans(function (token) {
-                        const overlay = document.querySelector('.lock-overlay');
-                        let readMoreBtn = document.querySelector('#read-more-btn');
-                        readMoreBtn.style.display = 'none'; // Hide the read more button
-                        let overlayMask = document.querySelector('.overlay-mask');
-                        overlayMask.style.display = 'none'; // Hide the overlay mask
-                        overlay.style.display = 'none';
+                    article.style.overflow = null;
+                    if (mustLock) {
+                        lock();
+                        let intervalId = setInterval(() => {
+                            checkIsFans(function (token) {
+                                const overlay = document.querySelector('.lock-overlay');
+                                let readMoreBtn = document.querySelector('#read-more-btn');
+                                readMoreBtn.style.display = 'none'; // Hide the read more button
+                                let overlayMask = document.querySelector('.overlay-mask');
+                                overlayMask.style.display = 'none'; // Hide the overlay mask
+                                overlay.style.display = 'none';
+                                article.style.maxHeight = 'none';
+                                article.style.overflow = 'visible';
+                                clearInterval(intervalId)
+                                localStorage.setItem(token, 'UNLOCKED');
+                            });
+                        }, 2000)
+                    } else {
                         article.style.maxHeight = 'none';
                         article.style.overflow = 'visible';
-                        clearInterval(intervalId)
-                        localStorage.setItem(token, 'UNLOCKED');
-                      });
-                    }, 2000)
-                  } else {
-                    article.style.maxHeight = 'none';
-                    article.style.overflow = 'visible';
-                  }
+                    }
                 });
 
-              function hasUnLocked() {
-                let check = localStorage.getItem(getToken());
-                if (check != null) {
-                  return check == 'UNLOCKED';
-                }
-                return false;
-              }
-
-              function generateVerificationCode() {
-                const charset = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-                const length = 6;
-                let code = '';
-
-                for (let i = 0; i < length; i++) {
-                  const randomIndex = Math.floor(Math.random() * charset.length);
-                  code += charset[randomIndex];
+                function hasUnLocked() {
+                    let check = localStorage.getItem(getToken());
+                    if (check != null) {
+                        return check == 'UNLOCKED';
+                    }
+                    return false;
                 }
 
-                // 使用正则表达式验证生成的验证码
-                const isValid = /^[0-9A-Za-z]{6}$/.test(code);
-                if (isValid) {
-                  return code;
-                } else {
-                  // 如果不符合条件，递归生成新的验证码
-                  return generateVerificationCode();
+                function generateVerificationCode() {
+                    const charset = '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+                    const length = 6;
+                    let code = '';
+
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = Math.floor(Math.random() * charset.length);
+                        code += charset[randomIndex];
+                    }
+
+                    // 使用正则表达式验证生成的验证码
+                    const isValid = /^[0-9A-Za-z]{6}$/.test(code);
+                    if (isValid) {
+                        return code;
+                    } else {
+                        // 如果不符合条件，递归生成新的验证码
+                        return generateVerificationCode();
+                    }
                 }
-              }
 
-              function lock() {
-                const article = document.querySelector('.markdown-section');
-                const key = 'docsify.lock.key';
-                let verificationCode = localStorage.getItem(key);
+                function lock() {
+                    const article = document.querySelector('.markdown-section');
+                    const key = 'docsify.lock.key';
+                    let verificationCode = localStorage.getItem(key);
 
-                // Create read more button
-                const readMoreBtn = document.createElement('button');
-                readMoreBtn.id = 'read-more-btn';
-                readMoreBtn.textContent = '阅读全文';
-                article.appendChild(readMoreBtn);
+                    // Create read more button
+                    const readMoreBtn = document.createElement('button');
+                    readMoreBtn.id = 'read-more-btn';
+                    readMoreBtn.textContent = '阅读全文';
+                    article.appendChild(readMoreBtn);
 
-                // Create overlay mask
-                const overlayMask = document.createElement('div');
-                overlayMask.classList.add('overlay-mask');
-                article.appendChild(overlayMask);
+                    // Create overlay mask
+                    const overlayMask = document.createElement('div');
+                    overlayMask.classList.add('overlay-mask');
+                    article.appendChild(overlayMask);
 
-                // Create lock overlay
-                const overlay = document.createElement('div');
-                overlay.classList.add('lock-overlay');
-                overlay.innerHTML = `
+                    // Create lock overlay
+                    const overlay = document.createElement('div');
+                    overlay.classList.add('lock-overlay');
+                    overlay.innerHTML = `
                         <button class="close-btn">&times;</button>
                         <h2>扫码或搜索：<span class="highlight">程序员小白菜</span></h2>
                         <h2>发送：<span class="highlight">${verificationCode}</span></h2>
@@ -222,85 +222,89 @@
                         <img src="./assets/home/img/qrCode.jpg" alt="QR Code">
                     `;
 
-                // Append overlay to body
-                document.body.appendChild(overlay);
+                    // Append overlay to body
+                    document.body.appendChild(overlay);
 
-                // Add click event to read more button
-                readMoreBtn.addEventListener('click', function () {
-                  const rect = readMoreBtn.getBoundingClientRect();
-                  overlay.style.top = `${rect.top - overlay.offsetHeight - 350}px`;
-                  overlay.style.left = `${rect.left + rect.width / 2 - overlay.offsetWidth / 2}px`;
-                  overlay.style.display = 'block';
-                });
+                    // Add click event to read more button
+                    readMoreBtn.addEventListener('click', function () {
+                        const rect = readMoreBtn.getBoundingClientRect();
+                        overlay.style.top = `${rect.top - overlay.offsetHeight - 350}px`;
+                        overlay.style.left = `${rect.left + rect.width / 2 - overlay.offsetWidth / 2}px`;
+                        overlay.style.display = 'block';
+                    });
 
-                const closeBtn = overlay.querySelector('.close-btn');
-                closeBtn.addEventListener('click', function () {
-                  overlay.style.display = 'none';
-                });
+                    const closeBtn = overlay.querySelector('.close-btn');
+                    closeBtn.addEventListener('click', function () {
+                        overlay.style.display = 'none';
+                    });
 
-                // Adjust article height to show remaining 10% content below the button
-                const adjustArticleHeight = () => {
-                  const totalHeight = article.scrollHeight;
-                  const visibleHeight = totalHeight * 0.1 + readMoreBtn.offsetHeight;
-                  article.style.maxHeight = `${visibleHeight}px`;
-                };
+                    // Adjust article height to show remaining 10% content below the button
+                    const adjustArticleHeight = () => {
+                        const totalHeight = article.scrollHeight;
+                        const visibleHeight = totalHeight * 0.1 + readMoreBtn.offsetHeight;
+                        article.style.maxHeight = `${visibleHeight}px`;
+                    };
 
-                // Call the function initially
-                adjustArticleHeight();
-              }
+                    // Call the function initially
+                    adjustArticleHeight();
+                }
 
 
-              function checkIsFans(func) {
-                let token = getToken();
-                fetch("https://nse4qtqv6ao7-2921.shanghai-01.dayunet.com/api/check?token=" + token)
+                function checkIsFans(func) {
+                    let token = getToken();
+                    fetch("https://nse4qtqv6ao7-2921.shanghai-01.dayunet.com/api/check?token=" + token)
                         .then(response => {
-                          if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                          }
-                          return response.json();
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
                         })
                         .then(data => {
-                          if (data && func) {
-                            func(token)
-                          }
+                            if (data && func) {
+                                func(token)
+                            }
                         })
                         .catch(error => {
-                          console.error('There was a problem with your fetch operation:', error);
-                          return false
+                            console.error('There was a problem with your fetch operation:', error);
+                            return false
                         });
-              }
+                }
 
-              function needLock(articles) {
-                let titleEle = document.querySelector('.sidebar-nav').querySelector('li ul .active a');
-                if (titleEle != null) {
-                  const curArticle = titleEle.textContent;
-                  for (let article of articles) {
-                    if (curArticle == article) {
-                      return true
+                function needLock(articles) {
+                    if (isActiveSubSidebarLink()){
+                        return true
                     }
-                  }
+                    let titleEle = document.querySelector('.sidebar-nav').querySelector('li ul .active a');
+                    if (titleEle != null) {
+                        const curArticle = titleEle.textContent;
+                        for (let article of articles) {
+                            if (curArticle == article) {
+                                console.log(curArticle + '====' + getSubSidebarLinks())
+                                return true
+                            }
+                        }
+                    }
+                    return false
                 }
-                const curArticle = document.querySelector('.markdown-section h1');
-                if (curArticle == null) {
-                  return false
-                }
-                for (let article of articles) {
-                  if (curArticle.innerText == article) {
-                    return true
-                  }
-                }
-                return false
-              }
 
-              function getToken() {
-                const key = 'docsify.lock.key';
-                let id = localStorage.getItem(key);
-                if (id == null) {
-                  id = generateVerificationCode();
-                  localStorage.setItem(key, id);
+                function getSubSidebarLinks() {
+                    const links = document.querySelectorAll('.app-sub-sidebar a');
+                    return Array.from(links).map(link => link.textContent.trim());
                 }
-                return id;
-              }
+
+                function isActiveSubSidebarLink() {
+                    return !!document.querySelector('.app-sub-sidebar .active');
+                }
+
+                function getToken() {
+                    const key = 'docsify.lock.key';
+                    let id = localStorage.getItem(key);
+                    if (id == null) {
+                        id = generateVerificationCode();
+                        localStorage.setItem(key, id);
+                    }
+                    return id;
+                }
             },
         ]
     }
