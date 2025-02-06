@@ -1,0 +1,29 @@
+.collapse-container {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.collapse-header {
+    background-color: #f5f5f5;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.collapse-header:hover {
+    background-color: #eaeaea;
+}
+
+.collapse-content {
+    padding: 10px 15px;
+    background-color: #fff;
+    display: none; /* 默认隐藏 */
+}
+
+.collapse-content p {
+    margin: 0;
+    padding: 0;
+}

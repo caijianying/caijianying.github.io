@@ -1,8 +1,8 @@
 - [目录](/md/out_of_order/_sidebar)
     - [AI绘画：stable_diffusion_webui本地搭建](/md/out_of_order/stable_diffusion_webui/stable_diffusion_webui)
+    - [本地安装ollama添加大模型llama](/md/out_of_order/ollama/ollama)
+    - [我被Github给的错误搞懵逼了](/md/out_of_order/github_ping/github_ping)
     - [JVM知识点整理](/md/out_of_order/jvm_knowledge/jvm_knowledge)
     - [Mysql知识点整理](/md/out_of_order/mysql_knowledge/mysql_knowledge)
     - [Maven依赖的作用域](/md/out_of_order/test_scope/test_scope)
-    - [velocity实践](/md/out_of_order/velocity/velocity)
-    - [SpringBoot 如何优雅地配置日志](/md/out_of_order/springboot_logback/springboot_logback)
-    
+    - [String中的intern你了解吗](/md/out_of_order/string_pool/string_pool)
