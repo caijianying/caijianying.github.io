@@ -43,9 +43,9 @@ highLight(测试应用)启动命令中添加 `vmOptions`, 启动即可
 4. 链路监控
 5. 熔断通知
 
-创作不易，觉得对你有帮助的可以顺便支持(highLight(其实也就是star))一下我的开源项目，非常感谢！
+为了可以让大家快速上手，highLight(演示项目)中的代码比较通俗易懂，highLight(开源项目)则是在此基础上做了相关优化和框架重构。
 
-highLight(演示项目)用于演示视频的讲解，偏向于highLight(基本功能的实现)。highLight(开源项目)则是在此基础上做的增强，更偏向于highLight(架构)。
+创作不易，觉得对你有帮助的可以顺便支持(highLight(其实也就是star))一下我的开源项目，非常感谢！
 
 [支持STA](/stress_testing_agent/)
 
