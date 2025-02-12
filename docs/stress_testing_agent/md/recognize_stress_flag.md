@@ -1,6 +1,6 @@
 > 压测标的常见方案，是通过HTTP请求的Header中添加。
 > 
-> 如head头加上：highLight(pt-flag : pt)
+> 如head头加上：highLight(pt-flag:STA)
 
 那么熟悉SpringMVC的都知道，可以从`org.springframework.web.servlet.DispatcherServlet`的`doDispatch`拿到`HttpServletRequest`对象。
 
@@ -60,7 +60,7 @@ public static class DispatcherServletInterceptor {
 
 那么我们可以做以下操作拿到header头，原理是通过反射执行`getHeader`方法。
 
-本例中规定`pt-flag`header头的值为`pt`,若为`pt`则说明是压测流量，反之为业务流量。
+本例中规定`pt-flag`header头的值为`STA`,若为`STA`则说明是压测流量，反之为业务流量。
 ```java
 for (Object allArgument : allArguments) {
     String headerValue = null;

@@ -1,6 +1,7 @@
 - [目录](/stress_testing_agent/_sidebar)
     - [什么是全链路压测?](/stress_testing_agent/md/total_chain_testing)
     - [Quick Start](/stress_testing_agent/md/quick_start)
+    - [演示项目](/stress_testing_agent/md/demo_proj)
     - [Step1: 识别压测标](/stress_testing_agent/md/recognize_stress_flag.md)
     - [Step2: 压测标透传](/stress_testing_agent/md/stress_flag_transfer.md)
     - [Step3: 数据隔离](/stress_testing_agent/md/data_isolation.md)

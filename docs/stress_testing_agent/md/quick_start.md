@@ -1,54 +1,54 @@
-## 介绍
-为避免一头雾水先说明一下，开始本项目需具备的前置知识
+## 前提条件
+> 本项目适合有 Java 基础的开发者，默认读者对 `JavaAgent`、`ByteBuddy` 和 `全链路压测` 概念有一定了解。
+
+开始本项目需具备的前置知识
 * [什么是全链路压测？](/stress_testing_agent/md/total_chain_testing)
 * JavaAgent
 * 字节码增强框架 ByteBuddy
 
-演示项目
-* [演示Agent](https://github.com/caijianying/stress-testing-app-agent)
-* [测试应用](https://github.com/caijianying/stress-testing-app)
 
 
-本站将在highLight(测试应用)中接入highLight(演示Agent)，逐步完善Agent的主要功能。
+## 项目简介
+基于SkyWalking搭建的全链路压测Agent，该项目仅供学习使用
 
-## 演示Agent打包
+## 安装说明
 ### 运行环境
-* JDK17
-* Gradle 8.5
+JDK 17
 
-编译成功后，执行任务 Tasks-> shadow -> shadowJar 即可打包成agent `stress-testing-app-agent-1.0.0-all.jar`
+### 安装步骤
+1. 从 [Release](https://github.com/caijianying/Stress-Testing-Agent/releases)下载 highLight(zip) 包
+2. 解压后，在java项目的highLight(启动命令)中添加 `-javaagent:/your/path/libs/agent.jar`, 启动即可
 
-## 测试应用启动
-### 运行环境
-* Mysql 5.7+
-* JDK 17
-* Maven 3.8.1
+## 参数说明
 
-1. 在Mysql中执行项目的sql文件 `/sql/database.sql`,
-2. 修改 `application-local.yml`中DB的配置信息
-3. 启动
+| 功能 | 参数项 | 参数值 | 备注 |
+| --- | --- | --- | --- |
+|压测标|pt-flag|STA|HTTP请求，header头添加`pt-flag:STA`|
+|影子模式|shadowMode|DB或TABLE，默认TABLE|启动命令添加，例：`-javaagent:/your/path/libs/agent.jar=shadowMode=TABLE`|
 
-### 如何接入演示Agent
-highLight(测试应用)启动命令中添加 `vmOptions`, 启动即可
-* `-javaagent:/your/path/stress-testing-app-agent-1.0.0-all.jar`
+⏰ 注意：请带上highLight(压测标)调试
 
+## 调试结果
+> 以下是使用highLight(演示项目)调试的结果 
 
-## 开始阅读
-为方便理解，请按顺序阅读。
-1. 识别压测标
-2. 压测标透传
-3. 数据隔离
-   * 3.1 -影子表方式
-   * 3.2 -影子库方式
-4. 链路监控
-5. 熔断通知
+```shell
+2025-02-11T17:49:58.905350 INFO  --- [ Stress-Testing-Agent ] c.x.a.plugins.mybatis3.BoundSqlInterceptor : SwitchToShadowTable, Original SQL: SELECT id,nick_name,user_description,create_by,create_time,update_by,update_time,is_deleted FROM t_user WHERE id=? AND is_deleted=0
+2025-02-11T17:49:58.950267 INFO  --- [ Stress-Testing-Agent ] c.x.a.plugins.mybatis3.BoundSqlInterceptor : SwitchToShadowTable, Modified SQL: SELECT id,nick_name,user_description,create_by,create_time,update_by,update_time,is_deleted FROM t_user_ WHERE id=? AND is_deleted=0
+2025-02-11T17:49:59.129890 INFO  --- [ Stress-Testing-Agent ] c.x.a.core.plugin.meltdown.MeltDownManager : http-nio-8811-exec-1: 方法执行后任务关闭.
+2025-02-11T17:49:59.130684 INFO  --- [ Stress-Testing-Agent ] c.x.a.core.plugin.context.ContextManager   : 
+【ROOT】/api/user/getUser  548ms
+     【SPRING】com.xiaobaicai.stress.testing.app.controller.UserController.getUser  491ms
+          【SPRING】com.xiaobaicai.stress.testing.app.service.impl.UserDaoServiceImpl.getById  364ms
+               【SQL】execute Execute SQL. SELECT id,nick_name,user_description,create_by,create_time,update_by,update_time,is_deleted FROM t_user_ WHERE id=? AND is_deleted=0  6ms
 
-为了可以让大家快速上手，highLight(演示项目)中的代码比较通俗易懂，highLight(开源项目)则是在此基础上做了相关优化和框架重构。
+```
 
+## 演示项目
+为了帮助大家快速上手和理解highLight(STA), 我准备了演示项目供大家查看 [👈点击查看](/stress_testing_agent/md/demo_proj.md)
+
+## 最后
 创作不易，觉得对你有帮助的可以顺便支持(highLight(其实也就是star))一下我的开源项目，非常感谢！
 
 [支持STA](/stress_testing_agent/)
-
-
 
 
