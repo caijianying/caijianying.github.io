@@ -22,7 +22,7 @@ docker run -d --name=maxkb --restart=always -p 8080:8080 -v ~/.maxkb:/var/lib/po
 
 ![img.png](img.png)
 
-模型这里选择的是`Ollama`的highLight(qwen:0.5b)的小模型,模型大小根据电脑配置自己决定。
+模型这里选择的是`Ollama`的`qwen:0.5b`的小模型,模型大小根据电脑配置自己决定。
 
 `Ollama`去 [官网](https://ollama.com/download) 自行安装，不知道下什么模型的可以去`Ollama`提供的 [模型库](https://ollama.com/search) 查看。
 
@@ -36,11 +36,11 @@ Ollama is running
 
 ### 下载模型
 
-这里下载的是highLight(qwen:0.5b)
+这里下载的是`qwen:0.5b`
 
 `ollama pull qwen:0.5b`
 
-接下来可以highLight(添加模型)了
+接下来可以`添加模型`了
 
 1. 选择供应商
     ![img_1.png](img_1.png)
@@ -60,7 +60,7 @@ Ollama is running
 # 添加知识库
 1. 入口： 知识库 - 创建知识库
 ![img_5.png](img_5.png)
-填写知识库名称+选择之前创建的highLight(向量模型)后点创建，进入下一页。
+填写知识库名称+选择之前创建的`向量模型`后点创建，进入下一页。
 
 2. 点击上传文件
 ![img_6.png](img_6.png)
