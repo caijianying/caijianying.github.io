@@ -7,19 +7,41 @@
 * 先看docker是否安装
 
 ```shell
-    root@iZ0xifmcfil2jbxvbt2em2Z:~# docker version
-    Command 'docker' not found, but can be installed with:
-    snap install docker         # version 24.0.5, or
-    apt  install podman-docker  # version 3.4.4+ds1-1ubuntu1.22.04.2
-    apt  install docker.io      # version 24.0.7-0ubuntu2~22.04.1
-    See 'snap info docker' for additional versions.
-
+root@iZ0xifmcfil2jbxvbt2em2Z:~# docker version
  ```
 
 * 按提示安装
+> 原生方式安装Docker
 
 ```shell
-snap install docker
+# 更新软件包索引
+sudo apt update
+# 安装必要工具
+sudo apt install -y ca-certificates curl
+# 添加Docker官方GPG密钥：
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# 添加Docker官方APT仓库
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+# 安装Docker组件
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 启动Docker服务并设为开机自启，这样服务器重启后docker服务会自动恢复
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# 创建配置文件目录
+sudo mkdir -p /etc/docker
+
+# 创建配置文件/etc/docker/daemon.json，并指定Docker运行目录
+{
+  "data-root": "/data/docker" 
+}
+
+# 验证安装结果
+sudo systemctl status docker
 ```
 
 * 准备Docker容器操作位置
@@ -86,6 +108,18 @@ docker-compose version
        volumes:
          - ./robot/rabbitmq/rabbitmq_data:/var/lib/rabbitmq
        restart: unless-stopped
+  
+     redis:
+       image: redis:7.0.11
+       container_name: redis7
+       restart: always
+       ports:
+         - "6379:6379"
+       volumes:
+         - ./robot/redis/redis_data:/var/lib/redis
+       environment:
+         - REDIS_PASSWORD=123456
+       command: ["redis-server", "--requirepass", "123456"]
    ```
 
 ### 部署应用
@@ -153,6 +187,7 @@ sudo ufw allow 8888/tcp
 ```shell
 docker rm -f mysql8;
 docker rm -f rabbitmq;
+docker rm -f redis7;
 docker-compose -f docker-compose-component.yml up -d
 ```
 
