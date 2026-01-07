@@ -5,16 +5,12 @@ Velocity是一个模板引擎，常用于MVC结构中的view层，也可用于�
 1. 首先引入依赖
 
 ```maven
-       <dependency>
-           <groupId>org.apache.velocity</groupId>
-           <artifactId>velocity</artifactId>
-           <version>1.7</version>
-       </dependency>
-           <dependency>
-           <groupId>org.apache.velocity</groupId>
-           <artifactId>velocity-tools</artifactId>
-           <version>2.0</version>
-       </dependency>
+       <!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+        </dependency>
 ```
 2. 创建模板文件
 > 这里包含了文件中设置变量的方法,具体的可以去[Apache Velocity官网](https://velocity.apache.org/)了解

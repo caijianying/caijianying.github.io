@@ -1,5 +1,5 @@
 - [目录](/md/best_practice/_sidebar)
-    - [velocity实践](/md/best_practice/velocity/velocity)
+    - [velocity模版引擎实践](/md/best_practice/velocity/velocity)
     - [SpringBoot 如何优雅地配置日志](/md/best_practice/springboot_logback/springboot_logback)
     - [Ubuntu云服务器部署](/md/best_practice/ubuntu_deploy/ubuntu_deploy.md)
     - [问题记录：发送邮件在云服务器上部署](/md/best_practice/send_email_in_server/send_email_in_server.md)
