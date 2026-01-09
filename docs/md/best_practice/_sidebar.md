@@ -5,3 +5,4 @@
     - [问题记录：发送邮件在云服务器上部署](/md/best_practice/send_email_in_server/send_email_in_server.md)
     - [Nginx配置SSL证书&跨域访问](/md/best_practice/nginx_ssl_cors/nginx_ssl_cors.md)
     - [快速部署一套相同的开发环境](/md/best_practice/quickly_deploy_new_one/quickly_deploy_new_one.md)
+    - [快速搭建一台局域网资源共享服务器](/md/best_practice/smb_deploy/smb_deploy.md)
