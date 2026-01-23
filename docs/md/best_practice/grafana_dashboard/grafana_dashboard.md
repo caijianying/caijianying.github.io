@@ -151,7 +151,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin # 设置初始密码
       - GF_LANG="zh-CN" # 设置中文语言
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning # 可选：预配置数据源和仪表板
+      - ./grafana:/etc/grafana # 持久化 Grafana 配置
     networks:
       - monitoring-net
     depends_on:
@@ -202,3 +202,12 @@ docker compose -f docker-compose.yml up -d demo-app prometheus grafana
 
 3. **查看监控指标**：
    - 在 Grafana 仪表板中查看应用的各项监控指标，包括 JVM 状态、请求量、响应时间等
+4. **Grafana 持久化**：
+   1. 首次启动 要注释
+    ```yaml
+        volumes:
+        - ./grafana:/etc/grafana 
+    ```
+   2. 启动完配置仪表板后执行，`docker cp grafana:/etc/grafana ./grafana` 持久化配置
+   3. 然后重新启动容器，即可持久化配置
+    
