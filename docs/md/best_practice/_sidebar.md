@@ -8,4 +8,5 @@
     - [快速搭建一台局域网资源共享服务器](/md/best_practice/smb_deploy/smb_deploy.md)
     - [搭建Grafana Dashboard 最佳实践指南](/md/best_practice/grafana_dashboard/grafana_dashboard.md)
     - [基于GitLab搭建私有Maven仓库](/md/best_practice/gitlab_maven_repository/gitlab_maven_repository.md)
+    - [Jenkins 部署 Java 项目双方案实战](/md/best_practice/jenkins_java_deploy/jenkins_java_deploy.md)
     - [同一服务器部署应用与CI/CD流水线的网络冲突问题解决](/md/best_practice/docker_podman_cicd/docker_podman_cicd.md)
