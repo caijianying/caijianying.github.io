@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC API - 首页设计</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- 以下是可以直接粘贴到 new-api 公告设置的 HTML 代码 -->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+.ccapi-home {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.ccapi-hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+}
+
+.ccapi-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.ccapi-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.ccapi-hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+}
+
+.ccapi-hero-subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 32px 0;
+    font-weight: 400;
+}
+
+.ccapi-hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ccapi-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+}
+
+.ccapi-feature-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.ccapi-feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.ccapi-feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+}
+
+.ccapi-feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.ccapi-feature-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.ccapi-feature-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+}
+
+.ccapi-feature-desc {
+    font-size: 15px;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.ccapi-pricing {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 20px;
+    padding: 48px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.ccapi-pricing-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+}
+
+.ccapi-pricing-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 32px 0;
+}
+
+.ccapi-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ccapi-pricing-item {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ccapi-pricing-label {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+}
+
+.ccapi-pricing-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #667eea;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.ccapi-quickstart {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 48px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+}
+
+.ccapi-quickstart-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 32px 0;
+    text-align: center;
+}
+
+.ccapi-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+}
+
+.ccapi-step {
+    position: relative;
+    padding-left: 60px;
+}
+
+.ccapi-step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.ccapi-step-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+}
+
+.ccapi-step-desc {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.ccapi-code-example {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ccapi-code-example::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: #2d2d2d;
+    border-bottom: 1px solid #404040;
+}
+
+.ccapi-code-dots {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 1;
+}
+
+.ccapi-code-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.ccapi-code-dot:nth-child(1) { background: #ff5f56; }
+.ccapi-code-dot:nth-child(2) { background: #ffbd2e; }
+.ccapi-code-dot:nth-child(3) { background: #27c93f; }
+
+.ccapi-code-content {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #e0e0e0;
+    overflow-x: auto;
+}
+
+.ccapi-code-content code {
+    display: block;
+    white-space: pre;
+}
+
+.ccapi-code-comment { color: #6a9955; }
+.ccapi-code-string { color: #ce9178; }
+.ccapi-code-keyword { color: #569cd6; }
+.ccapi-code-function { color: #dcdcaa; }
+
+.ccapi-cta {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.ccapi-cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    padding: 16px 48px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.ccapi-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+}
+
+@media (max-width: 768px) {
+    .ccapi-hero h1 { font-size: 36px; }
+    .ccapi-hero-subtitle { font-size: 18px; }
+    .ccapi-features { grid-template-columns: 1fr; }
+    .ccapi-steps { grid-template-columns: 1fr; }
+    .ccapi-pricing { padding: 32px 20px; }
+    .ccapi-quickstart { padding: 32px 20px; }
+}
+</style>
+
+<div class="ccapi-home">
+    <!-- Hero Section -->
+    <div class="ccapi-hero">
+        <div class="ccapi-hero-content">
+            <div class="ccapi-hero-badge">🚀 全网最低价 AI API 服务</div>
+            <h1>欢迎使用 CC API</h1>
+            <p class="ccapi-hero-subtitle">稳定可靠的 AI 模型 API 中转服务，支持 Claude Opus 4.6 等主流模型</p>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="ccapi-features">
+        <div class="ccapi-feature-card">
+            <div class="ccapi-feature-icon">💰</div>
+            <h3 class="ccapi-feature-title">价格实惠</h3>
+            <p class="ccapi-feature-desc">全网最低价，按实际用量计费，无月费，无最低消费，充多少用多少</p>
+        </div>
+
+        <div class="ccapi-feature-card">
+            <div class="ccapi-feature-icon">⚡</div>
+            <h3 class="ccapi-feature-title">稳定可靠</h3>
+            <p class="ccapi-feature-desc">7×24 小时稳定运行，多渠道负载均衡，确保服务高可用性</p>
+        </div>
+
+        <div class="ccapi-feature-card">
+            <div class="ccapi-feature-icon">🔌</div>
+            <h3 class="ccapi-feature-title">简单易用</h3>
+            <p class="ccapi-feature-desc">完全兼容 OpenAI API 格式，无需修改代码，即可无缝接入</p>
+        </div>
+
+        <div class="ccapi-feature-card">
+            <div class="ccapi-feature-icon">📊</div>
+            <h3 class="ccapi-feature-title">按需付费</h3>
+            <p class="ccapi-feature-desc">实时显示余额和消费记录，支持查看详细调用日志，透明计费</p>
+        </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="ccapi-pricing">
+        <h2 class="ccapi-pricing-title">透明定价</h2>
+        <p class="ccapi-pricing-subtitle">按 Token 用量计费，无月费，无最低消费</p>
+        <p style="font-size: 15px; color: #888; margin: 0 0 28px 0;">支持多种主流 AI 模型，价格公开透明</p>
+        <a href="#/pricing" class="ccapi-cta-button" style="font-size: 16px; padding: 14px 36px;">前往模型广场查看价格 →</a>
+    </div>
+
+    <!-- Quick Start -->
+    <div class="ccapi-quickstart">
+        <h2 class="ccapi-quickstart-title">快速开始</h2>
+        <div class="ccapi-steps">
+            <div class="ccapi-step">
+                <div class="ccapi-step-number">1</div>
+                <h3 class="ccapi-step-title">注册账号</h3>
+                <p class="ccapi-step-desc">创建您的 CC API 账号，初始余额为 ¥0</p>
+            </div>
+            <div class="ccapi-step">
+                <div class="ccapi-step-number">2</div>
+                <h3 class="ccapi-step-title">充值余额</h3>
+                <p class="ccapi-step-desc">选择充值金额，支持支付宝在线支付</p>
+            </div>
+            <div class="ccapi-step">
+                <div class="ccapi-step-number">3</div>
+                <h3 class="ccapi-step-title">创建 Token</h3>
+                <p class="ccapi-step-desc">在令牌管理页面创建 API Key</p>
+            </div>
+            <div class="ccapi-step">
+                <div class="ccapi-step-number">4</div>
+                <h3 class="ccapi-step-title">开始调用</h3>
+                <p class="ccapi-step-desc">使用 OpenAI 兼容格式调用 API</p>
+            </div>
+        </div>
+
+        <!-- Code Example -->
+        <div class="ccapi-code-example">
+            <div class="ccapi-code-dots">
+                <div class="ccapi-code-dot"></div>
+                <div class="ccapi-code-dot"></div>
+                <div class="ccapi-code-dot"></div>
+            </div>
+            <div class="ccapi-code-content">
+<code><span class="ccapi-code-comment"># 使用 OpenAI SDK 调用 CC API</span>
+<span class="ccapi-code-keyword">from</span> openai <span class="ccapi-code-keyword">import</span> OpenAI
+
+client = <span class="ccapi-code-function">OpenAI</span>(
+    api_key=<span class="ccapi-code-string">"sk-your-token-here"</span>,
+    base_url=<span class="ccapi-code-string">"https://api.caijy.top/v1"</span>
+)
+
+response = client.chat.completions.<span class="ccapi-code-function">create</span>(
+    model=<span class="ccapi-code-string">"claude-opus-4.6"</span>,
+    messages=[{<span class="ccapi-code-string">"role"</span>: <span class="ccapi-code-string">"user"</span>, <span class="ccapi-code-string">"content"</span>: <span class="ccapi-code-string">"Hello!"</span>}]
+)
+
+<span class="ccapi-code-function">print</span>(response.choices[<span class="ccapi-code-string">0</span>].message.content)</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="ccapi-cta">
+        <a href="/register" class="ccapi-cta-button">立即开始使用</a>
+    </div>
+</div>
+
+</body>
+</html>
