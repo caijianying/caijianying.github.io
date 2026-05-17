@@ -10,3 +10,4 @@
     - [基于GitLab搭建私有Maven仓库](/md/best_practice/gitlab_maven_repository/gitlab_maven_repository.md)
     - [Jenkins 部署 Java 项目双方案实战](/md/best_practice/jenkins_java_deploy/jenkins_java_deploy.md)
     - [同一服务器部署应用与CI/CD流水线的网络冲突问题解决](/md/best_practice/docker_podman_cicd/docker_podman_cicd.md)
+    - [使用Resend配置自定义域名SMTP邮件服务](/md/best_practice/resend_smtp_config/resend_smtp_config.md)
